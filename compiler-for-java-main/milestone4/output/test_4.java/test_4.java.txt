@@ -1,0 +1,7 @@
+op,arg1,arg2,res,idx
+,CodesCracker,,,1
+Func_main start :,,,,2
+=,num,,0,3
+=,sum,,0,4
+Func_CodesCracker end,,,,5
+,End Class,,,6

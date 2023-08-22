@@ -1,0 +1,15 @@
+op,arg1,arg2,res,idx
+,CallingMethodsInSameClass,,,1
+Func_main start :,,,,2
+Func_CallingMethodsInSameClass end,,,,3
+Func_printOne start :,,,,4
+=,a,,2.3,5
+Func_CallingMethodsInSameClass end,,,,6
+Func_printTwo start :,,,,7
+param,2,,,8
+pushparam,12,,,9
+call,printOne,1,t,9
+popparam,12,1,t,9
+=,a,,t0,10
+Func_CallingMethodsInSameClass end,,,,11
+,End Class,,,12

@@ -1,0 +1,10 @@
+strict graph{ 
+"[2] Modifier"--"[3] PUBLIC ( public )"
+"[4] ModifiersOpt"--"[2] Modifier"
+"[5] Modifier"--"[6] PUBLIC ( public )"
+"[7] Modifier"--"[8] STATIC ( static )"
+"[9] ModifiersOpt"--"[5] Modifier"
+"[9] ModifiersOpt"--"[7] Modifier"
+"[10] SimpleName"--"[11] IDENTIFIER ( String )"
+"[12] Name"--"[10] SimpleName"
+}

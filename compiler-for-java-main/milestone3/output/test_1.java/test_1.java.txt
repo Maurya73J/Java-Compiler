@@ -1,0 +1,47 @@
+BubbleSortExample:
+bubbleSort:
+ beginfunc
+n = arr.length
+temp = 0
+i = 0
+Label1
+if NOT (i < n) GOTO Label2
+t0=i+1
+i=t0
+j = 1
+Label3
+t1=n-i
+if NOT (j < (t1)) GOTO Label4
+t2=j+1
+j=t2
+t3=j-1
+t4=t3
+t5=t4
+t6=j
+t7=t6
+if NOT (a[t5] > a[t7]) GOTO Label5
+a = 0
+Label5
+b = 2
+next
+JUMP Label3
+Label4
+JUMP Label1
+Label2
+endfunc
+main:
+ beginfunc
+a = new
+i = 0
+Label6
+if NOT (i < arr.length) GOTO Label7
+t8=i+1
+i=t8
+JUMP Label6
+Label7
+param a
+pushparam 28
+ t9 = Call bubbleSort,1
+popparam 28
+endfunc
+End Class

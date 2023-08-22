@@ -1,0 +1,11 @@
+op,arg1,arg2,res,idx
+,QuotientRemainder,,,1
+Func_main start :,,,,2
+=,dividend,,25,3
+=,divisor,,4,4
+/,dividend,divisor,t0,5
+=,quotient,,t0,6
+%,dividend,divisor,t1,7
+=,remainder,,t1,8
+Func_QuotientRemainder end,,,,9
+,End Class,,,10

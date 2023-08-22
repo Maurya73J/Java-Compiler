@@ -1,0 +1,12 @@
+BubbleSortExample,class,N/A,BubbleSortExample,,1,0,{N/A}
+arr,variable,int,BubbleSortExample,bubbleSort,2,2,{N/A}
+bubbleSort,function,int,BubbleSortExample,bubbleSort,2,1,{N/A}
+n,variable,int,BubbleSortExample,bubbleSort,3,2,{N/A}
+temp,variable,int,BubbleSortExample,bubbleSort,4,2,{N/A}
+i,variable,int,BubbleSortExample,bubbleSort,5,2,{N/A}
+j,variable,int,BubbleSortExample,bubbleSort,6,3,{N/A}
+a,variable,int,BubbleSortExample,bubbleSort,8,5,{N/A}
+b,variable,int,BubbleSortExample,bubbleSort,11,5,{N/A}
+args,variable,String,BubbleSortExample,main,18,2,{N/A}
+main,function,String,BubbleSortExample,main,18,1,{N/A}
+a,array,int,BubbleSortExample,main,19,2,{10:9}

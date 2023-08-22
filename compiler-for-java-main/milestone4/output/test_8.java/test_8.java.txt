@@ -1,0 +1,12 @@
+op,arg1,arg2,res,idx
+,CallingMethodsInSameClass,,,1
+Func_main start :,,,,2
+Func_CallingMethodsInSameClass end,,,,3
+Func_printOne start :,,,,4
+=,new,,b,5
++,a,1,t0,6
+=,t0,,a,7
+Func_CallingMethodsInSameClass end,,,,8
+Func_printTwo start :,,,,9
+Func_CallingMethodsInSameClass end,,,,10
+,End Class,,,11

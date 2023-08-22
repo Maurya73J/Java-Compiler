@@ -1,0 +1,11 @@
+QuotientRemainder:
+main:
+ beginfunc
+dividend = 25
+divisor = 4
+t0=dividend/divisor
+quotient = t0
+t1=dividend%divisor
+remainder = t1
+endfunc
+End Class

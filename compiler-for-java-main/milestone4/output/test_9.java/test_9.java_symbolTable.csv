@@ -1,0 +1,7 @@
+QuotientRemainder,class,N/A,QuotientRemainder,,1,0,{N/A}
+args,variable,String,QuotientRemainder,main,3,2,{N/A}
+main,function,String,QuotientRemainder,main,3,1,{N/A}
+dividend,variable,int,QuotientRemainder,main,5,2,{N/A}
+divisor,variable,int,QuotientRemainder,main,5,2,{N/A}
+quotient,variable,int,QuotientRemainder,main,7,2,{N/A}
+remainder,variable,int,QuotientRemainder,main,8,2,{N/A}

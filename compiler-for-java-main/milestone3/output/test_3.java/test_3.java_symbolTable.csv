@@ -1,0 +1,7 @@
+dimple,class,N/A,dimple,,2,0,{N/A}
+i,variable,int,dimple,,3,1,{N/A}
+args,variable,String,dimple,main,4,2,{N/A}
+main,function,String,dimple,main,4,1,{N/A}
+arg1,variable,String,dimple,dimple,7,2,{N/A}
+dimple,function,String,dimple,dimple,7,1,{N/A}
+j,variable,int,dimple,dimple,9,2,{N/A}

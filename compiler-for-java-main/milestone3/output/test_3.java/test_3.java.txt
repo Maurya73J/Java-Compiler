@@ -1,0 +1,12 @@
+dimple:
+i = 0
+main:
+ beginfunc
+endfunc
+dimple:
+ beginfunc
+pushparam 0
+ t0 = Call main,0
+popparam 0
+endfunc
+End Class

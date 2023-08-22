@@ -1,0 +1,11 @@
+op,arg1,arg2,res,idx
+,dimple,,,1
+=,i,,0,2
+Func_main start :,,,,3
+Func_dimple end,,,,4
+Func_dimple start :,,,,5
+pushparam,0,,,6
+call,main,0,t,6
+popparam,0,0,t,6
+Func_dimple end,,,,7
+,End Class,,,8

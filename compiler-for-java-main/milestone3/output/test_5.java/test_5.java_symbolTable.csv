@@ -1,0 +1,6 @@
+Main,class,N/A,Main,,1,0,{N/A}
+k,variable,int,Main,sum,2,2,{N/A}
+sum,function,int,Main,sum,2,1,{N/A}
+args,variable,String,Main,main,9,2,{N/A}
+main,function,String,Main,main,9,1,{N/A}
+result,variable,int,Main,main,10,2,{N/A}

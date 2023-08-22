@@ -1,0 +1,7 @@
+CodesCracker,class,N/A,CodesCracker,,3,0,{N/A}
+args,variable,String,CodesCracker,main,4,2,{N/A}
+main,function,String,CodesCracker,main,4,1,{N/A}
+n,variable,int,CodesCracker,main,6,2,{N/A}
+i,variable,int,CodesCracker,main,6,2,{N/A}
+num,variable,int,CodesCracker,main,6,2,{N/A}
+sum,variable,int,CodesCracker,main,6,2,{N/A}

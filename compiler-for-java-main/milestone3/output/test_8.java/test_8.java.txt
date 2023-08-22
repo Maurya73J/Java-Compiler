@@ -1,0 +1,14 @@
+CallingMethodsInSameClass:
+main:
+ beginfunc
+endfunc
+printOne:
+ beginfunc
+b=new
+t0=a+1
+a=t0
+endfunc
+printTwo:
+ beginfunc
+endfunc
+End Class

@@ -1,0 +1,8 @@
+CallingMethodsInSameClass,class,N/A,CallingMethodsInSameClass,,2,0,{N/A}
+args,variable,int,CallingMethodsInSameClass,main,3,2,{N/A}
+main,function,int,CallingMethodsInSameClass,main,3,1,{N/A}
+x,variable,int,CallingMethodsInSameClass,printOne,7,2,{N/A}
+printOne,function,int,CallingMethodsInSameClass,printOne,7,1,{N/A}
+a,variable,float,CallingMethodsInSameClass,printOne,9,2,{N/A}
+printTwo,function,float,CallingMethodsInSameClass,printTwo,13,1,{N/A}
+a,variable,int,CallingMethodsInSameClass,printTwo,14,2,{N/A}

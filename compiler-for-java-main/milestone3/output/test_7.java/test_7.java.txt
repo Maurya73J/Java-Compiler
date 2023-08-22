@@ -1,0 +1,17 @@
+CallingMethodsInSameClass:
+main:
+ beginfunc
+endfunc
+printOne:
+ beginfunc
+a = 2.3
+endfunc
+printTwo:
+ beginfunc
+param 2
+pushparam 12
+ t0 = Call printOne,1
+popparam 12
+a = t0
+endfunc
+End Class

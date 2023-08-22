@@ -1,0 +1,22 @@
+Main:
+sum:
+ beginfunc
+if NOT (k > 0) GOTO Label1
+t0=k-1
+param t0
+pushparam 4
+ t1 = Call sum,1
+popparam 4
+t2=k+t1
+Label1
+next
+endfunc
+main:
+ beginfunc
+param 10
+pushparam 4
+ t3 = Call sum,1
+popparam 4
+result = t3
+endfunc
+End Class

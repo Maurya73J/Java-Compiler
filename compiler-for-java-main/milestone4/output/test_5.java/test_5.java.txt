@@ -1,0 +1,21 @@
+op,arg1,arg2,res,idx
+,Main,,,1
+Func_sum start :,,,,2
+GOTO,IF,!k>0,,8
+-,k,1,t0,4
+param,t0,,,5
+pushparam,4,,,6
+call,sum,1,,6
+popparam,4,1,,6
++,k,t1,t2,7
+,Label1,,,8
+,next,,,9
+Func_Main end,,,,10
+Func_main start :,,,,11
+param,10,,,12
+pushparam,4,,,13
+call,sum,1,ouble,13
+popparam,4,1,ouble,13
+=,result,,t3,14
+Func_Main end,,,,15
+,End Class,,,16

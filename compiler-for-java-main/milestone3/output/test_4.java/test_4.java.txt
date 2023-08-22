@@ -1,0 +1,7 @@
+CodesCracker:
+main:
+ beginfunc
+num = 0
+sum = 0
+endfunc
+End Class

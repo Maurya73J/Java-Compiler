@@ -1,0 +1,9 @@
+SwapNumbers:
+main:
+ beginfunc
+first = 1.20
+second = 2.45
+t0=first+second
+temporary = t0
+endfunc
+End Class

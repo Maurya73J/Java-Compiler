@@ -1,0 +1,25 @@
+/bin/rm -f lex.yy.* y.tab.* out *.o *.dot *.png *.output output.txt
+flex -8 java.l
+bison -d -t -y javaR.y
+g++ -O2 y.tab.c -c -Wno-write-strings
+g++ -O2 lex.yy.c -c -Wno-write-strings
+g++ -c help.cpp
+g++ -o out y.tab.o lex.yy.o help.o
+./out 
+CallingMethodsInSameClass:
+main:
+ beginfunc
+endfunc
+printOne:
+ beginfunc
+a = 2.3
+endfunc
+printTwo:
+ beginfunc
+param 2
+pushparam 12
+ t0 = Call printOne,1
+popparam 12
+a = t0
+endfunc
+End Class

@@ -110,12 +110,12 @@ Grammar
    29 ImportDeclarationOpt: ImportDeclarationOpts
 
    30 ImportDeclarationOpts: ImportDeclarations
-   31                      | %empty
+   31                      | ε
 
    32 TypeDeclarationOpt: TypeDeclarationOpts
 
    33 TypeDeclarationOpts: TypeDeclarations
-   34                    | %empty
+   34                    | ε
 
    35 ImportDeclarations: ImportDeclaration
    36                   | ImportDeclarations ImportDeclaration
@@ -139,25 +139,25 @@ Grammar
    47         | PRIVATE
    48         | STATIC
 
-   49 $@1: %empty
+   49 $@1: ε
 
    50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@1 ClassBody
 
-   51 $@2: %empty
+   51 $@2: ε
 
    52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody
 
    53 ModifiersOpt: ModifiersOpts
 
    54 ModifiersOpts: Modifiers
-   55              | %empty
+   55              | ε
 
    56 ClassBody: LEFTCURLYBRACKET ClassBodyDeclarationsOpt RIGHTCURLYBRACKET
 
    57 ClassBodyDeclarationsOpt: ClassBodyDeclarationsOpts
 
    58 ClassBodyDeclarationsOpts: ClassBodyDeclarations
-   59                          | %empty
+   59                          | ε
 
    60 ClassBodyDeclarations: ClassBodyDeclaration
    61                      | ClassBodyDeclarations ClassBodyDeclaration
@@ -190,16 +190,16 @@ Grammar
    78 MethodHeader: ModifiersOpt Type MethodDeclarator
    79             | ModifiersOpt VOID MethodDeclarator
 
-   80 $@3: %empty
+   80 $@3: ε
 
    81 FormalParameterListOpt: $@3 FormalParameterListOpts
 
    82 FormalParameterListOpts: FormalParameterList
-   83                        | %empty
+   83                        | ε
 
    84 MethodDeclarator: MethodDeclarators
 
-   85 $@4: %empty
+   85 $@4: ε
 
    86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
    87                  | MethodDeclarator LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
@@ -220,17 +220,17 @@ Grammar
    95 ExplicitConstructorInvocationOpt: ExplicitConstructorInvocationOpts
 
    96 ExplicitConstructorInvocationOpts: ExplicitConstructorInvocation
-   97                                  | %empty
+   97                                  | ε
 
    98 BlockStatementOpt: BlockStatementOpts
 
    99 BlockStatementOpts: BlockStatements
-  100                   | %empty
+  100                   | ε
 
   101 ArgumentListOpt: ArgumentListOpts
 
   102 ArgumentListOpts: ArgumentList
-  103                 | %empty
+  103                 | ε
 
   104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt BlockStatementOpt RIGHTCURLYBRACKET
 
@@ -240,19 +240,19 @@ Grammar
   107 VarInitializersOpt: VarInitializersOpts
 
   108 VarInitializersOpts: VarInitializers
-  109                    | %empty
+  109                    | ε
 
   110 CommaOpt: CommaOpts
 
   111 CommaOpts: COMMA
-  112          | %empty
+  112          | ε
 
   113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt CommaOpt RIGHTCURLYBRACKET
 
   114 VarInitializers: VarInitializer
   115                | VarInitializers COMMA VarInitializer
 
-  116 $@5: %empty
+  116 $@5: ε
 
   117 Block: LEFTCURLYBRACKET $@5 BlockStatementOpt RIGHTCURLYBRACKET
 
@@ -336,17 +336,17 @@ Grammar
   170 ForInitOpt: ForInitOpts
 
   171 ForInitOpts: ForInit
-  172            | %empty
+  172            | ε
 
   173 ExpressionOpt: ExpressionOpts
 
   174 ExpressionOpts: Expression
-  175               | %empty
+  175               | ε
 
   176 ForUpdateOpt: ForUpdateOpts
 
   177 ForUpdateOpts: ForUpdate
-  178              | %empty
+  178              | ε
 
   179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
 
@@ -363,7 +363,7 @@ Grammar
   186 IDENTOpt: IDENTOpts
 
   187 IDENTOpts: IDENTIFIER
-  188          | %empty
+  188          | ε
 
   189 BreakStatement: BREAK IDENTOpt SEMICOLON
 
@@ -388,7 +388,7 @@ Grammar
   203 DimsOpt: DimsOpts
 
   204 DimsOpts: Dims
-  205         | %empty
+  205         | ε
 
   206 ArrayCreationExpression: NEW PrimitiveType DimExprs
   207                        | NEW PrimitiveType DimExprs Dims
@@ -509,7 +509,7 @@ Grammar
   285 AssignmentExpression: ConditionalExpression
   286                     | Assignment
 
-  287 $@6: %empty
+  287 $@6: ε
 
   288 Assignment: LeftHandSide $@6 AssignmentOperator AssignmentExpression
 
@@ -1153,7 +1153,7 @@ Nonterminals, with rules where they appear
 
 State 0
 
-    0 $accept: . Start $end
+    0 $accept: • Start $end
 
     IMPORT  shift, and go to state 1
 
@@ -1171,8 +1171,8 @@ State 0
 
 State 1
 
-   41 SingleTypeImportDeclaration: IMPORT . Name DOT IDENTIFIER SEMICOLON
-   42 TypeImportOnDemandDeclaration: IMPORT . Name DOT MUL SEMICOLON
+   41 SingleTypeImportDeclaration: IMPORT • Name DOT IDENTIFIER SEMICOLON
+   42 TypeImportOnDemandDeclaration: IMPORT • Name DOT MUL SEMICOLON
 
     IDENTIFIER  shift, and go to state 10
 
@@ -1183,21 +1183,21 @@ State 1
 
 State 2
 
-    0 $accept: Start . $end
+    0 $accept: Start • $end
 
     $end  shift, and go to state 14
 
 
 State 3
 
-    1 Start: CompilationUnit .
+    1 Start: CompilationUnit •
 
     $default  reduce using rule 1 (Start)
 
 
 State 4
 
-   28 CompilationUnit: ImportDeclarationOpt . TypeDeclarationOpt
+   28 CompilationUnit: ImportDeclarationOpt • TypeDeclarationOpt
 
     PRIVATE  shift, and go to state 15
     PUBLIC   shift, and go to state 16
@@ -1219,15 +1219,15 @@ State 4
 
 State 5
 
-   29 ImportDeclarationOpt: ImportDeclarationOpts .
+   29 ImportDeclarationOpt: ImportDeclarationOpts •
 
     $default  reduce using rule 29 (ImportDeclarationOpt)
 
 
 State 6
 
-   30 ImportDeclarationOpts: ImportDeclarations .
-   36 ImportDeclarations: ImportDeclarations . ImportDeclaration
+   30 ImportDeclarationOpts: ImportDeclarations •
+   36 ImportDeclarations: ImportDeclarations • ImportDeclaration
 
     IMPORT  shift, and go to state 1
 
@@ -1240,101 +1240,101 @@ State 6
 
 State 7
 
-   35 ImportDeclarations: ImportDeclaration .
+   35 ImportDeclarations: ImportDeclaration •
 
     $default  reduce using rule 35 (ImportDeclarations)
 
 
 State 8
 
-   39 ImportDeclaration: SingleTypeImportDeclaration .
+   39 ImportDeclaration: SingleTypeImportDeclaration •
 
     $default  reduce using rule 39 (ImportDeclaration)
 
 
 State 9
 
-   40 ImportDeclaration: TypeImportOnDemandDeclaration .
+   40 ImportDeclaration: TypeImportOnDemandDeclaration •
 
     $default  reduce using rule 40 (ImportDeclaration)
 
 
 State 10
 
-   26 SimpleName: IDENTIFIER .
+   26 SimpleName: IDENTIFIER •
 
     $default  reduce using rule 26 (SimpleName)
 
 
 State 11
 
-   27 QualifiedName: Name . DOT IDENTIFIER
-   41 SingleTypeImportDeclaration: IMPORT Name . DOT IDENTIFIER SEMICOLON
-   42 TypeImportOnDemandDeclaration: IMPORT Name . DOT MUL SEMICOLON
+   27 QualifiedName: Name • DOT IDENTIFIER
+   41 SingleTypeImportDeclaration: IMPORT Name • DOT IDENTIFIER SEMICOLON
+   42 TypeImportOnDemandDeclaration: IMPORT Name • DOT MUL SEMICOLON
 
     DOT  shift, and go to state 28
 
 
 State 12
 
-   24 Name: SimpleName .
+   24 Name: SimpleName •
 
     $default  reduce using rule 24 (Name)
 
 
 State 13
 
-   25 Name: QualifiedName .
+   25 Name: QualifiedName •
 
     $default  reduce using rule 25 (Name)
 
 
 State 14
 
-    0 $accept: Start $end .
+    0 $accept: Start $end •
 
     $default  accept
 
 
 State 15
 
-   47 Modifier: PRIVATE .
+   47 Modifier: PRIVATE •
 
     $default  reduce using rule 47 (Modifier)
 
 
 State 16
 
-   46 Modifier: PUBLIC .
+   46 Modifier: PUBLIC •
 
     $default  reduce using rule 46 (Modifier)
 
 
 State 17
 
-   48 Modifier: STATIC .
+   48 Modifier: STATIC •
 
     $default  reduce using rule 48 (Modifier)
 
 
 State 18
 
-   28 CompilationUnit: ImportDeclarationOpt TypeDeclarationOpt .
+   28 CompilationUnit: ImportDeclarationOpt TypeDeclarationOpt •
 
     $default  reduce using rule 28 (CompilationUnit)
 
 
 State 19
 
-   32 TypeDeclarationOpt: TypeDeclarationOpts .
+   32 TypeDeclarationOpt: TypeDeclarationOpts •
 
     $default  reduce using rule 32 (TypeDeclarationOpt)
 
 
 State 20
 
-   33 TypeDeclarationOpts: TypeDeclarations .
-   38 TypeDeclarations: TypeDeclarations . TypeDeclaration
+   33 TypeDeclarationOpts: TypeDeclarations •
+   38 TypeDeclarations: TypeDeclarations • TypeDeclaration
 
     PRIVATE  shift, and go to state 15
     PUBLIC   shift, and go to state 16
@@ -1353,15 +1353,15 @@ State 20
 
 State 21
 
-   37 TypeDeclarations: TypeDeclaration .
+   37 TypeDeclarations: TypeDeclaration •
 
     $default  reduce using rule 37 (TypeDeclarations)
 
 
 State 22
 
-   45 Modifiers: Modifiers . Modifier
-   54 ModifiersOpts: Modifiers .
+   45 Modifiers: Modifiers • Modifier
+   54 ModifiersOpts: Modifiers •
 
     PRIVATE  shift, and go to state 15
     PUBLIC   shift, and go to state 16
@@ -1374,45 +1374,45 @@ State 22
 
 State 23
 
-   44 Modifiers: Modifier .
+   44 Modifiers: Modifier •
 
     $default  reduce using rule 44 (Modifiers)
 
 
 State 24
 
-   43 TypeDeclaration: ClassDeclaration .
+   43 TypeDeclaration: ClassDeclaration •
 
     $default  reduce using rule 43 (TypeDeclaration)
 
 
 State 25
 
-   50 ClassDeclaration: ModifiersOpt . CLASS IDENTIFIER $@1 ClassBody
-   52                 | ModifiersOpt . CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody
+   50 ClassDeclaration: ModifiersOpt • CLASS IDENTIFIER $@1 ClassBody
+   52                 | ModifiersOpt • CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody
 
     CLASS  shift, and go to state 31
 
 
 State 26
 
-   53 ModifiersOpt: ModifiersOpts .
+   53 ModifiersOpt: ModifiersOpts •
 
     $default  reduce using rule 53 (ModifiersOpt)
 
 
 State 27
 
-   36 ImportDeclarations: ImportDeclarations ImportDeclaration .
+   36 ImportDeclarations: ImportDeclarations ImportDeclaration •
 
     $default  reduce using rule 36 (ImportDeclarations)
 
 
 State 28
 
-   27 QualifiedName: Name DOT . IDENTIFIER
-   41 SingleTypeImportDeclaration: IMPORT Name DOT . IDENTIFIER SEMICOLON
-   42 TypeImportOnDemandDeclaration: IMPORT Name DOT . MUL SEMICOLON
+   27 QualifiedName: Name DOT • IDENTIFIER
+   41 SingleTypeImportDeclaration: IMPORT Name DOT • IDENTIFIER SEMICOLON
+   42 TypeImportOnDemandDeclaration: IMPORT Name DOT • MUL SEMICOLON
 
     MUL         shift, and go to state 32
     IDENTIFIER  shift, and go to state 33
@@ -1420,37 +1420,37 @@ State 28
 
 State 29
 
-   38 TypeDeclarations: TypeDeclarations TypeDeclaration .
+   38 TypeDeclarations: TypeDeclarations TypeDeclaration •
 
     $default  reduce using rule 38 (TypeDeclarations)
 
 
 State 30
 
-   45 Modifiers: Modifiers Modifier .
+   45 Modifiers: Modifiers Modifier •
 
     $default  reduce using rule 45 (Modifiers)
 
 
 State 31
 
-   50 ClassDeclaration: ModifiersOpt CLASS . IDENTIFIER $@1 ClassBody
-   52                 | ModifiersOpt CLASS . IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody
+   50 ClassDeclaration: ModifiersOpt CLASS • IDENTIFIER $@1 ClassBody
+   52                 | ModifiersOpt CLASS • IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody
 
     IDENTIFIER  shift, and go to state 34
 
 
 State 32
 
-   42 TypeImportOnDemandDeclaration: IMPORT Name DOT MUL . SEMICOLON
+   42 TypeImportOnDemandDeclaration: IMPORT Name DOT MUL • SEMICOLON
 
     SEMICOLON  shift, and go to state 35
 
 
 State 33
 
-   27 QualifiedName: Name DOT IDENTIFIER .
-   41 SingleTypeImportDeclaration: IMPORT Name DOT IDENTIFIER . SEMICOLON
+   27 QualifiedName: Name DOT IDENTIFIER •
+   41 SingleTypeImportDeclaration: IMPORT Name DOT IDENTIFIER • SEMICOLON
 
     SEMICOLON  shift, and go to state 36
 
@@ -1459,8 +1459,8 @@ State 33
 
 State 34
 
-   50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER . $@1 ClassBody
-   52                 | ModifiersOpt CLASS IDENTIFIER . $@2 EXTENDS IDENTIFIER ClassBody
+   50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER • $@1 ClassBody
+   52                 | ModifiersOpt CLASS IDENTIFIER • $@2 EXTENDS IDENTIFIER ClassBody
 
     EXTENDS   reduce using rule 51 ($@2)
     $default  reduce using rule 49 ($@1)
@@ -1471,21 +1471,21 @@ State 34
 
 State 35
 
-   42 TypeImportOnDemandDeclaration: IMPORT Name DOT MUL SEMICOLON .
+   42 TypeImportOnDemandDeclaration: IMPORT Name DOT MUL SEMICOLON •
 
     $default  reduce using rule 42 (TypeImportOnDemandDeclaration)
 
 
 State 36
 
-   41 SingleTypeImportDeclaration: IMPORT Name DOT IDENTIFIER SEMICOLON .
+   41 SingleTypeImportDeclaration: IMPORT Name DOT IDENTIFIER SEMICOLON •
 
     $default  reduce using rule 41 (SingleTypeImportDeclaration)
 
 
 State 37
 
-   50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@1 . ClassBody
+   50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@1 • ClassBody
 
     LEFTCURLYBRACKET  shift, and go to state 39
 
@@ -1494,14 +1494,14 @@ State 37
 
 State 38
 
-   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 . EXTENDS IDENTIFIER ClassBody
+   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 • EXTENDS IDENTIFIER ClassBody
 
     EXTENDS  shift, and go to state 41
 
 
 State 39
 
-   56 ClassBody: LEFTCURLYBRACKET . ClassBodyDeclarationsOpt RIGHTCURLYBRACKET
+   56 ClassBody: LEFTCURLYBRACKET • ClassBodyDeclarationsOpt RIGHTCURLYBRACKET
 
     PRIVATE  shift, and go to state 15
     PUBLIC   shift, and go to state 16
@@ -1528,22 +1528,22 @@ State 39
 
 State 40
 
-   50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@1 ClassBody .
+   50 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@1 ClassBody •
 
     $default  reduce using rule 50 (ClassDeclaration)
 
 
 State 41
 
-   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS . IDENTIFIER ClassBody
+   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS • IDENTIFIER ClassBody
 
     IDENTIFIER  shift, and go to state 54
 
 
 State 42
 
-   48 Modifier: STATIC .
-   92 StaticInitializer: STATIC . Block
+   48 Modifier: STATIC •
+   92 StaticInitializer: STATIC • Block
 
     LEFTCURLYBRACKET  shift, and go to state 55
 
@@ -1554,10 +1554,10 @@ State 42
 
 State 43
 
-   67 FieldDeclaration: ModifiersOpt . Type VarDeclarators SEMICOLON
-   78 MethodHeader: ModifiersOpt . Type MethodDeclarator
-   79             | ModifiersOpt . VOID MethodDeclarator
-   93 ConstructorDeclaration: ModifiersOpt . ConstructorDeclarator ConstructorBody
+   67 FieldDeclaration: ModifiersOpt • Type VarDeclarators SEMICOLON
+   78 MethodHeader: ModifiersOpt • Type MethodDeclarator
+   79             | ModifiersOpt • VOID MethodDeclarator
+   93 ConstructorDeclaration: ModifiersOpt • ConstructorDeclarator ConstructorBody
 
     STRING      shift, and go to state 57
     BOOLEAN     shift, and go to state 58
@@ -1584,22 +1584,22 @@ State 43
 
 State 44
 
-   56 ClassBody: LEFTCURLYBRACKET ClassBodyDeclarationsOpt . RIGHTCURLYBRACKET
+   56 ClassBody: LEFTCURLYBRACKET ClassBodyDeclarationsOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 75
 
 
 State 45
 
-   57 ClassBodyDeclarationsOpt: ClassBodyDeclarationsOpts .
+   57 ClassBodyDeclarationsOpt: ClassBodyDeclarationsOpts •
 
     $default  reduce using rule 57 (ClassBodyDeclarationsOpt)
 
 
 State 46
 
-   58 ClassBodyDeclarationsOpts: ClassBodyDeclarations .
-   61 ClassBodyDeclarations: ClassBodyDeclarations . ClassBodyDeclaration
+   58 ClassBodyDeclarationsOpts: ClassBodyDeclarations •
+   61 ClassBodyDeclarations: ClassBodyDeclarations • ClassBodyDeclaration
 
     PRIVATE  shift, and go to state 15
     PUBLIC   shift, and go to state 16
@@ -1623,35 +1623,35 @@ State 46
 
 State 47
 
-   60 ClassBodyDeclarations: ClassBodyDeclaration .
+   60 ClassBodyDeclarations: ClassBodyDeclaration •
 
     $default  reduce using rule 60 (ClassBodyDeclarations)
 
 
 State 48
 
-   62 ClassBodyDeclaration: ClassMemberDeclaration .
+   62 ClassBodyDeclaration: ClassMemberDeclaration •
 
     $default  reduce using rule 62 (ClassBodyDeclaration)
 
 
 State 49
 
-   65 ClassMemberDeclaration: FieldDeclaration .
+   65 ClassMemberDeclaration: FieldDeclaration •
 
     $default  reduce using rule 65 (ClassMemberDeclaration)
 
 
 State 50
 
-   66 ClassMemberDeclaration: MethodDeclaration .
+   66 ClassMemberDeclaration: MethodDeclaration •
 
     $default  reduce using rule 66 (ClassMemberDeclaration)
 
 
 State 51
 
-   77 MethodDeclaration: MethodHeader . MethodBody
+   77 MethodDeclaration: MethodHeader • MethodBody
 
     LEFTCURLYBRACKET  shift, and go to state 55
 
@@ -1661,21 +1661,21 @@ State 51
 
 State 52
 
-   63 ClassBodyDeclaration: StaticInitializer .
+   63 ClassBodyDeclaration: StaticInitializer •
 
     $default  reduce using rule 63 (ClassBodyDeclaration)
 
 
 State 53
 
-   64 ClassBodyDeclaration: ConstructorDeclaration .
+   64 ClassBodyDeclaration: ConstructorDeclaration •
 
     $default  reduce using rule 64 (ClassBodyDeclaration)
 
 
 State 54
 
-   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER . ClassBody
+   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER • ClassBody
 
     LEFTCURLYBRACKET  shift, and go to state 39
 
@@ -1684,7 +1684,7 @@ State 54
 
 State 55
 
-  117 Block: LEFTCURLYBRACKET . $@5 BlockStatementOpt RIGHTCURLYBRACKET
+  117 Block: LEFTCURLYBRACKET • $@5 BlockStatementOpt RIGHTCURLYBRACKET
 
     $default  reduce using rule 116 ($@5)
 
@@ -1693,49 +1693,49 @@ State 55
 
 State 56
 
-   92 StaticInitializer: STATIC Block .
+   92 StaticInitializer: STATIC Block •
 
     $default  reduce using rule 92 (StaticInitializer)
 
 
 State 57
 
-   12 PrimitiveType: STRING .
+   12 PrimitiveType: STRING •
 
     $default  reduce using rule 12 (PrimitiveType)
 
 
 State 58
 
-   11 PrimitiveType: BOOLEAN .
+   11 PrimitiveType: BOOLEAN •
 
     $default  reduce using rule 11 (PrimitiveType)
 
 
 State 59
 
-   19 FloatingPointType: DOUBLE .
+   19 FloatingPointType: DOUBLE •
 
     $default  reduce using rule 19 (FloatingPointType)
 
 
 State 60
 
-   15 IntegralType: INT .
+   15 IntegralType: INT •
 
     $default  reduce using rule 15 (IntegralType)
 
 
 State 61
 
-   17 IntegralType: CHAR .
+   17 IntegralType: CHAR •
 
     $default  reduce using rule 17 (IntegralType)
 
 
 State 62
 
-   79 MethodHeader: ModifiersOpt VOID . MethodDeclarator
+   79 MethodHeader: ModifiersOpt VOID • MethodDeclarator
 
     IDENTIFIER  shift, and go to state 81
 
@@ -1745,22 +1745,22 @@ State 62
 
 State 63
 
-   16 IntegralType: LONG .
+   16 IntegralType: LONG •
 
     $default  reduce using rule 16 (IntegralType)
 
 
 State 64
 
-   18 FloatingPointType: FLOAT .
+   18 FloatingPointType: FLOAT •
 
     $default  reduce using rule 18 (FloatingPointType)
 
 
 State 65
 
-   67 FieldDeclaration: ModifiersOpt Type . VarDeclarators SEMICOLON
-   78 MethodHeader: ModifiersOpt Type . MethodDeclarator
+   67 FieldDeclaration: ModifiersOpt Type • VarDeclarators SEMICOLON
+   78 MethodHeader: ModifiersOpt Type • MethodDeclarator
 
     IDENTIFIER  shift, and go to state 84
 
@@ -1774,8 +1774,8 @@ State 65
 
 State 66
 
-    8 Type: PrimitiveType .
-   21 ArrayType: PrimitiveType . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+    8 Type: PrimitiveType •
+   21 ArrayType: PrimitiveType • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 90
 
@@ -1784,36 +1784,36 @@ State 66
 
 State 67
 
-   10 PrimitiveType: NumericType .
+   10 PrimitiveType: NumericType •
 
     $default  reduce using rule 10 (PrimitiveType)
 
 
 State 68
 
-   13 NumericType: IntegralType .
+   13 NumericType: IntegralType •
 
     $default  reduce using rule 13 (NumericType)
 
 
 State 69
 
-   14 NumericType: FloatingPointType .
+   14 NumericType: FloatingPointType •
 
     $default  reduce using rule 14 (NumericType)
 
 
 State 70
 
-    9 Type: NonPrimitiveType .
+    9 Type: NonPrimitiveType •
 
     $default  reduce using rule 9 (Type)
 
 
 State 71
 
-   20 NonPrimitiveType: ArrayType .
-   23 ArrayType: ArrayType . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   20 NonPrimitiveType: ArrayType •
+   23 ArrayType: ArrayType • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 91
 
@@ -1822,8 +1822,8 @@ State 71
 
 State 72
 
-   22 ArrayType: Name . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
-   27 QualifiedName: Name . DOT IDENTIFIER
+   22 ArrayType: Name • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   27 QualifiedName: Name • DOT IDENTIFIER
 
     LEFTSQUAREBRACKET  shift, and go to state 92
     DOT                shift, and go to state 93
@@ -1831,8 +1831,8 @@ State 72
 
 State 73
 
-   24 Name: SimpleName .
-   94 ConstructorDeclarator: SimpleName . LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
+   24 Name: SimpleName •
+   94 ConstructorDeclarator: SimpleName • LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
 
     LEFTBRACKET  shift, and go to state 94
 
@@ -1841,7 +1841,7 @@ State 73
 
 State 74
 
-   93 ConstructorDeclaration: ModifiersOpt ConstructorDeclarator . ConstructorBody
+   93 ConstructorDeclaration: ModifiersOpt ConstructorDeclarator • ConstructorBody
 
     LEFTCURLYBRACKET  shift, and go to state 95
 
@@ -1850,42 +1850,42 @@ State 74
 
 State 75
 
-   56 ClassBody: LEFTCURLYBRACKET ClassBodyDeclarationsOpt RIGHTCURLYBRACKET .
+   56 ClassBody: LEFTCURLYBRACKET ClassBodyDeclarationsOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 56 (ClassBody)
 
 
 State 76
 
-   61 ClassBodyDeclarations: ClassBodyDeclarations ClassBodyDeclaration .
+   61 ClassBodyDeclarations: ClassBodyDeclarations ClassBodyDeclaration •
 
     $default  reduce using rule 61 (ClassBodyDeclarations)
 
 
 State 77
 
-   77 MethodDeclaration: MethodHeader MethodBody .
+   77 MethodDeclaration: MethodHeader MethodBody •
 
     $default  reduce using rule 77 (MethodDeclaration)
 
 
 State 78
 
-   91 MethodBody: Block .
+   91 MethodBody: Block •
 
     $default  reduce using rule 91 (MethodBody)
 
 
 State 79
 
-   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody .
+   52 ClassDeclaration: ModifiersOpt CLASS IDENTIFIER $@2 EXTENDS IDENTIFIER ClassBody •
 
     $default  reduce using rule 52 (ClassDeclaration)
 
 
 State 80
 
-  117 Block: LEFTCURLYBRACKET $@5 . BlockStatementOpt RIGHTCURLYBRACKET
+  117 Block: LEFTCURLYBRACKET $@5 • BlockStatementOpt RIGHTCURLYBRACKET
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -1970,7 +1970,7 @@ State 80
 
 State 81
 
-   86 MethodDeclarators: IDENTIFIER . $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
+   86 MethodDeclarators: IDENTIFIER • $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
 
     $default  reduce using rule 85 ($@4)
 
@@ -1979,8 +1979,8 @@ State 81
 
 State 82
 
-   79 MethodHeader: ModifiersOpt VOID MethodDeclarator .
-   87 MethodDeclarators: MethodDeclarator . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   79 MethodHeader: ModifiersOpt VOID MethodDeclarator •
+   87 MethodDeclarators: MethodDeclarator • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 158
 
@@ -1989,15 +1989,15 @@ State 82
 
 State 83
 
-   84 MethodDeclarator: MethodDeclarators .
+   84 MethodDeclarator: MethodDeclarators •
 
     $default  reduce using rule 84 (MethodDeclarator)
 
 
 State 84
 
-   73 VarDeclaratorIds: IDENTIFIER .
-   86 MethodDeclarators: IDENTIFIER . $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
+   73 VarDeclaratorIds: IDENTIFIER •
+   86 MethodDeclarators: IDENTIFIER • $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
 
     LEFTBRACKET  reduce using rule 85 ($@4)
     $default     reduce using rule 73 (VarDeclaratorIds)
@@ -2007,8 +2007,8 @@ State 84
 
 State 85
 
-   67 FieldDeclaration: ModifiersOpt Type VarDeclarators . SEMICOLON
-   69 VarDeclarators: VarDeclarators . COMMA VarDeclarator
+   67 FieldDeclaration: ModifiersOpt Type VarDeclarators • SEMICOLON
+   69 VarDeclarators: VarDeclarators • COMMA VarDeclarator
 
     SEMICOLON  shift, and go to state 159
     COMMA      shift, and go to state 160
@@ -2016,16 +2016,16 @@ State 85
 
 State 86
 
-   68 VarDeclarators: VarDeclarator .
+   68 VarDeclarators: VarDeclarator •
 
     $default  reduce using rule 68 (VarDeclarators)
 
 
 State 87
 
-   70 VarDeclarator: VarDeclaratorId .
-   71              | VarDeclaratorId . EQUAL VarInitializer
-   74 VarDeclaratorIds: VarDeclaratorId . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   70 VarDeclarator: VarDeclaratorId •
+   71              | VarDeclaratorId • EQUAL VarInitializer
+   74 VarDeclaratorIds: VarDeclaratorId • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 161
     EQUAL              shift, and go to state 162
@@ -2035,15 +2035,15 @@ State 87
 
 State 88
 
-   72 VarDeclaratorId: VarDeclaratorIds .
+   72 VarDeclaratorId: VarDeclaratorIds •
 
     $default  reduce using rule 72 (VarDeclaratorId)
 
 
 State 89
 
-   78 MethodHeader: ModifiersOpt Type MethodDeclarator .
-   87 MethodDeclarators: MethodDeclarator . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   78 MethodHeader: ModifiersOpt Type MethodDeclarator •
+   87 MethodDeclarators: MethodDeclarator • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 158
 
@@ -2052,35 +2052,35 @@ State 89
 
 State 90
 
-   21 ArrayType: PrimitiveType LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+   21 ArrayType: PrimitiveType LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 163
 
 
 State 91
 
-   23 ArrayType: ArrayType LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+   23 ArrayType: ArrayType LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 164
 
 
 State 92
 
-   22 ArrayType: Name LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+   22 ArrayType: Name LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 165
 
 
 State 93
 
-   27 QualifiedName: Name DOT . IDENTIFIER
+   27 QualifiedName: Name DOT • IDENTIFIER
 
     IDENTIFIER  shift, and go to state 166
 
 
 State 94
 
-   94 ConstructorDeclarator: SimpleName LEFTBRACKET . FormalParameterListOpt RIGHTBRACKET
+   94 ConstructorDeclarator: SimpleName LEFTBRACKET • FormalParameterListOpt RIGHTBRACKET
 
     $default  reduce using rule 80 ($@3)
 
@@ -2090,7 +2090,7 @@ State 94
 
 State 95
 
-  104 ConstructorBody: LEFTCURLYBRACKET . ExplicitConstructorInvocationOpt BlockStatementOpt RIGHTCURLYBRACKET
+  104 ConstructorBody: LEFTCURLYBRACKET • ExplicitConstructorInvocationOpt BlockStatementOpt RIGHTCURLYBRACKET
 
     THIS   shift, and go to state 169
     SUPER  shift, and go to state 170
@@ -2106,21 +2106,21 @@ State 95
 
 State 96
 
-   93 ConstructorDeclaration: ModifiersOpt ConstructorDeclarator ConstructorBody .
+   93 ConstructorDeclaration: ModifiersOpt ConstructorDeclarator ConstructorBody •
 
     $default  reduce using rule 93 (ConstructorDeclaration)
 
 
 State 97
 
-  139 PrintlnStatement: SYSTEMOUTPRINTLN . LEFTBRACKET Expression RIGHTBRACKET SEMICOLON
+  139 PrintlnStatement: SYSTEMOUTPRINTLN • LEFTBRACKET Expression RIGHTBRACKET SEMICOLON
 
     LEFTBRACKET  shift, and go to state 174
 
 
 State 98
 
-  197 PrimaryNoNewArray: LEFTBRACKET . Expression RIGHTBRACKET
+  197 PrimaryNoNewArray: LEFTBRACKET • Expression RIGHTBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -2188,14 +2188,14 @@ State 98
 
 State 99
 
-  151 EmptyStatement: SEMICOLON .
+  151 EmptyStatement: SEMICOLON •
 
     $default  reduce using rule 151 (EmptyStatement)
 
 
 State 100
 
-  234 PreIncrementExpression: ADDADD . UnaryExpression
+  234 PreIncrementExpression: ADDADD • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -2237,7 +2237,7 @@ State 100
 
 State 101
 
-  235 PreDecrementExpression: SUBSUB . UnaryExpression
+  235 PreDecrementExpression: SUBSUB • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -2279,7 +2279,7 @@ State 101
 
 State 102
 
-  190 ContinueStatement: CONTINUE . IDENTOpt SEMICOLON
+  190 ContinueStatement: CONTINUE • IDENTOpt SEMICOLON
 
     IDENTIFIER  shift, and go to state 221
 
@@ -2291,16 +2291,16 @@ State 102
 
 State 103
 
-  179 ForStatement: FOR . LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  179 ForStatement: FOR • LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
 
     LEFTBRACKET  shift, and go to state 224
 
 
 State 104
 
-  162 ClassInstanceCreationExpression: NEW . ClassType LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  206 ArrayCreationExpression: NEW . PrimitiveType DimExprs
-  207                        | NEW . PrimitiveType DimExprs Dims
+  162 ClassInstanceCreationExpression: NEW • ClassType LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  206 ArrayCreationExpression: NEW • PrimitiveType DimExprs
+  207                        | NEW • PrimitiveType DimExprs Dims
 
     STRING      shift, and go to state 57
     BOOLEAN     shift, and go to state 58
@@ -2324,22 +2324,22 @@ State 104
 
 State 105
 
-  165 IfThenStatement: IF . LEFTBRACKET Expression RIGHTBRACKET Statement
-  166 IfThenElseStatement: IF . LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
+  165 IfThenStatement: IF • LEFTBRACKET Expression RIGHTBRACKET Statement
+  166 IfThenElseStatement: IF • LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
 
     LEFTBRACKET  shift, and go to state 229
 
 
 State 106
 
-  196 PrimaryNoNewArray: THIS .
+  196 PrimaryNoNewArray: THIS •
 
     $default  reduce using rule 196 (PrimaryNoNewArray)
 
 
 State 107
 
-  189 BreakStatement: BREAK . IDENTOpt SEMICOLON
+  189 BreakStatement: BREAK • IDENTOpt SEMICOLON
 
     IDENTIFIER  shift, and go to state 221
 
@@ -2351,7 +2351,7 @@ State 107
 
 State 108
 
-  191 ReturnStatement: RETURN . ExpressionOpt SEMICOLON
+  191 ReturnStatement: RETURN • ExpressionOpt SEMICOLON
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -2423,30 +2423,30 @@ State 108
 
 State 109
 
-  214 FieldAccess: SUPER . DOT IDENTIFIER
-  217 MethodInvocation: SUPER . DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  220                 | SUPER . DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  214 FieldAccess: SUPER • DOT IDENTIFIER
+  217 MethodInvocation: SUPER • DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  220                 | SUPER • DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
 
     DOT  shift, and go to state 234
 
 
 State 110
 
-  168 WhileStatement: WHILE . LEFTBRACKET Expression RIGHTBRACKET Statement
+  168 WhileStatement: WHILE • LEFTBRACKET Expression RIGHTBRACKET Statement
 
     LEFTBRACKET  shift, and go to state 235
 
 
 State 111
 
-    7 Literal: NULLLITERAL .
+    7 Literal: NULLLITERAL •
 
     $default  reduce using rule 7 (Literal)
 
 
 State 112
 
-  192 ReturnStatement: SUSPEND . ExpressionOpt SEMICOLON
+  192 ReturnStatement: SUSPEND • ExpressionOpt SEMICOLON
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -2518,22 +2518,22 @@ State 112
 
 State 113
 
-    2 Literal: INTLITERAL .
+    2 Literal: INTLITERAL •
 
     $default  reduce using rule 2 (Literal)
 
 
 State 114
 
-    3 Literal: FLOATLITERAL .
+    3 Literal: FLOATLITERAL •
 
     $default  reduce using rule 3 (Literal)
 
 
 State 115
 
-   26 SimpleName: IDENTIFIER .
-  152 LabeledStatement: IDENTIFIER . COLON Statement
+   26 SimpleName: IDENTIFIER •
+  152 LabeledStatement: IDENTIFIER • COLON Statement
 
     COLON  shift, and go to state 237
 
@@ -2542,35 +2542,35 @@ State 115
 
 State 116
 
-    5 Literal: STRINGLITERAL .
+    5 Literal: STRINGLITERAL •
 
     $default  reduce using rule 5 (Literal)
 
 
 State 117
 
-    6 Literal: CHARLITERAL .
+    6 Literal: CHARLITERAL •
 
     $default  reduce using rule 6 (Literal)
 
 
 State 118
 
-    4 Literal: BOOLEANLITERAL .
+    4 Literal: BOOLEANLITERAL •
 
     $default  reduce using rule 4 (Literal)
 
 
 State 119
 
-  195 PrimaryNoNewArray: Literal .
+  195 PrimaryNoNewArray: Literal •
 
     $default  reduce using rule 195 (PrimaryNoNewArray)
 
 
 State 120
 
-  123 LocalVariableDeclaration: Type . VariableDeclarators
+  123 LocalVariableDeclaration: Type • VariableDeclarators
 
     IDENTIFIER  shift, and go to state 238
 
@@ -2581,13 +2581,13 @@ State 120
 
 State 121
 
-   22 ArrayType: Name . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
-   27 QualifiedName: Name . DOT IDENTIFIER
-  215 MethodInvocation: Name . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  218                 | Name . LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
-  221 ArrayAccess: Name . LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
-  224 PostFixExpression: Name .
-  289 LeftHandSide: Name .
+   22 ArrayType: Name • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   27 QualifiedName: Name • DOT IDENTIFIER
+  215 MethodInvocation: Name • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  218                 | Name • LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  221 ArrayAccess: Name • LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
+  224 PostFixExpression: Name •
+  289 LeftHandSide: Name •
 
     LEFTBRACKET        shift, and go to state 242
     LEFTCURLYBRACKET   shift, and go to state 243
@@ -2601,29 +2601,29 @@ State 121
 
 State 122
 
-  117 Block: LEFTCURLYBRACKET $@5 BlockStatementOpt . RIGHTCURLYBRACKET
+  117 Block: LEFTCURLYBRACKET $@5 BlockStatementOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 245
 
 
 State 123
 
-   98 BlockStatementOpt: BlockStatementOpts .
+   98 BlockStatementOpt: BlockStatementOpts •
 
     $default  reduce using rule 98 (BlockStatementOpt)
 
 
 State 124
 
-  145 StatementWithoutTrailingSubstatement: Block .
+  145 StatementWithoutTrailingSubstatement: Block •
 
     $default  reduce using rule 145 (StatementWithoutTrailingSubstatement)
 
 
 State 125
 
-   99 BlockStatementOpts: BlockStatements .
-  119 BlockStatements: BlockStatements . BlockStatement
+   99 BlockStatementOpts: BlockStatements •
+  119 BlockStatements: BlockStatements • BlockStatement
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -2705,136 +2705,136 @@ State 125
 
 State 126
 
-  118 BlockStatements: BlockStatement .
+  118 BlockStatements: BlockStatement •
 
     $default  reduce using rule 118 (BlockStatements)
 
 
 State 127
 
-  120 BlockStatement: LocalVariableDeclarationStatement .
+  120 BlockStatement: LocalVariableDeclarationStatement •
 
     $default  reduce using rule 120 (BlockStatement)
 
 
 State 128
 
-  122 LocalVariableDeclarationStatement: LocalVariableDeclaration . SEMICOLON
+  122 LocalVariableDeclarationStatement: LocalVariableDeclaration • SEMICOLON
 
     SEMICOLON  shift, and go to state 247
 
 
 State 129
 
-  121 BlockStatement: Statement .
+  121 BlockStatement: Statement •
 
     $default  reduce using rule 121 (BlockStatement)
 
 
 State 130
 
-  138 Statement: PrintlnStatement .
+  138 Statement: PrintlnStatement •
 
     $default  reduce using rule 138 (Statement)
 
 
 State 131
 
-  132 Statement: StatementWithoutTrailingSubstatement .
+  132 Statement: StatementWithoutTrailingSubstatement •
 
     $default  reduce using rule 132 (Statement)
 
 
 State 132
 
-  146 StatementWithoutTrailingSubstatement: EmptyStatement .
+  146 StatementWithoutTrailingSubstatement: EmptyStatement •
 
     $default  reduce using rule 146 (StatementWithoutTrailingSubstatement)
 
 
 State 133
 
-  133 Statement: LabeledStatement .
+  133 Statement: LabeledStatement •
 
     $default  reduce using rule 133 (Statement)
 
 
 State 134
 
-  147 StatementWithoutTrailingSubstatement: ExpressionStatement .
+  147 StatementWithoutTrailingSubstatement: ExpressionStatement •
 
     $default  reduce using rule 147 (StatementWithoutTrailingSubstatement)
 
 
 State 135
 
-  154 ExpressionStatement: StatementExpression . SEMICOLON
+  154 ExpressionStatement: StatementExpression • SEMICOLON
 
     SEMICOLON  shift, and go to state 248
 
 
 State 136
 
-  161 StatementExpression: ClassInstanceCreationExpression .
+  161 StatementExpression: ClassInstanceCreationExpression •
 
     $default  reduce using rule 161 (StatementExpression)
 
 
 State 137
 
-  134 Statement: IfThenStatement .
+  134 Statement: IfThenStatement •
 
     $default  reduce using rule 134 (Statement)
 
 
 State 138
 
-  135 Statement: IfThenElseStatement .
+  135 Statement: IfThenElseStatement •
 
     $default  reduce using rule 135 (Statement)
 
 
 State 139
 
-  136 Statement: WhileStatement .
+  136 Statement: WhileStatement •
 
     $default  reduce using rule 136 (Statement)
 
 
 State 140
 
-  137 Statement: ForStatement .
+  137 Statement: ForStatement •
 
     $default  reduce using rule 137 (Statement)
 
 
 State 141
 
-  148 StatementWithoutTrailingSubstatement: BreakStatement .
+  148 StatementWithoutTrailingSubstatement: BreakStatement •
 
     $default  reduce using rule 148 (StatementWithoutTrailingSubstatement)
 
 
 State 142
 
-  149 StatementWithoutTrailingSubstatement: ContinueStatement .
+  149 StatementWithoutTrailingSubstatement: ContinueStatement •
 
     $default  reduce using rule 149 (StatementWithoutTrailingSubstatement)
 
 
 State 143
 
-  150 StatementWithoutTrailingSubstatement: ReturnStatement .
+  150 StatementWithoutTrailingSubstatement: ReturnStatement •
 
     $default  reduce using rule 150 (StatementWithoutTrailingSubstatement)
 
 
 State 144
 
-  213 FieldAccess: Primary . DOT IDENTIFIER
-  216 MethodInvocation: Primary . DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  219                 | Primary . DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
-  223 PostFixExpression: Primary .
+  213 FieldAccess: Primary • DOT IDENTIFIER
+  216 MethodInvocation: Primary • DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  219                 | Primary • DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  223 PostFixExpression: Primary •
 
     DOT  shift, and go to state 249
 
@@ -2843,8 +2843,8 @@ State 144
 
 State 145
 
-  193 Primary: PrimaryNoNewArray .
-  222 ArrayAccess: PrimaryNoNewArray . LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
+  193 Primary: PrimaryNoNewArray •
+  222 ArrayAccess: PrimaryNoNewArray • LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 250
 
@@ -2853,15 +2853,15 @@ State 145
 
 State 146
 
-  194 Primary: ArrayCreationExpression .
+  194 Primary: ArrayCreationExpression •
 
     $default  reduce using rule 194 (Primary)
 
 
 State 147
 
-  198 PrimaryNoNewArray: FieldAccess .
-  290 LeftHandSide: FieldAccess .
+  198 PrimaryNoNewArray: FieldAccess •
+  290 LeftHandSide: FieldAccess •
 
     ADDEQUAL  reduce using rule 290 (LeftHandSide)
     SUBEQUAL  reduce using rule 290 (LeftHandSide)
@@ -2874,8 +2874,8 @@ State 147
 
 State 148
 
-  160 StatementExpression: MethodInvocation .
-  199 PrimaryNoNewArray: MethodInvocation .
+  160 StatementExpression: MethodInvocation •
+  199 PrimaryNoNewArray: MethodInvocation •
 
     RIGHTBRACKET  reduce using rule 160 (StatementExpression)
     SEMICOLON     reduce using rule 160 (StatementExpression)
@@ -2885,8 +2885,8 @@ State 148
 
 State 149
 
-  200 PrimaryNoNewArray: ArrayAccess .
-  291 LeftHandSide: ArrayAccess .
+  200 PrimaryNoNewArray: ArrayAccess •
+  291 LeftHandSide: ArrayAccess •
 
     ADDEQUAL  reduce using rule 291 (LeftHandSide)
     SUBEQUAL  reduce using rule 291 (LeftHandSide)
@@ -2899,8 +2899,8 @@ State 149
 
 State 150
 
-  227 PostIncrementExpression: PostFixExpression . ADDADD
-  228 PostDecrementExpression: PostFixExpression . SUBSUB
+  227 PostIncrementExpression: PostFixExpression • ADDADD
+  228 PostDecrementExpression: PostFixExpression • SUBSUB
 
     ADDADD  shift, and go to state 251
     SUBSUB  shift, and go to state 252
@@ -2908,8 +2908,8 @@ State 150
 
 State 151
 
-  158 StatementExpression: PostIncrementExpression .
-  225 PostFixExpression: PostIncrementExpression .
+  158 StatementExpression: PostIncrementExpression •
+  225 PostFixExpression: PostIncrementExpression •
 
     ADDADD    reduce using rule 225 (PostFixExpression)
     SUBSUB    reduce using rule 225 (PostFixExpression)
@@ -2918,8 +2918,8 @@ State 151
 
 State 152
 
-  159 StatementExpression: PostDecrementExpression .
-  226 PostFixExpression: PostDecrementExpression .
+  159 StatementExpression: PostDecrementExpression •
+  226 PostFixExpression: PostDecrementExpression •
 
     ADDADD    reduce using rule 226 (PostFixExpression)
     SUBSUB    reduce using rule 226 (PostFixExpression)
@@ -2928,28 +2928,28 @@ State 152
 
 State 153
 
-  156 StatementExpression: PreIncrementExpression .
+  156 StatementExpression: PreIncrementExpression •
 
     $default  reduce using rule 156 (StatementExpression)
 
 
 State 154
 
-  157 StatementExpression: PreDecrementExpression .
+  157 StatementExpression: PreDecrementExpression •
 
     $default  reduce using rule 157 (StatementExpression)
 
 
 State 155
 
-  155 StatementExpression: Assignment .
+  155 StatementExpression: Assignment •
 
     $default  reduce using rule 155 (StatementExpression)
 
 
 State 156
 
-  288 Assignment: LeftHandSide . $@6 AssignmentOperator AssignmentExpression
+  288 Assignment: LeftHandSide • $@6 AssignmentOperator AssignmentExpression
 
     $default  reduce using rule 287 ($@6)
 
@@ -2958,28 +2958,28 @@ State 156
 
 State 157
 
-   86 MethodDeclarators: IDENTIFIER $@4 . LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
+   86 MethodDeclarators: IDENTIFIER $@4 • LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
 
     LEFTBRACKET  shift, and go to state 254
 
 
 State 158
 
-   87 MethodDeclarators: MethodDeclarator LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+   87 MethodDeclarators: MethodDeclarator LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 255
 
 
 State 159
 
-   67 FieldDeclaration: ModifiersOpt Type VarDeclarators SEMICOLON .
+   67 FieldDeclaration: ModifiersOpt Type VarDeclarators SEMICOLON •
 
     $default  reduce using rule 67 (FieldDeclaration)
 
 
 State 160
 
-   69 VarDeclarators: VarDeclarators COMMA . VarDeclarator
+   69 VarDeclarators: VarDeclarators COMMA • VarDeclarator
 
     IDENTIFIER  shift, and go to state 256
 
@@ -2990,14 +2990,14 @@ State 160
 
 State 161
 
-   74 VarDeclaratorIds: VarDeclaratorId LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+   74 VarDeclaratorIds: VarDeclaratorId LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 258
 
 
 State 162
 
-   71 VarDeclarator: VarDeclaratorId EQUAL . VarInitializer
+   71 VarDeclarator: VarDeclaratorId EQUAL • VarInitializer
 
     LEFTBRACKET       shift, and go to state 175
     LEFTCURLYBRACKET  shift, and go to state 259
@@ -3068,42 +3068,42 @@ State 162
 
 State 163
 
-   21 ArrayType: PrimitiveType LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+   21 ArrayType: PrimitiveType LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 21 (ArrayType)
 
 
 State 164
 
-   23 ArrayType: ArrayType LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+   23 ArrayType: ArrayType LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 23 (ArrayType)
 
 
 State 165
 
-   22 ArrayType: Name LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+   22 ArrayType: Name LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 22 (ArrayType)
 
 
 State 166
 
-   27 QualifiedName: Name DOT IDENTIFIER .
+   27 QualifiedName: Name DOT IDENTIFIER •
 
     $default  reduce using rule 27 (QualifiedName)
 
 
 State 167
 
-   94 ConstructorDeclarator: SimpleName LEFTBRACKET FormalParameterListOpt . RIGHTBRACKET
+   94 ConstructorDeclarator: SimpleName LEFTBRACKET FormalParameterListOpt • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 263
 
 
 State 168
 
-   81 FormalParameterListOpt: $@3 . FormalParameterListOpts
+   81 FormalParameterListOpt: $@3 • FormalParameterListOpts
 
     STRING      shift, and go to state 57
     BOOLEAN     shift, and go to state 58
@@ -3133,21 +3133,21 @@ State 168
 
 State 169
 
-  105 ExplicitConstructorInvocation: THIS . LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON
+  105 ExplicitConstructorInvocation: THIS • LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON
 
     LEFTBRACKET  shift, and go to state 268
 
 
 State 170
 
-  106 ExplicitConstructorInvocation: SUPER . LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON
+  106 ExplicitConstructorInvocation: SUPER • LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON
 
     LEFTBRACKET  shift, and go to state 269
 
 
 State 171
 
-  104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt . BlockStatementOpt RIGHTCURLYBRACKET
+  104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt • BlockStatementOpt RIGHTCURLYBRACKET
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -3232,21 +3232,21 @@ State 171
 
 State 172
 
-   95 ExplicitConstructorInvocationOpt: ExplicitConstructorInvocationOpts .
+   95 ExplicitConstructorInvocationOpt: ExplicitConstructorInvocationOpts •
 
     $default  reduce using rule 95 (ExplicitConstructorInvocationOpt)
 
 
 State 173
 
-   96 ExplicitConstructorInvocationOpts: ExplicitConstructorInvocation .
+   96 ExplicitConstructorInvocationOpts: ExplicitConstructorInvocation •
 
     $default  reduce using rule 96 (ExplicitConstructorInvocationOpts)
 
 
 State 174
 
-  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET . Expression RIGHTBRACKET SEMICOLON
+  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET • Expression RIGHTBRACKET SEMICOLON
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -3314,10 +3314,10 @@ State 174
 
 State 175
 
-  197 PrimaryNoNewArray: LEFTBRACKET . Expression RIGHTBRACKET
-  240 CastExpression: LEFTBRACKET . PrimitiveType DimsOpt RIGHTBRACKET UnaryExpression
-  241               | LEFTBRACKET . Expression RIGHTBRACKET UnaryExpressionNotPlusMinus
-  242               | LEFTBRACKET . Name Dims RIGHTBRACKET UnaryExpressionNotPlusMinus
+  197 PrimaryNoNewArray: LEFTBRACKET • Expression RIGHTBRACKET
+  240 CastExpression: LEFTBRACKET • PrimitiveType DimsOpt RIGHTBRACKET UnaryExpression
+  241               | LEFTBRACKET • Expression RIGHTBRACKET UnaryExpressionNotPlusMinus
+  242               | LEFTBRACKET • Name Dims RIGHTBRACKET UnaryExpressionNotPlusMinus
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -3396,7 +3396,7 @@ State 175
 
 State 176
 
-  238 UnaryExpressionNotPlusMinus: NOT . UnaryExpression
+  238 UnaryExpressionNotPlusMinus: NOT • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -3438,7 +3438,7 @@ State 176
 
 State 177
 
-  237 UnaryExpressionNotPlusMinus: TILDE . UnaryExpression
+  237 UnaryExpressionNotPlusMinus: TILDE • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -3480,7 +3480,7 @@ State 177
 
 State 178
 
-  231 UnaryExpression: ADD . UnaryExpression
+  231 UnaryExpression: ADD • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -3522,7 +3522,7 @@ State 178
 
 State 179
 
-  232 UnaryExpression: SUB . UnaryExpression
+  232 UnaryExpression: SUB • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -3564,8 +3564,8 @@ State 179
 
 State 180
 
-  206 ArrayCreationExpression: NEW . PrimitiveType DimExprs
-  207                        | NEW . PrimitiveType DimExprs Dims
+  206 ArrayCreationExpression: NEW • PrimitiveType DimExprs
+  207                        | NEW • PrimitiveType DimExprs Dims
 
     STRING   shift, and go to state 57
     BOOLEAN  shift, and go to state 58
@@ -3583,12 +3583,12 @@ State 180
 
 State 181
 
-   27 QualifiedName: Name . DOT IDENTIFIER
-  215 MethodInvocation: Name . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  218                 | Name . LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
-  221 ArrayAccess: Name . LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
-  224 PostFixExpression: Name .
-  289 LeftHandSide: Name .
+   27 QualifiedName: Name • DOT IDENTIFIER
+  215 MethodInvocation: Name • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  218                 | Name • LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  221 ArrayAccess: Name • LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
+  224 PostFixExpression: Name •
+  289 LeftHandSide: Name •
 
     LEFTBRACKET        shift, and go to state 242
     LEFTCURLYBRACKET   shift, and go to state 243
@@ -3606,16 +3606,16 @@ State 181
 
 State 182
 
-  199 PrimaryNoNewArray: MethodInvocation .
+  199 PrimaryNoNewArray: MethodInvocation •
 
     $default  reduce using rule 199 (PrimaryNoNewArray)
 
 
 State 183
 
-  227 PostIncrementExpression: PostFixExpression . ADDADD
-  228 PostDecrementExpression: PostFixExpression . SUBSUB
-  236 UnaryExpressionNotPlusMinus: PostFixExpression .
+  227 PostIncrementExpression: PostFixExpression • ADDADD
+  228 PostDecrementExpression: PostFixExpression • SUBSUB
+  236 UnaryExpressionNotPlusMinus: PostFixExpression •
 
     ADDADD  shift, and go to state 251
     SUBSUB  shift, and go to state 252
@@ -3625,59 +3625,59 @@ State 183
 
 State 184
 
-  225 PostFixExpression: PostIncrementExpression .
+  225 PostFixExpression: PostIncrementExpression •
 
     $default  reduce using rule 225 (PostFixExpression)
 
 
 State 185
 
-  226 PostFixExpression: PostDecrementExpression .
+  226 PostFixExpression: PostDecrementExpression •
 
     $default  reduce using rule 226 (PostFixExpression)
 
 
 State 186
 
-  244 MultiplicativeExpressions: UnaryExpression .
+  244 MultiplicativeExpressions: UnaryExpression •
 
     $default  reduce using rule 244 (MultiplicativeExpressions)
 
 
 State 187
 
-  229 UnaryExpression: PreIncrementExpression .
+  229 UnaryExpression: PreIncrementExpression •
 
     $default  reduce using rule 229 (UnaryExpression)
 
 
 State 188
 
-  230 UnaryExpression: PreDecrementExpression .
+  230 UnaryExpression: PreDecrementExpression •
 
     $default  reduce using rule 230 (UnaryExpression)
 
 
 State 189
 
-  233 UnaryExpression: UnaryExpressionNotPlusMinus .
+  233 UnaryExpression: UnaryExpressionNotPlusMinus •
 
     $default  reduce using rule 233 (UnaryExpression)
 
 
 State 190
 
-  239 UnaryExpressionNotPlusMinus: CastExpression .
+  239 UnaryExpressionNotPlusMinus: CastExpression •
 
     $default  reduce using rule 239 (UnaryExpressionNotPlusMinus)
 
 
 State 191
 
-  245 MultiplicativeExpressions: MultiplicativeExpression . MUL UnaryExpression
-  246                          | MultiplicativeExpression . DIV UnaryExpression
-  247                          | MultiplicativeExpression . MOD UnaryExpression
-  249 AdditiveExpressions: MultiplicativeExpression .
+  245 MultiplicativeExpressions: MultiplicativeExpression • MUL UnaryExpression
+  246                          | MultiplicativeExpression • DIV UnaryExpression
+  247                          | MultiplicativeExpression • MOD UnaryExpression
+  249 AdditiveExpressions: MultiplicativeExpression •
 
     MUL  shift, and go to state 280
     DIV  shift, and go to state 281
@@ -3688,16 +3688,16 @@ State 191
 
 State 192
 
-  243 MultiplicativeExpression: MultiplicativeExpressions .
+  243 MultiplicativeExpression: MultiplicativeExpressions •
 
     $default  reduce using rule 243 (MultiplicativeExpression)
 
 
 State 193
 
-  250 AdditiveExpressions: AdditiveExpression . ADD MultiplicativeExpression
-  251                    | AdditiveExpression . SUB MultiplicativeExpression
-  253 ShiftExpressions: AdditiveExpression .
+  250 AdditiveExpressions: AdditiveExpression • ADD MultiplicativeExpression
+  251                    | AdditiveExpression • SUB MultiplicativeExpression
+  253 ShiftExpressions: AdditiveExpression •
 
     ADD  shift, and go to state 283
     SUB  shift, and go to state 284
@@ -3707,17 +3707,17 @@ State 193
 
 State 194
 
-  248 AdditiveExpression: AdditiveExpressions .
+  248 AdditiveExpression: AdditiveExpressions •
 
     $default  reduce using rule 248 (AdditiveExpression)
 
 
 State 195
 
-  254 ShiftExpressions: ShiftExpression . DOUBLELESS AdditiveExpression
-  255                 | ShiftExpression . DOUBLEGREATER AdditiveExpression
-  256                 | ShiftExpression . TRIPLEGREATER AdditiveExpression
-  258 RelationalExpressions: ShiftExpression .
+  254 ShiftExpressions: ShiftExpression • DOUBLELESS AdditiveExpression
+  255                 | ShiftExpression • DOUBLEGREATER AdditiveExpression
+  256                 | ShiftExpression • TRIPLEGREATER AdditiveExpression
+  258 RelationalExpressions: ShiftExpression •
 
     TRIPLEGREATER  shift, and go to state 285
     DOUBLELESS     shift, and go to state 286
@@ -3728,18 +3728,18 @@ State 195
 
 State 196
 
-  252 ShiftExpression: ShiftExpressions .
+  252 ShiftExpression: ShiftExpressions •
 
     $default  reduce using rule 252 (ShiftExpression)
 
 
 State 197
 
-  259 RelationalExpressions: RelationalExpression . LESS ShiftExpression
-  260                      | RelationalExpression . GREATER ShiftExpression
-  261                      | RelationalExpression . LESSEQUAL ShiftExpression
-  262                      | RelationalExpression . GREATEREQUAL ShiftExpression
-  264 EqualityExpressions: RelationalExpression .
+  259 RelationalExpressions: RelationalExpression • LESS ShiftExpression
+  260                      | RelationalExpression • GREATER ShiftExpression
+  261                      | RelationalExpression • LESSEQUAL ShiftExpression
+  262                      | RelationalExpression • GREATEREQUAL ShiftExpression
+  264 EqualityExpressions: RelationalExpression •
 
     GREATEREQUAL  shift, and go to state 288
     LESSEQUAL     shift, and go to state 289
@@ -3751,16 +3751,16 @@ State 197
 
 State 198
 
-  257 RelationalExpression: RelationalExpressions .
+  257 RelationalExpression: RelationalExpressions •
 
     $default  reduce using rule 257 (RelationalExpression)
 
 
 State 199
 
-  265 EqualityExpressions: EqualityExpression . EQUALEQUAL RelationalExpression
-  266                    | EqualityExpression . NOTEQUAL RelationalExpression
-  268 AndExpressions: EqualityExpression .
+  265 EqualityExpressions: EqualityExpression • EQUALEQUAL RelationalExpression
+  266                    | EqualityExpression • NOTEQUAL RelationalExpression
+  268 AndExpressions: EqualityExpression •
 
     EQUALEQUAL  shift, and go to state 292
     NOTEQUAL    shift, and go to state 293
@@ -3770,15 +3770,15 @@ State 199
 
 State 200
 
-  263 EqualityExpression: EqualityExpressions .
+  263 EqualityExpression: EqualityExpressions •
 
     $default  reduce using rule 263 (EqualityExpression)
 
 
 State 201
 
-  269 AndExpressions: AndExpression . ANDBIT EqualityExpression
-  271 ExclusiveOrExpressions: AndExpression .
+  269 AndExpressions: AndExpression • ANDBIT EqualityExpression
+  271 ExclusiveOrExpressions: AndExpression •
 
     ANDBIT  shift, and go to state 294
 
@@ -3787,15 +3787,15 @@ State 201
 
 State 202
 
-  267 AndExpression: AndExpressions .
+  267 AndExpression: AndExpressions •
 
     $default  reduce using rule 267 (AndExpression)
 
 
 State 203
 
-  272 ExclusiveOrExpressions: ExclusiveOrExpression . POWER AndExpression
-  274 InclusiveOrExpressions: ExclusiveOrExpression .
+  272 ExclusiveOrExpressions: ExclusiveOrExpression • POWER AndExpression
+  274 InclusiveOrExpressions: ExclusiveOrExpression •
 
     POWER  shift, and go to state 295
 
@@ -3804,15 +3804,15 @@ State 203
 
 State 204
 
-  270 ExclusiveOrExpression: ExclusiveOrExpressions .
+  270 ExclusiveOrExpression: ExclusiveOrExpressions •
 
     $default  reduce using rule 270 (ExclusiveOrExpression)
 
 
 State 205
 
-  275 InclusiveOrExpressions: InclusiveOrExpression . ORBIT ExclusiveOrExpression
-  277 ConditionalAndExpressions: InclusiveOrExpression .
+  275 InclusiveOrExpressions: InclusiveOrExpression • ORBIT ExclusiveOrExpression
+  277 ConditionalAndExpressions: InclusiveOrExpression •
 
     ORBIT  shift, and go to state 296
 
@@ -3821,15 +3821,15 @@ State 205
 
 State 206
 
-  273 InclusiveOrExpression: InclusiveOrExpressions .
+  273 InclusiveOrExpression: InclusiveOrExpressions •
 
     $default  reduce using rule 273 (InclusiveOrExpression)
 
 
 State 207
 
-  278 ConditionalAndExpressions: ConditionalAndExpression . AND InclusiveOrExpression
-  280 ConditionalOrExpressions: ConditionalAndExpression .
+  278 ConditionalAndExpressions: ConditionalAndExpression • AND InclusiveOrExpression
+  280 ConditionalOrExpressions: ConditionalAndExpression •
 
     AND  shift, and go to state 297
 
@@ -3838,16 +3838,16 @@ State 207
 
 State 208
 
-  276 ConditionalAndExpression: ConditionalAndExpressions .
+  276 ConditionalAndExpression: ConditionalAndExpressions •
 
     $default  reduce using rule 276 (ConditionalAndExpression)
 
 
 State 209
 
-  281 ConditionalOrExpressions: ConditionalOrExpression . OR ConditionalAndExpression
-  283 ConditionalExpressions: ConditionalOrExpression .
-  284                       | ConditionalOrExpression . QUESTION Expression COLON ConditionalExpression
+  281 ConditionalOrExpressions: ConditionalOrExpression • OR ConditionalAndExpression
+  283 ConditionalExpressions: ConditionalOrExpression •
+  284                       | ConditionalOrExpression • QUESTION Expression COLON ConditionalExpression
 
     OR        shift, and go to state 298
     QUESTION  shift, and go to state 299
@@ -3857,53 +3857,53 @@ State 209
 
 State 210
 
-  279 ConditionalOrExpression: ConditionalOrExpressions .
+  279 ConditionalOrExpression: ConditionalOrExpressions •
 
     $default  reduce using rule 279 (ConditionalOrExpression)
 
 
 State 211
 
-  285 AssignmentExpression: ConditionalExpression .
+  285 AssignmentExpression: ConditionalExpression •
 
     $default  reduce using rule 285 (AssignmentExpression)
 
 
 State 212
 
-  282 ConditionalExpression: ConditionalExpressions .
+  282 ConditionalExpression: ConditionalExpressions •
 
     $default  reduce using rule 282 (ConditionalExpression)
 
 
 State 213
 
-  298 Expression: AssignmentExpression .
+  298 Expression: AssignmentExpression •
 
     $default  reduce using rule 298 (Expression)
 
 
 State 214
 
-  286 AssignmentExpression: Assignment .
+  286 AssignmentExpression: Assignment •
 
     $default  reduce using rule 286 (AssignmentExpression)
 
 
 State 215
 
-  197 PrimaryNoNewArray: LEFTBRACKET Expression . RIGHTBRACKET
+  197 PrimaryNoNewArray: LEFTBRACKET Expression • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 300
 
 
 State 216
 
-   27 QualifiedName: Name . DOT IDENTIFIER
-  215 MethodInvocation: Name . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  218                 | Name . LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
-  221 ArrayAccess: Name . LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
-  224 PostFixExpression: Name .
+   27 QualifiedName: Name • DOT IDENTIFIER
+  215 MethodInvocation: Name • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  218                 | Name • LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  221 ArrayAccess: Name • LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
+  224 PostFixExpression: Name •
 
     LEFTBRACKET        shift, and go to state 242
     LEFTCURLYBRACKET   shift, and go to state 243
@@ -3915,56 +3915,56 @@ State 216
 
 State 217
 
-  198 PrimaryNoNewArray: FieldAccess .
+  198 PrimaryNoNewArray: FieldAccess •
 
     $default  reduce using rule 198 (PrimaryNoNewArray)
 
 
 State 218
 
-  200 PrimaryNoNewArray: ArrayAccess .
+  200 PrimaryNoNewArray: ArrayAccess •
 
     $default  reduce using rule 200 (PrimaryNoNewArray)
 
 
 State 219
 
-  234 PreIncrementExpression: ADDADD UnaryExpression .
+  234 PreIncrementExpression: ADDADD UnaryExpression •
 
     $default  reduce using rule 234 (PreIncrementExpression)
 
 
 State 220
 
-  235 PreDecrementExpression: SUBSUB UnaryExpression .
+  235 PreDecrementExpression: SUBSUB UnaryExpression •
 
     $default  reduce using rule 235 (PreDecrementExpression)
 
 
 State 221
 
-  187 IDENTOpts: IDENTIFIER .
+  187 IDENTOpts: IDENTIFIER •
 
     $default  reduce using rule 187 (IDENTOpts)
 
 
 State 222
 
-  190 ContinueStatement: CONTINUE IDENTOpt . SEMICOLON
+  190 ContinueStatement: CONTINUE IDENTOpt • SEMICOLON
 
     SEMICOLON  shift, and go to state 301
 
 
 State 223
 
-  186 IDENTOpt: IDENTOpts .
+  186 IDENTOpt: IDENTOpts •
 
     $default  reduce using rule 186 (IDENTOpt)
 
 
 State 224
 
-  179 ForStatement: FOR LEFTBRACKET . ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  179 ForStatement: FOR LEFTBRACKET • ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
 
     LEFTBRACKET     shift, and go to state 98
     ADDADD          shift, and go to state 100
@@ -4024,8 +4024,8 @@ State 224
 
 State 225
 
-  206 ArrayCreationExpression: NEW PrimitiveType . DimExprs
-  207                        | NEW PrimitiveType . DimExprs Dims
+  206 ArrayCreationExpression: NEW PrimitiveType • DimExprs
+  207                        | NEW PrimitiveType • DimExprs Dims
 
     LEFTSQUAREBRACKET  shift, and go to state 308
 
@@ -4035,8 +4035,8 @@ State 225
 
 State 226
 
-   27 QualifiedName: Name . DOT IDENTIFIER
-  164 ClassOrInterfaceType: Name .
+   27 QualifiedName: Name • DOT IDENTIFIER
+  164 ClassOrInterfaceType: Name •
 
     DOT  shift, and go to state 93
 
@@ -4045,22 +4045,22 @@ State 226
 
 State 227
 
-  162 ClassInstanceCreationExpression: NEW ClassType . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  162 ClassInstanceCreationExpression: NEW ClassType • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
 
     LEFTBRACKET  shift, and go to state 311
 
 
 State 228
 
-  163 ClassType: ClassOrInterfaceType .
+  163 ClassType: ClassOrInterfaceType •
 
     $default  reduce using rule 163 (ClassType)
 
 
 State 229
 
-  165 IfThenStatement: IF LEFTBRACKET . Expression RIGHTBRACKET Statement
-  166 IfThenElseStatement: IF LEFTBRACKET . Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
+  165 IfThenStatement: IF LEFTBRACKET • Expression RIGHTBRACKET Statement
+  166 IfThenElseStatement: IF LEFTBRACKET • Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -4128,44 +4128,44 @@ State 229
 
 State 230
 
-  189 BreakStatement: BREAK IDENTOpt . SEMICOLON
+  189 BreakStatement: BREAK IDENTOpt • SEMICOLON
 
     SEMICOLON  shift, and go to state 313
 
 
 State 231
 
-  191 ReturnStatement: RETURN ExpressionOpt . SEMICOLON
+  191 ReturnStatement: RETURN ExpressionOpt • SEMICOLON
 
     SEMICOLON  shift, and go to state 314
 
 
 State 232
 
-  173 ExpressionOpt: ExpressionOpts .
+  173 ExpressionOpt: ExpressionOpts •
 
     $default  reduce using rule 173 (ExpressionOpt)
 
 
 State 233
 
-  174 ExpressionOpts: Expression .
+  174 ExpressionOpts: Expression •
 
     $default  reduce using rule 174 (ExpressionOpts)
 
 
 State 234
 
-  214 FieldAccess: SUPER DOT . IDENTIFIER
-  217 MethodInvocation: SUPER DOT . IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  220                 | SUPER DOT . IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  214 FieldAccess: SUPER DOT • IDENTIFIER
+  217 MethodInvocation: SUPER DOT • IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  220                 | SUPER DOT • IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
 
     IDENTIFIER  shift, and go to state 315
 
 
 State 235
 
-  168 WhileStatement: WHILE LEFTBRACKET . Expression RIGHTBRACKET Statement
+  168 WhileStatement: WHILE LEFTBRACKET • Expression RIGHTBRACKET Statement
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -4233,14 +4233,14 @@ State 235
 
 State 236
 
-  192 ReturnStatement: SUSPEND ExpressionOpt . SEMICOLON
+  192 ReturnStatement: SUSPEND ExpressionOpt • SEMICOLON
 
     SEMICOLON  shift, and go to state 317
 
 
 State 237
 
-  152 LabeledStatement: IDENTIFIER COLON . Statement
+  152 LabeledStatement: IDENTIFIER COLON • Statement
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -4303,15 +4303,15 @@ State 237
 
 State 238
 
-  130 VariableDeclaratorId: IDENTIFIER .
+  130 VariableDeclaratorId: IDENTIFIER •
 
     $default  reduce using rule 130 (VariableDeclaratorId)
 
 
 State 239
 
-  123 LocalVariableDeclaration: Type VariableDeclarators .
-  125 VariableDeclarators: VariableDeclarators . COMMA VariableDeclarator
+  123 LocalVariableDeclaration: Type VariableDeclarators •
+  125 VariableDeclarators: VariableDeclarators • COMMA VariableDeclarator
 
     COMMA  shift, and go to state 319
 
@@ -4320,16 +4320,16 @@ State 239
 
 State 240
 
-  124 VariableDeclarators: VariableDeclarator .
+  124 VariableDeclarators: VariableDeclarator •
 
     $default  reduce using rule 124 (VariableDeclarators)
 
 
 State 241
 
-  126 VariableDeclarator: VariableDeclaratorId .
-  127                   | VariableDeclaratorId . EQUAL VariableInitializer
-  131 VariableDeclaratorId: VariableDeclaratorId . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+  126 VariableDeclarator: VariableDeclaratorId •
+  127                   | VariableDeclaratorId • EQUAL VariableInitializer
+  131 VariableDeclaratorId: VariableDeclaratorId • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 320
     EQUAL              shift, and go to state 321
@@ -4339,7 +4339,7 @@ State 241
 
 State 242
 
-  215 MethodInvocation: Name LEFTBRACKET . ArgumentListOpt RIGHTBRACKET
+  215 MethodInvocation: Name LEFTBRACKET • ArgumentListOpt RIGHTBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -4412,7 +4412,7 @@ State 242
 
 State 243
 
-  218 MethodInvocation: Name LEFTCURLYBRACKET . ArgumentListOpt RIGHTCURLYBRACKET
+  218 MethodInvocation: Name LEFTCURLYBRACKET • ArgumentListOpt RIGHTCURLYBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -4485,8 +4485,8 @@ State 243
 
 State 244
 
-   22 ArrayType: Name LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
-  221 ArrayAccess: Name LEFTSQUAREBRACKET . Expression RIGHTSQUAREBRACKET
+   22 ArrayType: Name LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
+  221 ArrayAccess: Name LEFTSQUAREBRACKET • Expression RIGHTSQUAREBRACKET
 
     LEFTBRACKET         shift, and go to state 175
     RIGHTSQUAREBRACKET  shift, and go to state 165
@@ -4555,44 +4555,44 @@ State 244
 
 State 245
 
-  117 Block: LEFTCURLYBRACKET $@5 BlockStatementOpt RIGHTCURLYBRACKET .
+  117 Block: LEFTCURLYBRACKET $@5 BlockStatementOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 117 (Block)
 
 
 State 246
 
-  119 BlockStatements: BlockStatements BlockStatement .
+  119 BlockStatements: BlockStatements BlockStatement •
 
     $default  reduce using rule 119 (BlockStatements)
 
 
 State 247
 
-  122 LocalVariableDeclarationStatement: LocalVariableDeclaration SEMICOLON .
+  122 LocalVariableDeclarationStatement: LocalVariableDeclaration SEMICOLON •
 
     $default  reduce using rule 122 (LocalVariableDeclarationStatement)
 
 
 State 248
 
-  154 ExpressionStatement: StatementExpression SEMICOLON .
+  154 ExpressionStatement: StatementExpression SEMICOLON •
 
     $default  reduce using rule 154 (ExpressionStatement)
 
 
 State 249
 
-  213 FieldAccess: Primary DOT . IDENTIFIER
-  216 MethodInvocation: Primary DOT . IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  219                 | Primary DOT . IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  213 FieldAccess: Primary DOT • IDENTIFIER
+  216 MethodInvocation: Primary DOT • IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  219                 | Primary DOT • IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
 
     IDENTIFIER  shift, and go to state 328
 
 
 State 250
 
-  222 ArrayAccess: PrimaryNoNewArray LEFTSQUAREBRACKET . Expression RIGHTSQUAREBRACKET
+  222 ArrayAccess: PrimaryNoNewArray LEFTSQUAREBRACKET • Expression RIGHTSQUAREBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -4660,21 +4660,21 @@ State 250
 
 State 251
 
-  227 PostIncrementExpression: PostFixExpression ADDADD .
+  227 PostIncrementExpression: PostFixExpression ADDADD •
 
     $default  reduce using rule 227 (PostIncrementExpression)
 
 
 State 252
 
-  228 PostDecrementExpression: PostFixExpression SUBSUB .
+  228 PostDecrementExpression: PostFixExpression SUBSUB •
 
     $default  reduce using rule 228 (PostDecrementExpression)
 
 
 State 253
 
-  288 Assignment: LeftHandSide $@6 . AssignmentOperator AssignmentExpression
+  288 Assignment: LeftHandSide $@6 • AssignmentOperator AssignmentExpression
 
     ADDEQUAL  shift, and go to state 330
     SUBEQUAL  shift, and go to state 331
@@ -4688,7 +4688,7 @@ State 253
 
 State 254
 
-   86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET . FormalParameterListOpt RIGHTBRACKET
+   86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET • FormalParameterListOpt RIGHTBRACKET
 
     $default  reduce using rule 80 ($@3)
 
@@ -4698,35 +4698,35 @@ State 254
 
 State 255
 
-   87 MethodDeclarators: MethodDeclarator LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+   87 MethodDeclarators: MethodDeclarator LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 87 (MethodDeclarators)
 
 
 State 256
 
-   73 VarDeclaratorIds: IDENTIFIER .
+   73 VarDeclaratorIds: IDENTIFIER •
 
     $default  reduce using rule 73 (VarDeclaratorIds)
 
 
 State 257
 
-   69 VarDeclarators: VarDeclarators COMMA VarDeclarator .
+   69 VarDeclarators: VarDeclarators COMMA VarDeclarator •
 
     $default  reduce using rule 69 (VarDeclarators)
 
 
 State 258
 
-   74 VarDeclaratorIds: VarDeclaratorId LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+   74 VarDeclaratorIds: VarDeclaratorId LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 74 (VarDeclaratorIds)
 
 
 State 259
 
-  113 ArrayInitializer: LEFTCURLYBRACKET . VarInitializersOpt CommaOpt RIGHTCURLYBRACKET
+  113 ArrayInitializer: LEFTCURLYBRACKET • VarInitializersOpt CommaOpt RIGHTCURLYBRACKET
 
     LEFTBRACKET       shift, and go to state 175
     LEFTCURLYBRACKET  shift, and go to state 259
@@ -4802,35 +4802,35 @@ State 259
 
 State 260
 
-   71 VarDeclarator: VarDeclaratorId EQUAL VarInitializer .
+   71 VarDeclarator: VarDeclaratorId EQUAL VarInitializer •
 
     $default  reduce using rule 71 (VarDeclarator)
 
 
 State 261
 
-   76 VarInitializer: ArrayInitializer .
+   76 VarInitializer: ArrayInitializer •
 
     $default  reduce using rule 76 (VarInitializer)
 
 
 State 262
 
-   75 VarInitializer: Expression .
+   75 VarInitializer: Expression •
 
     $default  reduce using rule 75 (VarInitializer)
 
 
 State 263
 
-   94 ConstructorDeclarator: SimpleName LEFTBRACKET FormalParameterListOpt RIGHTBRACKET .
+   94 ConstructorDeclarator: SimpleName LEFTBRACKET FormalParameterListOpt RIGHTBRACKET •
 
     $default  reduce using rule 94 (ConstructorDeclarator)
 
 
 State 264
 
-   90 FormalParameter: Type . VarDeclaratorId
+   90 FormalParameter: Type • VarDeclaratorId
 
     IDENTIFIER  shift, and go to state 256
 
@@ -4840,15 +4840,15 @@ State 264
 
 State 265
 
-   81 FormalParameterListOpt: $@3 FormalParameterListOpts .
+   81 FormalParameterListOpt: $@3 FormalParameterListOpts •
 
     $default  reduce using rule 81 (FormalParameterListOpt)
 
 
 State 266
 
-   82 FormalParameterListOpts: FormalParameterList .
-   89 FormalParameterList: FormalParameterList . COMMA FormalParameter
+   82 FormalParameterListOpts: FormalParameterList •
+   89 FormalParameterList: FormalParameterList • COMMA FormalParameter
 
     COMMA  shift, and go to state 343
 
@@ -4857,14 +4857,14 @@ State 266
 
 State 267
 
-   88 FormalParameterList: FormalParameter .
+   88 FormalParameterList: FormalParameter •
 
     $default  reduce using rule 88 (FormalParameterList)
 
 
 State 268
 
-  105 ExplicitConstructorInvocation: THIS LEFTBRACKET . ArgumentListOpt RIGHTBRACKET SEMICOLON
+  105 ExplicitConstructorInvocation: THIS LEFTBRACKET • ArgumentListOpt RIGHTBRACKET SEMICOLON
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -4937,7 +4937,7 @@ State 268
 
 State 269
 
-  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET . ArgumentListOpt RIGHTBRACKET SEMICOLON
+  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET • ArgumentListOpt RIGHTBRACKET SEMICOLON
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5010,21 +5010,21 @@ State 269
 
 State 270
 
-  104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt BlockStatementOpt . RIGHTCURLYBRACKET
+  104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt BlockStatementOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 346
 
 
 State 271
 
-  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET Expression . RIGHTBRACKET SEMICOLON
+  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET Expression • RIGHTBRACKET SEMICOLON
 
     RIGHTBRACKET  shift, and go to state 347
 
 
 State 272
 
-  240 CastExpression: LEFTBRACKET PrimitiveType . DimsOpt RIGHTBRACKET UnaryExpression
+  240 CastExpression: LEFTBRACKET PrimitiveType • DimsOpt RIGHTBRACKET UnaryExpression
 
     LEFTSQUAREBRACKET  shift, and go to state 348
 
@@ -5037,13 +5037,13 @@ State 272
 
 State 273
 
-   27 QualifiedName: Name . DOT IDENTIFIER
-  215 MethodInvocation: Name . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  218                 | Name . LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
-  221 ArrayAccess: Name . LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
-  224 PostFixExpression: Name .
-  242 CastExpression: LEFTBRACKET Name . Dims RIGHTBRACKET UnaryExpressionNotPlusMinus
-  289 LeftHandSide: Name .
+   27 QualifiedName: Name • DOT IDENTIFIER
+  215 MethodInvocation: Name • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  218                 | Name • LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  221 ArrayAccess: Name • LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
+  224 PostFixExpression: Name •
+  242 CastExpression: LEFTBRACKET Name • Dims RIGHTBRACKET UnaryExpressionNotPlusMinus
+  289 LeftHandSide: Name •
 
     LEFTBRACKET        shift, and go to state 242
     LEFTCURLYBRACKET   shift, and go to state 243
@@ -5063,43 +5063,43 @@ State 273
 
 State 274
 
-  197 PrimaryNoNewArray: LEFTBRACKET Expression . RIGHTBRACKET
-  241 CastExpression: LEFTBRACKET Expression . RIGHTBRACKET UnaryExpressionNotPlusMinus
+  197 PrimaryNoNewArray: LEFTBRACKET Expression • RIGHTBRACKET
+  241 CastExpression: LEFTBRACKET Expression • RIGHTBRACKET UnaryExpressionNotPlusMinus
 
     RIGHTBRACKET  shift, and go to state 354
 
 
 State 275
 
-  238 UnaryExpressionNotPlusMinus: NOT UnaryExpression .
+  238 UnaryExpressionNotPlusMinus: NOT UnaryExpression •
 
     $default  reduce using rule 238 (UnaryExpressionNotPlusMinus)
 
 
 State 276
 
-  237 UnaryExpressionNotPlusMinus: TILDE UnaryExpression .
+  237 UnaryExpressionNotPlusMinus: TILDE UnaryExpression •
 
     $default  reduce using rule 237 (UnaryExpressionNotPlusMinus)
 
 
 State 277
 
-  231 UnaryExpression: ADD UnaryExpression .
+  231 UnaryExpression: ADD UnaryExpression •
 
     $default  reduce using rule 231 (UnaryExpression)
 
 
 State 278
 
-  232 UnaryExpression: SUB UnaryExpression .
+  232 UnaryExpression: SUB UnaryExpression •
 
     $default  reduce using rule 232 (UnaryExpression)
 
 
 State 279
 
-  221 ArrayAccess: Name LEFTSQUAREBRACKET . Expression RIGHTSQUAREBRACKET
+  221 ArrayAccess: Name LEFTSQUAREBRACKET • Expression RIGHTSQUAREBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5167,7 +5167,7 @@ State 279
 
 State 280
 
-  245 MultiplicativeExpressions: MultiplicativeExpression MUL . UnaryExpression
+  245 MultiplicativeExpressions: MultiplicativeExpression MUL • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5209,7 +5209,7 @@ State 280
 
 State 281
 
-  246 MultiplicativeExpressions: MultiplicativeExpression DIV . UnaryExpression
+  246 MultiplicativeExpressions: MultiplicativeExpression DIV • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5251,7 +5251,7 @@ State 281
 
 State 282
 
-  247 MultiplicativeExpressions: MultiplicativeExpression MOD . UnaryExpression
+  247 MultiplicativeExpressions: MultiplicativeExpression MOD • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5293,7 +5293,7 @@ State 282
 
 State 283
 
-  250 AdditiveExpressions: AdditiveExpression ADD . MultiplicativeExpression
+  250 AdditiveExpressions: AdditiveExpression ADD • MultiplicativeExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5337,7 +5337,7 @@ State 283
 
 State 284
 
-  251 AdditiveExpressions: AdditiveExpression SUB . MultiplicativeExpression
+  251 AdditiveExpressions: AdditiveExpression SUB • MultiplicativeExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5381,7 +5381,7 @@ State 284
 
 State 285
 
-  256 ShiftExpressions: ShiftExpression TRIPLEGREATER . AdditiveExpression
+  256 ShiftExpressions: ShiftExpression TRIPLEGREATER • AdditiveExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5427,7 +5427,7 @@ State 285
 
 State 286
 
-  254 ShiftExpressions: ShiftExpression DOUBLELESS . AdditiveExpression
+  254 ShiftExpressions: ShiftExpression DOUBLELESS • AdditiveExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5473,7 +5473,7 @@ State 286
 
 State 287
 
-  255 ShiftExpressions: ShiftExpression DOUBLEGREATER . AdditiveExpression
+  255 ShiftExpressions: ShiftExpression DOUBLEGREATER • AdditiveExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5519,7 +5519,7 @@ State 287
 
 State 288
 
-  262 RelationalExpressions: RelationalExpression GREATEREQUAL . ShiftExpression
+  262 RelationalExpressions: RelationalExpression GREATEREQUAL • ShiftExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5567,7 +5567,7 @@ State 288
 
 State 289
 
-  261 RelationalExpressions: RelationalExpression LESSEQUAL . ShiftExpression
+  261 RelationalExpressions: RelationalExpression LESSEQUAL • ShiftExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5615,7 +5615,7 @@ State 289
 
 State 290
 
-  259 RelationalExpressions: RelationalExpression LESS . ShiftExpression
+  259 RelationalExpressions: RelationalExpression LESS • ShiftExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5663,7 +5663,7 @@ State 290
 
 State 291
 
-  260 RelationalExpressions: RelationalExpression GREATER . ShiftExpression
+  260 RelationalExpressions: RelationalExpression GREATER • ShiftExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5711,7 +5711,7 @@ State 291
 
 State 292
 
-  265 EqualityExpressions: EqualityExpression EQUALEQUAL . RelationalExpression
+  265 EqualityExpressions: EqualityExpression EQUALEQUAL • RelationalExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5761,7 +5761,7 @@ State 292
 
 State 293
 
-  266 EqualityExpressions: EqualityExpression NOTEQUAL . RelationalExpression
+  266 EqualityExpressions: EqualityExpression NOTEQUAL • RelationalExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5811,7 +5811,7 @@ State 293
 
 State 294
 
-  269 AndExpressions: AndExpression ANDBIT . EqualityExpression
+  269 AndExpressions: AndExpression ANDBIT • EqualityExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5863,7 +5863,7 @@ State 294
 
 State 295
 
-  272 ExclusiveOrExpressions: ExclusiveOrExpression POWER . AndExpression
+  272 ExclusiveOrExpressions: ExclusiveOrExpression POWER • AndExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5917,7 +5917,7 @@ State 295
 
 State 296
 
-  275 InclusiveOrExpressions: InclusiveOrExpression ORBIT . ExclusiveOrExpression
+  275 InclusiveOrExpressions: InclusiveOrExpression ORBIT • ExclusiveOrExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -5973,7 +5973,7 @@ State 296
 
 State 297
 
-  278 ConditionalAndExpressions: ConditionalAndExpression AND . InclusiveOrExpression
+  278 ConditionalAndExpressions: ConditionalAndExpression AND • InclusiveOrExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -6031,7 +6031,7 @@ State 297
 
 State 298
 
-  281 ConditionalOrExpressions: ConditionalOrExpression OR . ConditionalAndExpression
+  281 ConditionalOrExpressions: ConditionalOrExpression OR • ConditionalAndExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -6091,7 +6091,7 @@ State 298
 
 State 299
 
-  284 ConditionalExpressions: ConditionalOrExpression QUESTION . Expression COLON ConditionalExpression
+  284 ConditionalExpressions: ConditionalOrExpression QUESTION • Expression COLON ConditionalExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -6159,57 +6159,57 @@ State 299
 
 State 300
 
-  197 PrimaryNoNewArray: LEFTBRACKET Expression RIGHTBRACKET .
+  197 PrimaryNoNewArray: LEFTBRACKET Expression RIGHTBRACKET •
 
     $default  reduce using rule 197 (PrimaryNoNewArray)
 
 
 State 301
 
-  190 ContinueStatement: CONTINUE IDENTOpt SEMICOLON .
+  190 ContinueStatement: CONTINUE IDENTOpt SEMICOLON •
 
     $default  reduce using rule 190 (ContinueStatement)
 
 
 State 302
 
-  182 ForInit: LocalVariableDeclaration .
+  182 ForInit: LocalVariableDeclaration •
 
     $default  reduce using rule 182 (ForInit)
 
 
 State 303
 
-  184 StatementExpressionList: StatementExpression .
+  184 StatementExpressionList: StatementExpression •
 
     $default  reduce using rule 184 (StatementExpressionList)
 
 
 State 304
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt . SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt • SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
 
     SEMICOLON  shift, and go to state 375
 
 
 State 305
 
-  170 ForInitOpt: ForInitOpts .
+  170 ForInitOpt: ForInitOpts •
 
     $default  reduce using rule 170 (ForInitOpt)
 
 
 State 306
 
-  171 ForInitOpts: ForInit .
+  171 ForInitOpts: ForInit •
 
     $default  reduce using rule 171 (ForInitOpts)
 
 
 State 307
 
-  181 ForInit: StatementExpressionList .
-  185 StatementExpressionList: StatementExpressionList . COMMA StatementExpression
+  181 ForInit: StatementExpressionList •
+  185 StatementExpressionList: StatementExpressionList • COMMA StatementExpression
 
     COMMA  shift, and go to state 376
 
@@ -6218,7 +6218,7 @@ State 307
 
 State 308
 
-  210 DimExpr: LEFTSQUAREBRACKET . Expression RIGHTSQUAREBRACKET
+  210 DimExpr: LEFTSQUAREBRACKET • Expression RIGHTSQUAREBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -6286,9 +6286,9 @@ State 308
 
 State 309
 
-  206 ArrayCreationExpression: NEW PrimitiveType DimExprs .
-  207                        | NEW PrimitiveType DimExprs . Dims
-  209 DimExprs: DimExprs . DimExpr
+  206 ArrayCreationExpression: NEW PrimitiveType DimExprs •
+  207                        | NEW PrimitiveType DimExprs • Dims
+  209 DimExprs: DimExprs • DimExpr
 
     LEFTSQUAREBRACKET  shift, and go to state 378
 
@@ -6300,14 +6300,14 @@ State 309
 
 State 310
 
-  208 DimExprs: DimExpr .
+  208 DimExprs: DimExpr •
 
     $default  reduce using rule 208 (DimExprs)
 
 
 State 311
 
-  162 ClassInstanceCreationExpression: NEW ClassType LEFTBRACKET . ArgumentListOpt RIGHTBRACKET
+  162 ClassInstanceCreationExpression: NEW ClassType LEFTBRACKET • ArgumentListOpt RIGHTBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -6380,31 +6380,31 @@ State 311
 
 State 312
 
-  165 IfThenStatement: IF LEFTBRACKET Expression . RIGHTBRACKET Statement
-  166 IfThenElseStatement: IF LEFTBRACKET Expression . RIGHTBRACKET StatementNoShortIf ELSE Statement
+  165 IfThenStatement: IF LEFTBRACKET Expression • RIGHTBRACKET Statement
+  166 IfThenElseStatement: IF LEFTBRACKET Expression • RIGHTBRACKET StatementNoShortIf ELSE Statement
 
     RIGHTBRACKET  shift, and go to state 382
 
 
 State 313
 
-  189 BreakStatement: BREAK IDENTOpt SEMICOLON .
+  189 BreakStatement: BREAK IDENTOpt SEMICOLON •
 
     $default  reduce using rule 189 (BreakStatement)
 
 
 State 314
 
-  191 ReturnStatement: RETURN ExpressionOpt SEMICOLON .
+  191 ReturnStatement: RETURN ExpressionOpt SEMICOLON •
 
     $default  reduce using rule 191 (ReturnStatement)
 
 
 State 315
 
-  214 FieldAccess: SUPER DOT IDENTIFIER .
-  217 MethodInvocation: SUPER DOT IDENTIFIER . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  220                 | SUPER DOT IDENTIFIER . LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  214 FieldAccess: SUPER DOT IDENTIFIER •
+  217 MethodInvocation: SUPER DOT IDENTIFIER • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  220                 | SUPER DOT IDENTIFIER • LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
 
     LEFTBRACKET       shift, and go to state 383
     LEFTCURLYBRACKET  shift, and go to state 384
@@ -6414,28 +6414,28 @@ State 315
 
 State 316
 
-  168 WhileStatement: WHILE LEFTBRACKET Expression . RIGHTBRACKET Statement
+  168 WhileStatement: WHILE LEFTBRACKET Expression • RIGHTBRACKET Statement
 
     RIGHTBRACKET  shift, and go to state 385
 
 
 State 317
 
-  192 ReturnStatement: SUSPEND ExpressionOpt SEMICOLON .
+  192 ReturnStatement: SUSPEND ExpressionOpt SEMICOLON •
 
     $default  reduce using rule 192 (ReturnStatement)
 
 
 State 318
 
-  152 LabeledStatement: IDENTIFIER COLON Statement .
+  152 LabeledStatement: IDENTIFIER COLON Statement •
 
     $default  reduce using rule 152 (LabeledStatement)
 
 
 State 319
 
-  125 VariableDeclarators: VariableDeclarators COMMA . VariableDeclarator
+  125 VariableDeclarators: VariableDeclarators COMMA • VariableDeclarator
 
     IDENTIFIER  shift, and go to state 238
 
@@ -6445,14 +6445,14 @@ State 319
 
 State 320
 
-  131 VariableDeclaratorId: VariableDeclaratorId LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+  131 VariableDeclaratorId: VariableDeclaratorId LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 387
 
 
 State 321
 
-  127 VariableDeclarator: VariableDeclaratorId EQUAL . VariableInitializer
+  127 VariableDeclarator: VariableDeclaratorId EQUAL • VariableInitializer
 
     LEFTBRACKET       shift, and go to state 175
     LEFTCURLYBRACKET  shift, and go to state 259
@@ -6523,22 +6523,22 @@ State 321
 
 State 322
 
-  215 MethodInvocation: Name LEFTBRACKET ArgumentListOpt . RIGHTBRACKET
+  215 MethodInvocation: Name LEFTBRACKET ArgumentListOpt • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 391
 
 
 State 323
 
-  101 ArgumentListOpt: ArgumentListOpts .
+  101 ArgumentListOpt: ArgumentListOpts •
 
     $default  reduce using rule 101 (ArgumentListOpt)
 
 
 State 324
 
-  102 ArgumentListOpts: ArgumentList .
-  202 ArgumentList: ArgumentList . COMMA Expression
+  102 ArgumentListOpts: ArgumentList •
+  202 ArgumentList: ArgumentList • COMMA Expression
 
     COMMA  shift, and go to state 392
 
@@ -6547,30 +6547,30 @@ State 324
 
 State 325
 
-  201 ArgumentList: Expression .
+  201 ArgumentList: Expression •
 
     $default  reduce using rule 201 (ArgumentList)
 
 
 State 326
 
-  218 MethodInvocation: Name LEFTCURLYBRACKET ArgumentListOpt . RIGHTCURLYBRACKET
+  218 MethodInvocation: Name LEFTCURLYBRACKET ArgumentListOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 393
 
 
 State 327
 
-  221 ArrayAccess: Name LEFTSQUAREBRACKET Expression . RIGHTSQUAREBRACKET
+  221 ArrayAccess: Name LEFTSQUAREBRACKET Expression • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 394
 
 
 State 328
 
-  213 FieldAccess: Primary DOT IDENTIFIER .
-  216 MethodInvocation: Primary DOT IDENTIFIER . LEFTBRACKET ArgumentListOpt RIGHTBRACKET
-  219                 | Primary DOT IDENTIFIER . LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
+  213 FieldAccess: Primary DOT IDENTIFIER •
+  216 MethodInvocation: Primary DOT IDENTIFIER • LEFTBRACKET ArgumentListOpt RIGHTBRACKET
+  219                 | Primary DOT IDENTIFIER • LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
 
     LEFTBRACKET       shift, and go to state 395
     LEFTCURLYBRACKET  shift, and go to state 396
@@ -6580,56 +6580,56 @@ State 328
 
 State 329
 
-  222 ArrayAccess: PrimaryNoNewArray LEFTSQUAREBRACKET Expression . RIGHTSQUAREBRACKET
+  222 ArrayAccess: PrimaryNoNewArray LEFTSQUAREBRACKET Expression • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 397
 
 
 State 330
 
-  297 AssignmentOperator: ADDEQUAL .
+  297 AssignmentOperator: ADDEQUAL •
 
     $default  reduce using rule 297 (AssignmentOperator)
 
 
 State 331
 
-  295 AssignmentOperator: SUBEQUAL .
+  295 AssignmentOperator: SUBEQUAL •
 
     $default  reduce using rule 295 (AssignmentOperator)
 
 
 State 332
 
-  293 AssignmentOperator: MULEQUAL .
+  293 AssignmentOperator: MULEQUAL •
 
     $default  reduce using rule 293 (AssignmentOperator)
 
 
 State 333
 
-  294 AssignmentOperator: DIVEQUAL .
+  294 AssignmentOperator: DIVEQUAL •
 
     $default  reduce using rule 294 (AssignmentOperator)
 
 
 State 334
 
-  296 AssignmentOperator: ANDEQUAL .
+  296 AssignmentOperator: ANDEQUAL •
 
     $default  reduce using rule 296 (AssignmentOperator)
 
 
 State 335
 
-  292 AssignmentOperator: EQUAL .
+  292 AssignmentOperator: EQUAL •
 
     $default  reduce using rule 292 (AssignmentOperator)
 
 
 State 336
 
-  288 Assignment: LeftHandSide $@6 AssignmentOperator . AssignmentExpression
+  288 Assignment: LeftHandSide $@6 AssignmentOperator • AssignmentExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -6696,21 +6696,21 @@ State 336
 
 State 337
 
-   86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET FormalParameterListOpt . RIGHTBRACKET
+   86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET FormalParameterListOpt • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 399
 
 
 State 338
 
-  114 VarInitializers: VarInitializer .
+  114 VarInitializers: VarInitializer •
 
     $default  reduce using rule 114 (VarInitializers)
 
 
 State 339
 
-  113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt . CommaOpt RIGHTCURLYBRACKET
+  113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt • CommaOpt RIGHTCURLYBRACKET
 
     COMMA  shift, and go to state 400
 
@@ -6722,15 +6722,15 @@ State 339
 
 State 340
 
-  107 VarInitializersOpt: VarInitializersOpts .
+  107 VarInitializersOpt: VarInitializersOpts •
 
     $default  reduce using rule 107 (VarInitializersOpt)
 
 
 State 341
 
-  108 VarInitializersOpts: VarInitializers .
-  115 VarInitializers: VarInitializers . COMMA VarInitializer
+  108 VarInitializersOpts: VarInitializers •
+  115 VarInitializers: VarInitializers • COMMA VarInitializer
 
     COMMA  shift, and go to state 403
 
@@ -6740,8 +6740,8 @@ State 341
 
 State 342
 
-   74 VarDeclaratorIds: VarDeclaratorId . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
-   90 FormalParameter: Type VarDeclaratorId .
+   74 VarDeclaratorIds: VarDeclaratorId • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+   90 FormalParameter: Type VarDeclaratorId •
 
     LEFTSQUAREBRACKET  shift, and go to state 161
 
@@ -6750,7 +6750,7 @@ State 342
 
 State 343
 
-   89 FormalParameterList: FormalParameterList COMMA . FormalParameter
+   89 FormalParameterList: FormalParameterList COMMA • FormalParameter
 
     STRING      shift, and go to state 57
     BOOLEAN     shift, and go to state 58
@@ -6776,57 +6776,57 @@ State 343
 
 State 344
 
-  105 ExplicitConstructorInvocation: THIS LEFTBRACKET ArgumentListOpt . RIGHTBRACKET SEMICOLON
+  105 ExplicitConstructorInvocation: THIS LEFTBRACKET ArgumentListOpt • RIGHTBRACKET SEMICOLON
 
     RIGHTBRACKET  shift, and go to state 405
 
 
 State 345
 
-  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET ArgumentListOpt . RIGHTBRACKET SEMICOLON
+  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET ArgumentListOpt • RIGHTBRACKET SEMICOLON
 
     RIGHTBRACKET  shift, and go to state 406
 
 
 State 346
 
-  104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt BlockStatementOpt RIGHTCURLYBRACKET .
+  104 ConstructorBody: LEFTCURLYBRACKET ExplicitConstructorInvocationOpt BlockStatementOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 104 (ConstructorBody)
 
 
 State 347
 
-  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET Expression RIGHTBRACKET . SEMICOLON
+  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET Expression RIGHTBRACKET • SEMICOLON
 
     SEMICOLON  shift, and go to state 407
 
 
 State 348
 
-  211 Dims: LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+  211 Dims: LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 408
 
 
 State 349
 
-  240 CastExpression: LEFTBRACKET PrimitiveType DimsOpt . RIGHTBRACKET UnaryExpression
+  240 CastExpression: LEFTBRACKET PrimitiveType DimsOpt • RIGHTBRACKET UnaryExpression
 
     RIGHTBRACKET  shift, and go to state 409
 
 
 State 350
 
-  203 DimsOpt: DimsOpts .
+  203 DimsOpt: DimsOpts •
 
     $default  reduce using rule 203 (DimsOpt)
 
 
 State 351
 
-  204 DimsOpts: Dims .
-  212 Dims: Dims . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+  204 DimsOpts: Dims •
+  212 Dims: Dims • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 410
 
@@ -6835,8 +6835,8 @@ State 351
 
 State 352
 
-  211 Dims: LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
-  221 ArrayAccess: Name LEFTSQUAREBRACKET . Expression RIGHTSQUAREBRACKET
+  211 Dims: LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
+  221 ArrayAccess: Name LEFTSQUAREBRACKET • Expression RIGHTSQUAREBRACKET
 
     LEFTBRACKET         shift, and go to state 175
     RIGHTSQUAREBRACKET  shift, and go to state 408
@@ -6905,8 +6905,8 @@ State 352
 
 State 353
 
-  212 Dims: Dims . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
-  242 CastExpression: LEFTBRACKET Name Dims . RIGHTBRACKET UnaryExpressionNotPlusMinus
+  212 Dims: Dims • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+  242 CastExpression: LEFTBRACKET Name Dims • RIGHTBRACKET UnaryExpressionNotPlusMinus
 
     RIGHTBRACKET       shift, and go to state 411
     LEFTSQUAREBRACKET  shift, and go to state 410
@@ -6914,8 +6914,8 @@ State 353
 
 State 354
 
-  197 PrimaryNoNewArray: LEFTBRACKET Expression RIGHTBRACKET .
-  241 CastExpression: LEFTBRACKET Expression RIGHTBRACKET . UnaryExpressionNotPlusMinus
+  197 PrimaryNoNewArray: LEFTBRACKET Expression RIGHTBRACKET •
+  241 CastExpression: LEFTBRACKET Expression RIGHTBRACKET • UnaryExpressionNotPlusMinus
 
     LEFTBRACKET     shift, and go to state 175
     NOT             shift, and go to state 176
@@ -6952,31 +6952,31 @@ State 354
 
 State 355
 
-  245 MultiplicativeExpressions: MultiplicativeExpression MUL UnaryExpression .
+  245 MultiplicativeExpressions: MultiplicativeExpression MUL UnaryExpression •
 
     $default  reduce using rule 245 (MultiplicativeExpressions)
 
 
 State 356
 
-  246 MultiplicativeExpressions: MultiplicativeExpression DIV UnaryExpression .
+  246 MultiplicativeExpressions: MultiplicativeExpression DIV UnaryExpression •
 
     $default  reduce using rule 246 (MultiplicativeExpressions)
 
 
 State 357
 
-  247 MultiplicativeExpressions: MultiplicativeExpression MOD UnaryExpression .
+  247 MultiplicativeExpressions: MultiplicativeExpression MOD UnaryExpression •
 
     $default  reduce using rule 247 (MultiplicativeExpressions)
 
 
 State 358
 
-  245 MultiplicativeExpressions: MultiplicativeExpression . MUL UnaryExpression
-  246                          | MultiplicativeExpression . DIV UnaryExpression
-  247                          | MultiplicativeExpression . MOD UnaryExpression
-  250 AdditiveExpressions: AdditiveExpression ADD MultiplicativeExpression .
+  245 MultiplicativeExpressions: MultiplicativeExpression • MUL UnaryExpression
+  246                          | MultiplicativeExpression • DIV UnaryExpression
+  247                          | MultiplicativeExpression • MOD UnaryExpression
+  250 AdditiveExpressions: AdditiveExpression ADD MultiplicativeExpression •
 
     MUL  shift, and go to state 280
     DIV  shift, and go to state 281
@@ -6987,10 +6987,10 @@ State 358
 
 State 359
 
-  245 MultiplicativeExpressions: MultiplicativeExpression . MUL UnaryExpression
-  246                          | MultiplicativeExpression . DIV UnaryExpression
-  247                          | MultiplicativeExpression . MOD UnaryExpression
-  251 AdditiveExpressions: AdditiveExpression SUB MultiplicativeExpression .
+  245 MultiplicativeExpressions: MultiplicativeExpression • MUL UnaryExpression
+  246                          | MultiplicativeExpression • DIV UnaryExpression
+  247                          | MultiplicativeExpression • MOD UnaryExpression
+  251 AdditiveExpressions: AdditiveExpression SUB MultiplicativeExpression •
 
     MUL  shift, and go to state 280
     DIV  shift, and go to state 281
@@ -7001,9 +7001,9 @@ State 359
 
 State 360
 
-  250 AdditiveExpressions: AdditiveExpression . ADD MultiplicativeExpression
-  251                    | AdditiveExpression . SUB MultiplicativeExpression
-  256 ShiftExpressions: ShiftExpression TRIPLEGREATER AdditiveExpression .
+  250 AdditiveExpressions: AdditiveExpression • ADD MultiplicativeExpression
+  251                    | AdditiveExpression • SUB MultiplicativeExpression
+  256 ShiftExpressions: ShiftExpression TRIPLEGREATER AdditiveExpression •
 
     ADD  shift, and go to state 283
     SUB  shift, and go to state 284
@@ -7013,9 +7013,9 @@ State 360
 
 State 361
 
-  250 AdditiveExpressions: AdditiveExpression . ADD MultiplicativeExpression
-  251                    | AdditiveExpression . SUB MultiplicativeExpression
-  254 ShiftExpressions: ShiftExpression DOUBLELESS AdditiveExpression .
+  250 AdditiveExpressions: AdditiveExpression • ADD MultiplicativeExpression
+  251                    | AdditiveExpression • SUB MultiplicativeExpression
+  254 ShiftExpressions: ShiftExpression DOUBLELESS AdditiveExpression •
 
     ADD  shift, and go to state 283
     SUB  shift, and go to state 284
@@ -7025,9 +7025,9 @@ State 361
 
 State 362
 
-  250 AdditiveExpressions: AdditiveExpression . ADD MultiplicativeExpression
-  251                    | AdditiveExpression . SUB MultiplicativeExpression
-  255 ShiftExpressions: ShiftExpression DOUBLEGREATER AdditiveExpression .
+  250 AdditiveExpressions: AdditiveExpression • ADD MultiplicativeExpression
+  251                    | AdditiveExpression • SUB MultiplicativeExpression
+  255 ShiftExpressions: ShiftExpression DOUBLEGREATER AdditiveExpression •
 
     ADD  shift, and go to state 283
     SUB  shift, and go to state 284
@@ -7037,10 +7037,10 @@ State 362
 
 State 363
 
-  254 ShiftExpressions: ShiftExpression . DOUBLELESS AdditiveExpression
-  255                 | ShiftExpression . DOUBLEGREATER AdditiveExpression
-  256                 | ShiftExpression . TRIPLEGREATER AdditiveExpression
-  262 RelationalExpressions: RelationalExpression GREATEREQUAL ShiftExpression .
+  254 ShiftExpressions: ShiftExpression • DOUBLELESS AdditiveExpression
+  255                 | ShiftExpression • DOUBLEGREATER AdditiveExpression
+  256                 | ShiftExpression • TRIPLEGREATER AdditiveExpression
+  262 RelationalExpressions: RelationalExpression GREATEREQUAL ShiftExpression •
 
     TRIPLEGREATER  shift, and go to state 285
     DOUBLELESS     shift, and go to state 286
@@ -7051,10 +7051,10 @@ State 363
 
 State 364
 
-  254 ShiftExpressions: ShiftExpression . DOUBLELESS AdditiveExpression
-  255                 | ShiftExpression . DOUBLEGREATER AdditiveExpression
-  256                 | ShiftExpression . TRIPLEGREATER AdditiveExpression
-  261 RelationalExpressions: RelationalExpression LESSEQUAL ShiftExpression .
+  254 ShiftExpressions: ShiftExpression • DOUBLELESS AdditiveExpression
+  255                 | ShiftExpression • DOUBLEGREATER AdditiveExpression
+  256                 | ShiftExpression • TRIPLEGREATER AdditiveExpression
+  261 RelationalExpressions: RelationalExpression LESSEQUAL ShiftExpression •
 
     TRIPLEGREATER  shift, and go to state 285
     DOUBLELESS     shift, and go to state 286
@@ -7065,10 +7065,10 @@ State 364
 
 State 365
 
-  254 ShiftExpressions: ShiftExpression . DOUBLELESS AdditiveExpression
-  255                 | ShiftExpression . DOUBLEGREATER AdditiveExpression
-  256                 | ShiftExpression . TRIPLEGREATER AdditiveExpression
-  259 RelationalExpressions: RelationalExpression LESS ShiftExpression .
+  254 ShiftExpressions: ShiftExpression • DOUBLELESS AdditiveExpression
+  255                 | ShiftExpression • DOUBLEGREATER AdditiveExpression
+  256                 | ShiftExpression • TRIPLEGREATER AdditiveExpression
+  259 RelationalExpressions: RelationalExpression LESS ShiftExpression •
 
     TRIPLEGREATER  shift, and go to state 285
     DOUBLELESS     shift, and go to state 286
@@ -7079,10 +7079,10 @@ State 365
 
 State 366
 
-  254 ShiftExpressions: ShiftExpression . DOUBLELESS AdditiveExpression
-  255                 | ShiftExpression . DOUBLEGREATER AdditiveExpression
-  256                 | ShiftExpression . TRIPLEGREATER AdditiveExpression
-  260 RelationalExpressions: RelationalExpression GREATER ShiftExpression .
+  254 ShiftExpressions: ShiftExpression • DOUBLELESS AdditiveExpression
+  255                 | ShiftExpression • DOUBLEGREATER AdditiveExpression
+  256                 | ShiftExpression • TRIPLEGREATER AdditiveExpression
+  260 RelationalExpressions: RelationalExpression GREATER ShiftExpression •
 
     TRIPLEGREATER  shift, and go to state 285
     DOUBLELESS     shift, and go to state 286
@@ -7093,11 +7093,11 @@ State 366
 
 State 367
 
-  259 RelationalExpressions: RelationalExpression . LESS ShiftExpression
-  260                      | RelationalExpression . GREATER ShiftExpression
-  261                      | RelationalExpression . LESSEQUAL ShiftExpression
-  262                      | RelationalExpression . GREATEREQUAL ShiftExpression
-  265 EqualityExpressions: EqualityExpression EQUALEQUAL RelationalExpression .
+  259 RelationalExpressions: RelationalExpression • LESS ShiftExpression
+  260                      | RelationalExpression • GREATER ShiftExpression
+  261                      | RelationalExpression • LESSEQUAL ShiftExpression
+  262                      | RelationalExpression • GREATEREQUAL ShiftExpression
+  265 EqualityExpressions: EqualityExpression EQUALEQUAL RelationalExpression •
 
     GREATEREQUAL  shift, and go to state 288
     LESSEQUAL     shift, and go to state 289
@@ -7109,11 +7109,11 @@ State 367
 
 State 368
 
-  259 RelationalExpressions: RelationalExpression . LESS ShiftExpression
-  260                      | RelationalExpression . GREATER ShiftExpression
-  261                      | RelationalExpression . LESSEQUAL ShiftExpression
-  262                      | RelationalExpression . GREATEREQUAL ShiftExpression
-  266 EqualityExpressions: EqualityExpression NOTEQUAL RelationalExpression .
+  259 RelationalExpressions: RelationalExpression • LESS ShiftExpression
+  260                      | RelationalExpression • GREATER ShiftExpression
+  261                      | RelationalExpression • LESSEQUAL ShiftExpression
+  262                      | RelationalExpression • GREATEREQUAL ShiftExpression
+  266 EqualityExpressions: EqualityExpression NOTEQUAL RelationalExpression •
 
     GREATEREQUAL  shift, and go to state 288
     LESSEQUAL     shift, and go to state 289
@@ -7125,9 +7125,9 @@ State 368
 
 State 369
 
-  265 EqualityExpressions: EqualityExpression . EQUALEQUAL RelationalExpression
-  266                    | EqualityExpression . NOTEQUAL RelationalExpression
-  269 AndExpressions: AndExpression ANDBIT EqualityExpression .
+  265 EqualityExpressions: EqualityExpression • EQUALEQUAL RelationalExpression
+  266                    | EqualityExpression • NOTEQUAL RelationalExpression
+  269 AndExpressions: AndExpression ANDBIT EqualityExpression •
 
     EQUALEQUAL  shift, and go to state 292
     NOTEQUAL    shift, and go to state 293
@@ -7137,8 +7137,8 @@ State 369
 
 State 370
 
-  269 AndExpressions: AndExpression . ANDBIT EqualityExpression
-  272 ExclusiveOrExpressions: ExclusiveOrExpression POWER AndExpression .
+  269 AndExpressions: AndExpression • ANDBIT EqualityExpression
+  272 ExclusiveOrExpressions: ExclusiveOrExpression POWER AndExpression •
 
     ANDBIT  shift, and go to state 294
 
@@ -7147,8 +7147,8 @@ State 370
 
 State 371
 
-  272 ExclusiveOrExpressions: ExclusiveOrExpression . POWER AndExpression
-  275 InclusiveOrExpressions: InclusiveOrExpression ORBIT ExclusiveOrExpression .
+  272 ExclusiveOrExpressions: ExclusiveOrExpression • POWER AndExpression
+  275 InclusiveOrExpressions: InclusiveOrExpression ORBIT ExclusiveOrExpression •
 
     POWER  shift, and go to state 295
 
@@ -7157,8 +7157,8 @@ State 371
 
 State 372
 
-  275 InclusiveOrExpressions: InclusiveOrExpression . ORBIT ExclusiveOrExpression
-  278 ConditionalAndExpressions: ConditionalAndExpression AND InclusiveOrExpression .
+  275 InclusiveOrExpressions: InclusiveOrExpression • ORBIT ExclusiveOrExpression
+  278 ConditionalAndExpressions: ConditionalAndExpression AND InclusiveOrExpression •
 
     ORBIT  shift, and go to state 296
 
@@ -7167,8 +7167,8 @@ State 372
 
 State 373
 
-  278 ConditionalAndExpressions: ConditionalAndExpression . AND InclusiveOrExpression
-  281 ConditionalOrExpressions: ConditionalOrExpression OR ConditionalAndExpression .
+  278 ConditionalAndExpressions: ConditionalAndExpression • AND InclusiveOrExpression
+  281 ConditionalOrExpressions: ConditionalOrExpression OR ConditionalAndExpression •
 
     AND  shift, and go to state 297
 
@@ -7177,14 +7177,14 @@ State 373
 
 State 374
 
-  284 ConditionalExpressions: ConditionalOrExpression QUESTION Expression . COLON ConditionalExpression
+  284 ConditionalExpressions: ConditionalOrExpression QUESTION Expression • COLON ConditionalExpression
 
     COLON  shift, and go to state 413
 
 
 State 375
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON . ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON • ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -7256,7 +7256,7 @@ State 375
 
 State 376
 
-  185 StatementExpressionList: StatementExpressionList COMMA . StatementExpression
+  185 StatementExpressionList: StatementExpressionList COMMA • StatementExpression
 
     LEFTBRACKET     shift, and go to state 98
     ADDADD          shift, and go to state 100
@@ -7295,15 +7295,15 @@ State 376
 
 State 377
 
-  210 DimExpr: LEFTSQUAREBRACKET Expression . RIGHTSQUAREBRACKET
+  210 DimExpr: LEFTSQUAREBRACKET Expression • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 416
 
 
 State 378
 
-  210 DimExpr: LEFTSQUAREBRACKET . Expression RIGHTSQUAREBRACKET
-  211 Dims: LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+  210 DimExpr: LEFTSQUAREBRACKET • Expression RIGHTSQUAREBRACKET
+  211 Dims: LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     LEFTBRACKET         shift, and go to state 175
     RIGHTSQUAREBRACKET  shift, and go to state 408
@@ -7372,15 +7372,15 @@ State 378
 
 State 379
 
-  209 DimExprs: DimExprs DimExpr .
+  209 DimExprs: DimExprs DimExpr •
 
     $default  reduce using rule 209 (DimExprs)
 
 
 State 380
 
-  207 ArrayCreationExpression: NEW PrimitiveType DimExprs Dims .
-  212 Dims: Dims . LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+  207 ArrayCreationExpression: NEW PrimitiveType DimExprs Dims •
+  212 Dims: Dims • LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
 
     LEFTSQUAREBRACKET  shift, and go to state 410
 
@@ -7389,15 +7389,15 @@ State 380
 
 State 381
 
-  162 ClassInstanceCreationExpression: NEW ClassType LEFTBRACKET ArgumentListOpt . RIGHTBRACKET
+  162 ClassInstanceCreationExpression: NEW ClassType LEFTBRACKET ArgumentListOpt • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 417
 
 
 State 382
 
-  165 IfThenStatement: IF LEFTBRACKET Expression RIGHTBRACKET . Statement
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET . StatementNoShortIf ELSE Statement
+  165 IfThenStatement: IF LEFTBRACKET Expression RIGHTBRACKET • Statement
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET • StatementNoShortIf ELSE Statement
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -7465,7 +7465,7 @@ State 382
 
 State 383
 
-  217 MethodInvocation: SUPER DOT IDENTIFIER LEFTBRACKET . ArgumentListOpt RIGHTBRACKET
+  217 MethodInvocation: SUPER DOT IDENTIFIER LEFTBRACKET • ArgumentListOpt RIGHTBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -7538,7 +7538,7 @@ State 383
 
 State 384
 
-  220 MethodInvocation: SUPER DOT IDENTIFIER LEFTCURLYBRACKET . ArgumentListOpt RIGHTCURLYBRACKET
+  220 MethodInvocation: SUPER DOT IDENTIFIER LEFTCURLYBRACKET • ArgumentListOpt RIGHTCURLYBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -7611,7 +7611,7 @@ State 384
 
 State 385
 
-  168 WhileStatement: WHILE LEFTBRACKET Expression RIGHTBRACKET . Statement
+  168 WhileStatement: WHILE LEFTBRACKET Expression RIGHTBRACKET • Statement
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -7674,49 +7674,49 @@ State 385
 
 State 386
 
-  125 VariableDeclarators: VariableDeclarators COMMA VariableDeclarator .
+  125 VariableDeclarators: VariableDeclarators COMMA VariableDeclarator •
 
     $default  reduce using rule 125 (VariableDeclarators)
 
 
 State 387
 
-  131 VariableDeclaratorId: VariableDeclaratorId LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+  131 VariableDeclaratorId: VariableDeclaratorId LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 131 (VariableDeclaratorId)
 
 
 State 388
 
-  129 VariableInitializer: ArrayInitializer .
+  129 VariableInitializer: ArrayInitializer •
 
     $default  reduce using rule 129 (VariableInitializer)
 
 
 State 389
 
-  127 VariableDeclarator: VariableDeclaratorId EQUAL VariableInitializer .
+  127 VariableDeclarator: VariableDeclaratorId EQUAL VariableInitializer •
 
     $default  reduce using rule 127 (VariableDeclarator)
 
 
 State 390
 
-  128 VariableInitializer: Expression .
+  128 VariableInitializer: Expression •
 
     $default  reduce using rule 128 (VariableInitializer)
 
 
 State 391
 
-  215 MethodInvocation: Name LEFTBRACKET ArgumentListOpt RIGHTBRACKET .
+  215 MethodInvocation: Name LEFTBRACKET ArgumentListOpt RIGHTBRACKET •
 
     $default  reduce using rule 215 (MethodInvocation)
 
 
 State 392
 
-  202 ArgumentList: ArgumentList COMMA . Expression
+  202 ArgumentList: ArgumentList COMMA • Expression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -7784,21 +7784,21 @@ State 392
 
 State 393
 
-  218 MethodInvocation: Name LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET .
+  218 MethodInvocation: Name LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 218 (MethodInvocation)
 
 
 State 394
 
-  221 ArrayAccess: Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET .
+  221 ArrayAccess: Name LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 221 (ArrayAccess)
 
 
 State 395
 
-  216 MethodInvocation: Primary DOT IDENTIFIER LEFTBRACKET . ArgumentListOpt RIGHTBRACKET
+  216 MethodInvocation: Primary DOT IDENTIFIER LEFTBRACKET • ArgumentListOpt RIGHTBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -7871,7 +7871,7 @@ State 395
 
 State 396
 
-  219 MethodInvocation: Primary DOT IDENTIFIER LEFTCURLYBRACKET . ArgumentListOpt RIGHTCURLYBRACKET
+  219 MethodInvocation: Primary DOT IDENTIFIER LEFTCURLYBRACKET • ArgumentListOpt RIGHTCURLYBRACKET
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -7944,49 +7944,49 @@ State 396
 
 State 397
 
-  222 ArrayAccess: PrimaryNoNewArray LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET .
+  222 ArrayAccess: PrimaryNoNewArray LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 222 (ArrayAccess)
 
 
 State 398
 
-  288 Assignment: LeftHandSide $@6 AssignmentOperator AssignmentExpression .
+  288 Assignment: LeftHandSide $@6 AssignmentOperator AssignmentExpression •
 
     $default  reduce using rule 288 (Assignment)
 
 
 State 399
 
-   86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET .
+   86 MethodDeclarators: IDENTIFIER $@4 LEFTBRACKET FormalParameterListOpt RIGHTBRACKET •
 
     $default  reduce using rule 86 (MethodDeclarators)
 
 
 State 400
 
-  111 CommaOpts: COMMA .
+  111 CommaOpts: COMMA •
 
     $default  reduce using rule 111 (CommaOpts)
 
 
 State 401
 
-  113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt CommaOpt . RIGHTCURLYBRACKET
+  113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt CommaOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 435
 
 
 State 402
 
-  110 CommaOpt: CommaOpts .
+  110 CommaOpt: CommaOpts •
 
     $default  reduce using rule 110 (CommaOpt)
 
 
 State 403
 
-  115 VarInitializers: VarInitializers COMMA . VarInitializer
+  115 VarInitializers: VarInitializers COMMA • VarInitializer
 
     LEFTBRACKET       shift, and go to state 175
     LEFTCURLYBRACKET  shift, and go to state 259
@@ -8057,42 +8057,42 @@ State 403
 
 State 404
 
-   89 FormalParameterList: FormalParameterList COMMA FormalParameter .
+   89 FormalParameterList: FormalParameterList COMMA FormalParameter •
 
     $default  reduce using rule 89 (FormalParameterList)
 
 
 State 405
 
-  105 ExplicitConstructorInvocation: THIS LEFTBRACKET ArgumentListOpt RIGHTBRACKET . SEMICOLON
+  105 ExplicitConstructorInvocation: THIS LEFTBRACKET ArgumentListOpt RIGHTBRACKET • SEMICOLON
 
     SEMICOLON  shift, and go to state 437
 
 
 State 406
 
-  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET ArgumentListOpt RIGHTBRACKET . SEMICOLON
+  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET ArgumentListOpt RIGHTBRACKET • SEMICOLON
 
     SEMICOLON  shift, and go to state 438
 
 
 State 407
 
-  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET Expression RIGHTBRACKET SEMICOLON .
+  139 PrintlnStatement: SYSTEMOUTPRINTLN LEFTBRACKET Expression RIGHTBRACKET SEMICOLON •
 
     $default  reduce using rule 139 (PrintlnStatement)
 
 
 State 408
 
-  211 Dims: LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+  211 Dims: LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 211 (Dims)
 
 
 State 409
 
-  240 CastExpression: LEFTBRACKET PrimitiveType DimsOpt RIGHTBRACKET . UnaryExpression
+  240 CastExpression: LEFTBRACKET PrimitiveType DimsOpt RIGHTBRACKET • UnaryExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -8134,14 +8134,14 @@ State 409
 
 State 410
 
-  212 Dims: Dims LEFTSQUAREBRACKET . RIGHTSQUAREBRACKET
+  212 Dims: Dims LEFTSQUAREBRACKET • RIGHTSQUAREBRACKET
 
     RIGHTSQUAREBRACKET  shift, and go to state 440
 
 
 State 411
 
-  242 CastExpression: LEFTBRACKET Name Dims RIGHTBRACKET . UnaryExpressionNotPlusMinus
+  242 CastExpression: LEFTBRACKET Name Dims RIGHTBRACKET • UnaryExpressionNotPlusMinus
 
     LEFTBRACKET     shift, and go to state 175
     NOT             shift, and go to state 176
@@ -8176,14 +8176,14 @@ State 411
 
 State 412
 
-  241 CastExpression: LEFTBRACKET Expression RIGHTBRACKET UnaryExpressionNotPlusMinus .
+  241 CastExpression: LEFTBRACKET Expression RIGHTBRACKET UnaryExpressionNotPlusMinus •
 
     $default  reduce using rule 241 (CastExpression)
 
 
 State 413
 
-  284 ConditionalExpressions: ConditionalOrExpression QUESTION Expression COLON . ConditionalExpression
+  284 ConditionalExpressions: ConditionalOrExpression QUESTION Expression COLON • ConditionalExpression
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -8247,62 +8247,62 @@ State 413
 
 State 414
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt . SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt • SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
 
     SEMICOLON  shift, and go to state 443
 
 
 State 415
 
-  185 StatementExpressionList: StatementExpressionList COMMA StatementExpression .
+  185 StatementExpressionList: StatementExpressionList COMMA StatementExpression •
 
     $default  reduce using rule 185 (StatementExpressionList)
 
 
 State 416
 
-  210 DimExpr: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET .
+  210 DimExpr: LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 210 (DimExpr)
 
 
 State 417
 
-  162 ClassInstanceCreationExpression: NEW ClassType LEFTBRACKET ArgumentListOpt RIGHTBRACKET .
+  162 ClassInstanceCreationExpression: NEW ClassType LEFTBRACKET ArgumentListOpt RIGHTBRACKET •
 
     $default  reduce using rule 162 (ClassInstanceCreationExpression)
 
 
 State 418
 
-  179 ForStatement: FOR . LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR . LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR • LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR • LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
 
     LEFTBRACKET  shift, and go to state 444
 
 
 State 419
 
-  165 IfThenStatement: IF . LEFTBRACKET Expression RIGHTBRACKET Statement
-  166 IfThenElseStatement: IF . LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
-  167 IfThenElseStatementNoShortIf: IF . LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf
+  165 IfThenStatement: IF • LEFTBRACKET Expression RIGHTBRACKET Statement
+  166 IfThenElseStatement: IF • LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
+  167 IfThenElseStatementNoShortIf: IF • LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf
 
     LEFTBRACKET  shift, and go to state 445
 
 
 State 420
 
-  168 WhileStatement: WHILE . LEFTBRACKET Expression RIGHTBRACKET Statement
-  169 WhileStatementNoShortIf: WHILE . LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf
+  168 WhileStatement: WHILE • LEFTBRACKET Expression RIGHTBRACKET Statement
+  169 WhileStatementNoShortIf: WHILE • LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf
 
     LEFTBRACKET  shift, and go to state 446
 
 
 State 421
 
-   26 SimpleName: IDENTIFIER .
-  152 LabeledStatement: IDENTIFIER . COLON Statement
-  153 LabeledStatementNoShortIf: IDENTIFIER . COLON StatementNoShortIf
+   26 SimpleName: IDENTIFIER •
+  152 LabeledStatement: IDENTIFIER • COLON Statement
+  153 LabeledStatementNoShortIf: IDENTIFIER • COLON StatementNoShortIf
 
     COLON  shift, and go to state 447
 
@@ -8311,22 +8311,22 @@ State 421
 
 State 422
 
-  165 IfThenStatement: IF LEFTBRACKET Expression RIGHTBRACKET Statement .
+  165 IfThenStatement: IF LEFTBRACKET Expression RIGHTBRACKET Statement •
 
     $default  reduce using rule 165 (IfThenStatement)
 
 
 State 423
 
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf . ELSE Statement
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf • ELSE Statement
 
     ELSE  shift, and go to state 448
 
 
 State 424
 
-  132 Statement: StatementWithoutTrailingSubstatement .
-  140 StatementNoShortIf: StatementWithoutTrailingSubstatement .
+  132 Statement: StatementWithoutTrailingSubstatement •
+  140 StatementNoShortIf: StatementWithoutTrailingSubstatement •
 
     ELSE      reduce using rule 140 (StatementNoShortIf)
     $default  reduce using rule 132 (Statement)
@@ -8334,133 +8334,133 @@ State 424
 
 State 425
 
-  141 StatementNoShortIf: LabeledStatementNoShortIf .
+  141 StatementNoShortIf: LabeledStatementNoShortIf •
 
     $default  reduce using rule 141 (StatementNoShortIf)
 
 
 State 426
 
-  142 StatementNoShortIf: IfThenElseStatementNoShortIf .
+  142 StatementNoShortIf: IfThenElseStatementNoShortIf •
 
     $default  reduce using rule 142 (StatementNoShortIf)
 
 
 State 427
 
-  143 StatementNoShortIf: WhileStatementNoShortIf .
+  143 StatementNoShortIf: WhileStatementNoShortIf •
 
     $default  reduce using rule 143 (StatementNoShortIf)
 
 
 State 428
 
-  144 StatementNoShortIf: ForStatementNoShortIf .
+  144 StatementNoShortIf: ForStatementNoShortIf •
 
     $default  reduce using rule 144 (StatementNoShortIf)
 
 
 State 429
 
-  217 MethodInvocation: SUPER DOT IDENTIFIER LEFTBRACKET ArgumentListOpt . RIGHTBRACKET
+  217 MethodInvocation: SUPER DOT IDENTIFIER LEFTBRACKET ArgumentListOpt • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 449
 
 
 State 430
 
-  220 MethodInvocation: SUPER DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt . RIGHTCURLYBRACKET
+  220 MethodInvocation: SUPER DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 450
 
 
 State 431
 
-  168 WhileStatement: WHILE LEFTBRACKET Expression RIGHTBRACKET Statement .
+  168 WhileStatement: WHILE LEFTBRACKET Expression RIGHTBRACKET Statement •
 
     $default  reduce using rule 168 (WhileStatement)
 
 
 State 432
 
-  202 ArgumentList: ArgumentList COMMA Expression .
+  202 ArgumentList: ArgumentList COMMA Expression •
 
     $default  reduce using rule 202 (ArgumentList)
 
 
 State 433
 
-  216 MethodInvocation: Primary DOT IDENTIFIER LEFTBRACKET ArgumentListOpt . RIGHTBRACKET
+  216 MethodInvocation: Primary DOT IDENTIFIER LEFTBRACKET ArgumentListOpt • RIGHTBRACKET
 
     RIGHTBRACKET  shift, and go to state 451
 
 
 State 434
 
-  219 MethodInvocation: Primary DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt . RIGHTCURLYBRACKET
+  219 MethodInvocation: Primary DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt • RIGHTCURLYBRACKET
 
     RIGHTCURLYBRACKET  shift, and go to state 452
 
 
 State 435
 
-  113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt CommaOpt RIGHTCURLYBRACKET .
+  113 ArrayInitializer: LEFTCURLYBRACKET VarInitializersOpt CommaOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 113 (ArrayInitializer)
 
 
 State 436
 
-  115 VarInitializers: VarInitializers COMMA VarInitializer .
+  115 VarInitializers: VarInitializers COMMA VarInitializer •
 
     $default  reduce using rule 115 (VarInitializers)
 
 
 State 437
 
-  105 ExplicitConstructorInvocation: THIS LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON .
+  105 ExplicitConstructorInvocation: THIS LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON •
 
     $default  reduce using rule 105 (ExplicitConstructorInvocation)
 
 
 State 438
 
-  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON .
+  106 ExplicitConstructorInvocation: SUPER LEFTBRACKET ArgumentListOpt RIGHTBRACKET SEMICOLON •
 
     $default  reduce using rule 106 (ExplicitConstructorInvocation)
 
 
 State 439
 
-  240 CastExpression: LEFTBRACKET PrimitiveType DimsOpt RIGHTBRACKET UnaryExpression .
+  240 CastExpression: LEFTBRACKET PrimitiveType DimsOpt RIGHTBRACKET UnaryExpression •
 
     $default  reduce using rule 240 (CastExpression)
 
 
 State 440
 
-  212 Dims: Dims LEFTSQUAREBRACKET RIGHTSQUAREBRACKET .
+  212 Dims: Dims LEFTSQUAREBRACKET RIGHTSQUAREBRACKET •
 
     $default  reduce using rule 212 (Dims)
 
 
 State 441
 
-  242 CastExpression: LEFTBRACKET Name Dims RIGHTBRACKET UnaryExpressionNotPlusMinus .
+  242 CastExpression: LEFTBRACKET Name Dims RIGHTBRACKET UnaryExpressionNotPlusMinus •
 
     $default  reduce using rule 242 (CastExpression)
 
 
 State 442
 
-  284 ConditionalExpressions: ConditionalOrExpression QUESTION Expression COLON ConditionalExpression .
+  284 ConditionalExpressions: ConditionalOrExpression QUESTION Expression COLON ConditionalExpression •
 
     $default  reduce using rule 284 (ConditionalExpressions)
 
 
 State 443
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON . ForUpdateOpt RIGHTBRACKET Statement
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON • ForUpdateOpt RIGHTBRACKET Statement
 
     LEFTBRACKET     shift, and go to state 98
     ADDADD          shift, and go to state 100
@@ -8505,8 +8505,8 @@ State 443
 
 State 444
 
-  179 ForStatement: FOR LEFTBRACKET . ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET . ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET • ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET • ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
 
     LEFTBRACKET     shift, and go to state 98
     ADDADD          shift, and go to state 100
@@ -8566,9 +8566,9 @@ State 444
 
 State 445
 
-  165 IfThenStatement: IF LEFTBRACKET . Expression RIGHTBRACKET Statement
-  166 IfThenElseStatement: IF LEFTBRACKET . Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
-  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET . Expression RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf
+  165 IfThenStatement: IF LEFTBRACKET • Expression RIGHTBRACKET Statement
+  166 IfThenElseStatement: IF LEFTBRACKET • Expression RIGHTBRACKET StatementNoShortIf ELSE Statement
+  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET • Expression RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -8636,8 +8636,8 @@ State 445
 
 State 446
 
-  168 WhileStatement: WHILE LEFTBRACKET . Expression RIGHTBRACKET Statement
-  169 WhileStatementNoShortIf: WHILE LEFTBRACKET . Expression RIGHTBRACKET StatementNoShortIf
+  168 WhileStatement: WHILE LEFTBRACKET • Expression RIGHTBRACKET Statement
+  169 WhileStatementNoShortIf: WHILE LEFTBRACKET • Expression RIGHTBRACKET StatementNoShortIf
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -8705,8 +8705,8 @@ State 446
 
 State 447
 
-  152 LabeledStatement: IDENTIFIER COLON . Statement
-  153 LabeledStatementNoShortIf: IDENTIFIER COLON . StatementNoShortIf
+  152 LabeledStatement: IDENTIFIER COLON • Statement
+  153 LabeledStatementNoShortIf: IDENTIFIER COLON • StatementNoShortIf
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -8774,7 +8774,7 @@ State 447
 
 State 448
 
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE . Statement
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE • Statement
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -8837,57 +8837,57 @@ State 448
 
 State 449
 
-  217 MethodInvocation: SUPER DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET .
+  217 MethodInvocation: SUPER DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET •
 
     $default  reduce using rule 217 (MethodInvocation)
 
 
 State 450
 
-  220 MethodInvocation: SUPER DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET .
+  220 MethodInvocation: SUPER DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 220 (MethodInvocation)
 
 
 State 451
 
-  216 MethodInvocation: Primary DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET .
+  216 MethodInvocation: Primary DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET •
 
     $default  reduce using rule 216 (MethodInvocation)
 
 
 State 452
 
-  219 MethodInvocation: Primary DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET .
+  219 MethodInvocation: Primary DOT IDENTIFIER LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET •
 
     $default  reduce using rule 219 (MethodInvocation)
 
 
 State 453
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt . RIGHTBRACKET Statement
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt • RIGHTBRACKET Statement
 
     RIGHTBRACKET  shift, and go to state 462
 
 
 State 454
 
-  176 ForUpdateOpt: ForUpdateOpts .
+  176 ForUpdateOpt: ForUpdateOpts •
 
     $default  reduce using rule 176 (ForUpdateOpt)
 
 
 State 455
 
-  177 ForUpdateOpts: ForUpdate .
+  177 ForUpdateOpts: ForUpdate •
 
     $default  reduce using rule 177 (ForUpdateOpts)
 
 
 State 456
 
-  183 ForUpdate: StatementExpressionList .
-  185 StatementExpressionList: StatementExpressionList . COMMA StatementExpression
+  183 ForUpdate: StatementExpressionList •
+  185 StatementExpressionList: StatementExpressionList • COMMA StatementExpression
 
     COMMA  shift, and go to state 376
 
@@ -8896,46 +8896,46 @@ State 456
 
 State 457
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt . SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt . SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt • SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt • SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
 
     SEMICOLON  shift, and go to state 463
 
 
 State 458
 
-  165 IfThenStatement: IF LEFTBRACKET Expression . RIGHTBRACKET Statement
-  166 IfThenElseStatement: IF LEFTBRACKET Expression . RIGHTBRACKET StatementNoShortIf ELSE Statement
-  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression . RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf
+  165 IfThenStatement: IF LEFTBRACKET Expression • RIGHTBRACKET Statement
+  166 IfThenElseStatement: IF LEFTBRACKET Expression • RIGHTBRACKET StatementNoShortIf ELSE Statement
+  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression • RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf
 
     RIGHTBRACKET  shift, and go to state 464
 
 
 State 459
 
-  168 WhileStatement: WHILE LEFTBRACKET Expression . RIGHTBRACKET Statement
-  169 WhileStatementNoShortIf: WHILE LEFTBRACKET Expression . RIGHTBRACKET StatementNoShortIf
+  168 WhileStatement: WHILE LEFTBRACKET Expression • RIGHTBRACKET Statement
+  169 WhileStatementNoShortIf: WHILE LEFTBRACKET Expression • RIGHTBRACKET StatementNoShortIf
 
     RIGHTBRACKET  shift, and go to state 465
 
 
 State 460
 
-  153 LabeledStatementNoShortIf: IDENTIFIER COLON StatementNoShortIf .
+  153 LabeledStatementNoShortIf: IDENTIFIER COLON StatementNoShortIf •
 
     $default  reduce using rule 153 (LabeledStatementNoShortIf)
 
 
 State 461
 
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE Statement .
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE Statement •
 
     $default  reduce using rule 166 (IfThenElseStatement)
 
 
 State 462
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET . Statement
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET • Statement
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -8998,8 +8998,8 @@ State 462
 
 State 463
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON . ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON . ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON • ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON • ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
 
     LEFTBRACKET     shift, and go to state 175
     ADDADD          shift, and go to state 100
@@ -9071,9 +9071,9 @@ State 463
 
 State 464
 
-  165 IfThenStatement: IF LEFTBRACKET Expression RIGHTBRACKET . Statement
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET . StatementNoShortIf ELSE Statement
-  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET . StatementNoShortIf ELSE StatementNoShortIf
+  165 IfThenStatement: IF LEFTBRACKET Expression RIGHTBRACKET • Statement
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET • StatementNoShortIf ELSE Statement
+  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET • StatementNoShortIf ELSE StatementNoShortIf
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -9141,8 +9141,8 @@ State 464
 
 State 465
 
-  168 WhileStatement: WHILE LEFTBRACKET Expression RIGHTBRACKET . Statement
-  169 WhileStatementNoShortIf: WHILE LEFTBRACKET Expression RIGHTBRACKET . StatementNoShortIf
+  168 WhileStatement: WHILE LEFTBRACKET Expression RIGHTBRACKET • Statement
+  169 WhileStatementNoShortIf: WHILE LEFTBRACKET Expression RIGHTBRACKET • StatementNoShortIf
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -9210,38 +9210,38 @@ State 465
 
 State 466
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement .
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET Statement •
 
     $default  reduce using rule 179 (ForStatement)
 
 
 State 467
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt . SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt . SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt • SEMICOLON ForUpdateOpt RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt • SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf
 
     SEMICOLON  shift, and go to state 470
 
 
 State 468
 
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf . ELSE Statement
-  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf . ELSE StatementNoShortIf
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf • ELSE Statement
+  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf • ELSE StatementNoShortIf
 
     ELSE  shift, and go to state 471
 
 
 State 469
 
-  169 WhileStatementNoShortIf: WHILE LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf .
+  169 WhileStatementNoShortIf: WHILE LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf •
 
     $default  reduce using rule 169 (WhileStatementNoShortIf)
 
 
 State 470
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON . ForUpdateOpt RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON . ForUpdateOpt RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON • ForUpdateOpt RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON • ForUpdateOpt RIGHTBRACKET StatementNoShortIf
 
     LEFTBRACKET     shift, and go to state 98
     ADDADD          shift, and go to state 100
@@ -9286,8 +9286,8 @@ State 470
 
 State 471
 
-  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE . Statement
-  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE . StatementNoShortIf
+  166 IfThenElseStatement: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE • Statement
+  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE • StatementNoShortIf
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -9355,23 +9355,23 @@ State 471
 
 State 472
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt . RIGHTBRACKET Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt . RIGHTBRACKET StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt • RIGHTBRACKET Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt • RIGHTBRACKET StatementNoShortIf
 
     RIGHTBRACKET  shift, and go to state 474
 
 
 State 473
 
-  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf .
+  167 IfThenElseStatementNoShortIf: IF LEFTBRACKET Expression RIGHTBRACKET StatementNoShortIf ELSE StatementNoShortIf •
 
     $default  reduce using rule 167 (IfThenElseStatementNoShortIf)
 
 
 State 474
 
-  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET . Statement
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET . StatementNoShortIf
+  179 ForStatement: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET • Statement
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET • StatementNoShortIf
 
     SYSTEMOUTPRINTLN  shift, and go to state 97
     LEFTBRACKET       shift, and go to state 98
@@ -9439,6 +9439,6 @@ State 474
 
 State 475
 
-  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf .
+  180 ForStatementNoShortIf: FOR LEFTBRACKET ForInitOpt SEMICOLON ExpressionOpt SEMICOLON ForUpdateOpt RIGHTBRACKET StatementNoShortIf •
 
     $default  reduce using rule 180 (ForStatementNoShortIf)

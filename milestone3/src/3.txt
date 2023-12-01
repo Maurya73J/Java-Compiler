@@ -1,0 +1,17 @@
+/bin/rm -f lex.yy.* y.tab.* out *.o *.dot *.png *.output output.txt
+flex -8 java.l
+bison -d -t -y javaR.y
+g++ -O2 y.tab.c -c -Wno-write-strings
+g++ -O2 lex.yy.c -c -Wno-write-strings
+g++ -c help.cpp
+g++ -o out y.tab.o lex.yy.o help.o
+./out 
+SwapNumbers:
+main:
+ beginfunc
+first = 1.20
+second = 2.45
+t0=first+second
+temporary = t0
+endfunc
+End Class

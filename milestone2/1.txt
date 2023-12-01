@@ -1,0 +1,158 @@
+mauryajadav@matrix73 src % bison -d -t -y -Wcounterexample javaR.y
+javaR.y:25.1-8: warning: POSIX Yacc does not support %verbose [-Wyacc]
+   25 | %verbose
+      | ^~~~~~~~
+javaR.y:112.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  112 |         |
+      |          ^
+javaR.y:121.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  121 |         |
+      |          ^
+javaR.y:162.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  162 |         |
+      |          ^
+javaR.y:166.9-67: warning: type clash on default action: <str> != < str> [-Wother]
+  166 |         LEFTCURLYBRACKET ClassBodyDeclarationsOpt RIGHTCURLYBRACKET
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:174.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  174 |         |
+      |          ^
+javaR.y:226.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  226 |         |
+      |          ^
+javaR.y:262.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  262 |         |
+      |          ^
+javaR.y:269.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  269 |         |
+      |          ^
+javaR.y:273.9-90: warning: type clash on default action: <str> != < str> [-Wother]
+  273 |         LEFTCURLYBRACKET ExplicitConstructorInvocation BlockStatementOpt RIGHTCURLYBRACKET
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:274.11-62: warning: type clash on default action: <str> != < str> [-Wother]
+  274 |         | LEFTCURLYBRACKET BlockStatementOpt RIGHTCURLYBRACKET
+      |           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:285.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  285 |         |
+      |          ^
+javaR.y:292.9-13: warning: type clash on default action: <str> != < str> [-Wother]
+  292 |         COMMA
+      |         ^~~~~
+javaR.y:293.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  293 |         |
+      |          ^
+javaR.y:297.9-70: warning: type clash on default action: <str> != < str> [-Wother]
+  297 |         LEFTCURLYBRACKET VarInitializersOpt CommaOpt RIGHTCURLYBRACKET
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:304.9-60: warning: type clash on default action: <str> != < str> [-Wother]
+  304 |         LEFTCURLYBRACKET BlockStatementOpt RIGHTCURLYBRACKET
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:330.17-78: warning: type clash on default action: <str> != < str> [-Wother]
+  330 |                 SYSTEMOUTPRINTLN LEFTBRACKET Expression RIGHTBRACKET SEMICOLON
+      |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:331.18-68: warning: type clash on default action: <str> != < str> [-Wother]
+  331 |         |        SYSTEMOUTPRINTLN LEFTBRACKET RIGHTBRACKET SEMICOLON
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:350.9-17: warning: type clash on default action: <str> != < str> [-Wother]
+  350 |         SEMICOLON
+      |         ^~~~~~~~~
+javaR.y:404.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  404 |         |
+      |          ^
+javaR.y:412.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  412 |         |
+      |          ^
+javaR.y:420.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  420 |         |
+      |          ^
+javaR.y:458.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  458 |         |
+      |          ^
+javaR.y:496.10: warning: empty rule for typed nonterminal, and no action [-Wother]
+  496 |         |
+      |          ^
+javaR.y:508.9-55: warning: type clash on default action: <str> != < str> [-Wother]
+  508 |         LEFTSQUAREBRACKET Expression RIGHTSQUAREBRACKET
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:511.9-44: warning: type clash on default action: <str> != < str> [-Wother]
+  511 |         LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:570.9-70: warning: type clash on default action: <str> != < str> [-Wother]
+  570 |         LEFTBRACKET PrimitiveType DimsOpt RIGHTBRACKET UnaryExpression
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:571.13-75: warning: type clash on default action: <str> != < str> [-Wother]
+  571 |         |   LEFTBRACKET Expression RIGHTBRACKET UnaryExpressionNotPlusMinus
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:572.13-74: warning: type clash on default action: <str> != < str> [-Wother]
+  572 |         |   LEFTBRACKET Name Dims RIGHTBRACKET UnaryExpressionNotPlusMinus
+      |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+javaR.y:710.9-16: warning: type clash on default action: <str> != < str> [-Wother]
+  710 |     |   MULEQUAL
+      |         ^~~~~~~~
+javaR.y:711.9-16: warning: type clash on default action: <str> != < str> [-Wother]
+  711 |     |   DIVEQUAL
+      |         ^~~~~~~~
+javaR.y:712.9-16: warning: type clash on default action: <str> != < str> [-Wother]
+  712 |     |   SUBEQUAL
+      |         ^~~~~~~~
+javaR.y:713.9-16: warning: type clash on default action: <str> != < str> [-Wother]
+  713 |     |   ANDEQUAL
+      |         ^~~~~~~~
+javaR.y:714.9-16: warning: type clash on default action: <str> != < str> [-Wother]
+  714 |     |   ADDEQUAL
+      |         ^~~~~~~~
+javaR.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+javaR.y: warning: reduce/reduce conflict on token LEFTBRACKET [-Wcounterexamples]
+  First example: ImportDeclarationOpt ModifiersOpt CLASS IDENTIFIER LEFTCURLYBRACKET STATIC LEFTCURLYBRACKET IF • LEFTBRACKET Expression RIGHTBRACKET $@2 Statement RIGHTCURLYBRACKET RIGHTCURLYBRACKET $end
+  First reduce derivation
+    $accept
+    ↳ 0: Start                                                                                                                                                                                                                                                                                                                       $end
+         ↳ 1: CompilationUnit
+              ↳ 28: ImportDeclarationOpt TypeDeclarationOpt
+                                         ↳ 32: TypeDeclarationOpts
+                                               ↳ 33: TypeDeclarations
+                                                     ↳ 37: TypeDeclaration
+                                                           ↳ 43: ClassDeclaration
+                                                                 ↳ 49: ModifiersOpt CLASS IDENTIFIER ClassBody
+                                                                                                     ↳ 54: LEFTCURLYBRACKET ClassBodyDeclarationsOpt                                                                                                                                                               RIGHTCURLYBRACKET
+                                                                                                                            ↳ 55: ClassBodyDeclarationsOpts
+                                                                                                                                  ↳ 56: ClassBodyDeclarations
+                                                                                                                                        ↳ 58: ClassBodyDeclaration
+                                                                                                                                              ↳ 61: StaticInitializer
+                                                                                                                                                    ↳ 88: STATIC Block
+                                                                                                                                                                 ↳ 108: LEFTCURLYBRACKET BlockStatementOpt                                                                                       RIGHTCURLYBRACKET
+                                                                                                                                                                                         ↳ 91: BlockStatementOpts
+                                                                                                                                                                                               ↳ 92: BlockStatements
+                                                                                                                                                                                                     ↳ 109: BlockStatement
+                                                                                                                                                                                                            ↳ 112: Statement
+                                                                                                                                                                                                                   ↳ 117: IfThenStatement
+                                                                                                                                                                                                                          ↳ 151: IF $@1        LEFTBRACKET Expression RIGHTBRACKET $@2 Statement
+                                                                                                                                                                                                                                    ↳ 149: ε •
+  Second example: ImportDeclarationOpt ModifiersOpt CLASS IDENTIFIER LEFTCURLYBRACKET STATIC LEFTCURLYBRACKET IF • LEFTBRACKET Expression RIGHTBRACKET $@4 StatementNoShortIf ELSE $@5 Statement RIGHTCURLYBRACKET RIGHTCURLYBRACKET $end
+  Second reduce derivation
+    $accept
+    ↳ 0: Start                                                                                                                                                                                                                                                                                                                                                   $end
+         ↳ 1: CompilationUnit
+              ↳ 28: ImportDeclarationOpt TypeDeclarationOpt
+                                         ↳ 32: TypeDeclarationOpts
+                                               ↳ 33: TypeDeclarations
+                                                     ↳ 37: TypeDeclaration
+                                                           ↳ 43: ClassDeclaration
+                                                                 ↳ 49: ModifiersOpt CLASS IDENTIFIER ClassBody
+                                                                                                     ↳ 54: LEFTCURLYBRACKET ClassBodyDeclarationsOpt                                                                                                                                                                                           RIGHTCURLYBRACKET
+                                                                                                                            ↳ 55: ClassBodyDeclarationsOpts
+                                                                                                                                  ↳ 56: ClassBodyDeclarations
+                                                                                                                                        ↳ 58: ClassBodyDeclaration
+                                                                                                                                              ↳ 61: StaticInitializer
+                                                                                                                                                    ↳ 88: STATIC Block
+                                                                                                                                                                 ↳ 108: LEFTCURLYBRACKET BlockStatementOpt                                                                                                                   RIGHTCURLYBRACKET
+                                                                                                                                                                                         ↳ 91: BlockStatementOpts
+                                                                                                                                                                                               ↳ 92: BlockStatements
+                                                                                                                                                                                                     ↳ 109: BlockStatement
+                                                                                                                                                                                                            ↳ 112: Statement
+                                                                                                                                                                                                                   ↳ 118: IfThenElseStatement
+                                                                                                                                                                                                                          ↳ 155: IF $@3        LEFTBRACKET Expression RIGHTBRACKET $@4 StatementNoShortIf ELSE $@5 Statement
+                                                                                                                                                                                                                                    ↳ 152: ε •
+javaR.y:385.12-32: warning: rule useless in parser due to conflicts [-Wother]
+  385 |         IF {temp=check;check=3;} LEFTBRACKET Expression RIGHTBRACKET {check = temp;} StatementNoShortIf ELSE {char ch[1000];sprintf(ch,"L...
+      |            ^~~~~~~~~~~~~~~~~~~~~

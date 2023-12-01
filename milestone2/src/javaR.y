@@ -1,6 +1,5 @@
 %{
 #include<bits/stdc++.h>
-#include"runtime.h"
 
 using namespace std;
 
@@ -15,17 +14,12 @@ void yyerror(const char *s);
 int check=0;
 char buff[100];
 char * strConcat(char *s1, char*s2);
-vector<string> find(string _lexeme);
-int typesize(string s);
-string getType(string s);
 vector<vector<string>> SymbolTable;
-map<string,Klass> mp;
 void SymTab();
 string array3ac(string s);
 string word;
 int breakContinue=0;
-int param = 0,flag=0 ;
-string currClass ="",currMethod="";
+int param = 0 ;
 %}
 
 %verbose
@@ -158,8 +152,8 @@ Modifier:
     |   STATIC
     ;
 ClassDeclaration:
-        ModifiersOpt CLASS IDENTIFIER {Klass obj; mp[$3] = obj;currClass=$3;char ch[100]; sprintf(ch,"%s:",$3);ir.push_back(ch);} ClassBody         {currClass="";char ch[100]; sprintf(ch,"End Class");ir.push_back(ch);}
-    |   ModifiersOpt CLASS IDENTIFIER {Klass obj; mp[$3] = obj;currClass=$3;} EXTENDS IDENTIFIER ClassBody     {currClass="";}
+        ModifiersOpt CLASS IDENTIFIER ClassBody
+    |   ModifiersOpt CLASS IDENTIFIER EXTENDS IDENTIFIER ClassBody
     ;
 ModifiersOpt: ModifiersOpts
 ;
@@ -201,21 +195,8 @@ VarDeclarators:
     |   VarDeclarators COMMA VarDeclarator
     ;
 VarDeclarator:
-        VarDeclaratorId  {if(currClass!=""&&currMethod==""){
-                        mp[currClass].local.push($1);
-                }
-                else if(currClass!=""&&currMethod!=""){
-                        mp[currClass]._vtable.methods[currMethod].local.push($1);
-                        mp[currClass]._vtable.methods[currMethod].storage+=typesize(getType($1));
-                }
-        }
-    |   VarDeclaratorId EQUAL  VarInitializer    { if(currClass!=""&&currMethod==""){
-                        mp[currClass].local.push($1);
-                }
-                else if(currClass!=""&&currMethod!=""){
-                        mp[currClass]._vtable.methods[currMethod].local.push($1);
-                        mp[currClass]._vtable.methods[currMethod].storage+=typesize(getType($1));
-                }
+        VarDeclaratorId
+    |   VarDeclaratorId EQUAL  VarInitializer    {
         char ch[100];sprintf(ch,"%s %s %s",$1,$2,$3);ir.push_back(ch);}
 		;
 VarDeclaratorId: VarDeclaratorIds
@@ -230,7 +211,7 @@ VarInitializer:
 	|   ArrayInitializer
 	;
 MethodDeclaration:
-        MethodHeader MethodBody {currMethod="";char ch[100]; sprintf(ch,"endfunc");ir.push_back(ch);}
+        MethodHeader MethodBody
     ;
 MethodHeader:
         ModifiersOpt Type MethodDeclarator
@@ -248,7 +229,7 @@ FormalParameterListOpts:
 MethodDeclarator: MethodDeclarators
 ;
 MethodDeclarators:
-        IDENTIFIER {act_rec obj; mp[currClass]._vtable.methods[currClass+"."+$1] = obj;currMethod = currClass+"."+$1; char ch[100]; sprintf(ch,"%s:\n beginfunc",$1);ir.push_back(ch);}  LEFTBRACKET FormalParameterListOpt RIGHTBRACKET      //{cout<<mp[currClass]._vtable.methods[currMethod].param.top();}
+        IDENTIFIER LEFTBRACKET FormalParameterListOpt RIGHTBRACKET
     |   MethodDeclarator LEFTSQUAREBRACKET RIGHTSQUAREBRACKET
     ;
 FormalParameterList:
@@ -256,7 +237,7 @@ FormalParameterList:
 	|   FormalParameterList COMMA FormalParameter
 	;
 FormalParameter:
-        Type VarDeclaratorId    {mp[currClass]._vtable.methods[currMethod].param.push($2); mp[currClass]._vtable.methods[currMethod].storage+=typesize($1);}
+        Type VarDeclaratorId
 	;
 MethodBody:
         Block
@@ -401,7 +382,7 @@ IfThenStatement:
         IF {temp=check;check=3;} LEFTBRACKET Expression RIGHTBRACKET {check = temp;} Statement   {char ch[1000];sprintf(ch,"Label%d",label);ir.push_back(ch);}
     ;
 IfThenElseStatement:
-        IF LEFTBRACKET {temp=check;check=3;} Expression RIGHTBRACKET {check = temp;} StatementNoShortIf ELSE {char ch[1000];sprintf(ch,"Label%d",label);ir.push_back(ch);} Statement {char ch[1000];sprintf(ch,"next");ir.push_back(ch);}
+        IF {temp=check;check=3;} LEFTBRACKET Expression RIGHTBRACKET {check = temp;} StatementNoShortIf ELSE {char ch[1000];sprintf(ch,"Label%d",label);ir.push_back(ch);} Statement {char ch[1000];sprintf(ch,"next");ir.push_back(ch);}
     ;
 IfThenElseStatementNoShortIf:
         IF {temp=check;check=3;} LEFTBRACKET Expression RIGHTBRACKET {check = temp;} StatementNoShortIf ELSE {char ch[1000];sprintf(ch,"Label%d",label);ir.push_back(ch);} StatementNoShortIf {char ch[1000];sprintf(ch,"next");ir.push_back(ch);}
@@ -487,7 +468,7 @@ ContinueStatement:
 	;
 
 ReturnStatement:
-        RETURN ExpressionOpt SEMICOLON    {mp[currClass]._vtable.methods[currMethod].returnVal=$2;}
+        RETURN ExpressionOpt SEMICOLON
 	|   SUSPEND ExpressionOpt SEMICOLON
 	;
 Primary:
@@ -495,12 +476,12 @@ Primary:
     |   ArrayCreationExpression
     ;
 PrimaryNoNewArray:
-        Literal   {if(flag){mp[currClass]._vtable.methods[currMethod].param.push($1);}}
+        Literal
     |   THIS
     |   LEFTBRACKET Expression RIGHTBRACKET    {$$ = strConcat($1,strConcat($2,$3));}
     |   FieldAccess
     |   MethodInvocation
-    |   ArrayAccesses   {if(flag){mp[currClass]._vtable.methods[currMethod].param.push($1);}string ch = word+"[" + array3ac($1) + "]";$$=strdup(ch.c_str());}
+    |   ArrayAccesses   {string ch = word+"[" + array3ac($1) + "]";$$=strdup(ch.c_str());}
     ;
 ArrayAccesses:
     ArrayAccess {$$=$1;}
@@ -535,12 +516,7 @@ FieldAccess:
 	|   SUPER DOT IDENTIFIER
 	;
 MethodInvocation:
-        Name {param=0;} LEFTBRACKET {flag=1;} ArgumentListOpt {flag=0;} RIGHTBRACKET      {
-                vector<string> temp = find($1);
-                mp[temp[3]]._vtable.methods[temp[3]+"."+temp[4]].controlLink = &mp[currClass]._vtable.methods[currMethod];
-                // cout<<mp[temp[3]]._vtable.methods[temp[3]+"."+temp[4]].controlLink->param.top();
-                char ch[100];sprintf(ch,"pushparam %d\n t%d = Call %s,%d\npopparam %d",mp[temp[3]]._vtable.methods[temp[3]+"."+temp[4]].storage,cnt,$1,param,mp[temp[3]]._vtable.methods[temp[3]+"."+temp[4]].storage);ir.push_back(ch);sprintf($$,"t%d",cnt++);
-        }
+        Name {param=0;} LEFTBRACKET ArgumentListOpt RIGHTBRACKET      {char ch[100];sprintf(ch,"t%d = Call %s,%d",cnt,$1,param);ir.push_back(ch);sprintf($$,"t%d",cnt++);}
 	|   Primary DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
 	|   SUPER DOT IDENTIFIER LEFTBRACKET ArgumentListOpt RIGHTBRACKET
 	|   Name LEFTCURLYBRACKET ArgumentListOpt RIGHTCURLYBRACKET
@@ -554,7 +530,7 @@ ArrayAccess:
 
 PostFixExpression:
         Primary
-	|   Name     {$$=$1;if(flag){mp[currClass]._vtable.methods[currMethod].param.push($1);}}
+	|   Name     {$$=$1;}
 	|   PostIncrementExpression {$$=$1;}
 	|   PostDecrementExpression      {$$=$1;}
 	;
@@ -745,7 +721,6 @@ Expression:
 %%
 
 int main(void) {
-        SymTab();
     yyparse();
     for(auto i : ir){
         cout<<i<<endl;
@@ -773,7 +748,7 @@ vector<string> getDim(string s){
         vector<string> t;
         string temp;
         for(int i = dim.size()-1; i>=0 ;i-- ){
-                if(dim[i]>='0'&&dim[i]<='9') {temp.insert(temp.begin(),dim[i]) ;}
+                if(dim[i]>='0'&&dim[i]<='9') temp.insert(temp.begin(),dim[i]);
                 if(temp.size()>0&&!(dim[i]>='0'&&dim[i]<='9')){ t.push_back(temp); temp.clear();}
         }
         return t;
@@ -781,6 +756,7 @@ vector<string> getDim(string s){
 string array3ac(string s){
         stringstream str(s);
         getline(str, word, '[');
+        SymTab();
         vector<string> dim = getDim(word);
         vector<string> t;
         string q = "";
@@ -848,34 +824,13 @@ void SymTab(){
 	}
 	else
 		{cout<<"Create symbol Table first\n"; exit(5);}
-}
-vector<string> find(string _lexeme){
-        SymTab();
-    for(auto i:SymbolTable){
-        if(i[0]==_lexeme&&i[4]==_lexeme) return i;
-    }
-        cout<<"function call before declaration";
-        exit(100);
-}
-int typesize(string s){
-        if(s=="int"){
-                return 4;
-        }
-        else if(s=="float"){
-                return 8;
-        }
-        else if(s=="double"){
-                return 10;
-        }
-        else if(s=="char"){
-                return 2;
-        }
-        return 0;
 
-}
-string getType(string s){
-    for(auto i:SymbolTable){
-        if(i[0]==s){return i[2];}
-    }
-        exit(101);
+	// for(int i=0;i<SymbolTable.size();i++)
+	// {
+	// 	for(int j=0;j<SymbolTable[i].size();j++)
+	// 	{
+	// 		cout<<SymbolTable[i][j]<<" ";
+	// 	}
+	// 	cout<<"\n";
+	// }
 }

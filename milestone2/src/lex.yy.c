@@ -1,5 +1,5 @@
 
-#line 3 "lex.yy.c"
+#line 2 "lex.yy.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -46,6 +46,7 @@ typedef int16_t flex_int16_t;
 typedef uint16_t flex_uint16_t;
 typedef int32_t flex_int32_t;
 typedef uint32_t flex_uint32_t;
+typedef uint64_t flex_uint64_t;
 #else
 typedef signed char flex_int8_t;
 typedef short int flex_int16_t;
@@ -154,7 +155,7 @@ typedef struct yy_buffer_state *YY_BUFFER_STATE;
 typedef size_t yy_size_t;
 #endif
 
-extern int yyleng;
+extern yy_size_t yyleng;
 
 extern FILE *yyin, *yyout;
 
@@ -197,7 +198,7 @@ struct yy_buffer_state
 	/* Number of characters read into yy_ch_buf, not including EOB
 	 * characters.
 	 */
-	int yy_n_chars;
+	yy_size_t yy_n_chars;
 
 	/* Whether we "own" the buffer - i.e., we know we created it,
 	 * and can realloc() it to grow it, and should free() it to
@@ -266,8 +267,8 @@ static YY_BUFFER_STATE * yy_buffer_stack = NULL; /**< Stack as an array. */
 
 /* yy_hold_char holds the character lost when yytext is formed. */
 static char yy_hold_char;
-static int yy_n_chars;		/* number of characters read into yy_ch_buf */
-int yyleng;
+static yy_size_t yy_n_chars;		/* number of characters read into yy_ch_buf */
+yy_size_t yyleng;
 
 /* Points to current character in buffer. */
 static char *yy_c_buf_p = NULL;
@@ -294,7 +295,7 @@ static void yy_init_buffer ( YY_BUFFER_STATE b, FILE *file  );
 
 YY_BUFFER_STATE yy_scan_buffer ( char *base, yy_size_t size  );
 YY_BUFFER_STATE yy_scan_string ( const char *yy_str  );
-YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, int len  );
+YY_BUFFER_STATE yy_scan_bytes ( const char *bytes, yy_size_t len  );
 
 void *yyalloc ( yy_size_t  );
 void *yyrealloc ( void *, yy_size_t  );
@@ -347,7 +348,7 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
  */
 #define YY_DO_BEFORE_ACTION \
 	(yytext_ptr) = yy_bp; \
-	yyleng = (int) (yy_cp - yy_bp); \
+	yyleng = (yy_size_t) (yy_cp - yy_bp); \
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
@@ -811,7 +812,7 @@ FILE *yyget_out ( void );
 
 void yyset_out  ( FILE * _out_str  );
 
-			int yyget_leng ( void );
+			yy_size_t yyget_leng ( void );
 
 char *yyget_text ( void );
 
@@ -880,7 +881,7 @@ static int input ( void );
 	if ( YY_CURRENT_BUFFER_LVALUE->yy_is_interactive ) \
 		{ \
 		int c = '*'; \
-		int n; \
+		yy_size_t n; \
 		for ( n = 0; n < max_size && \
 			     (c = getc( yyin )) != EOF && c != '\n'; ++n ) \
 			buf[n] = (char) c; \
@@ -1058,643 +1059,643 @@ YY_RULE_SETUP
 case 2:
 YY_RULE_SETUP
 #line 15 "java.l"
-{yylval.id = strdup(yytext);return LEFTBRACKET;}
+{yylval.str = strdup(yytext);return LEFTBRACKET;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
 #line 16 "java.l"
-{yylval.id = strdup(yytext);return RIGHTBRACKET;}
+{yylval.str = strdup(yytext);return RIGHTBRACKET;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 17 "java.l"
-{yylval.id = strdup(yytext);return LEFTCURLYBRACKET;}
+{yylval.str = strdup(yytext);return LEFTCURLYBRACKET;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 18 "java.l"
-{yylval.id = strdup(yytext);return RIGHTCURLYBRACKET;}
+{yylval.str = strdup(yytext);return RIGHTCURLYBRACKET;}
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 19 "java.l"
-{yylval.id = strdup(yytext);return LEFTSQUAREBRACKET;}
+{yylval.str = strdup(yytext);return LEFTSQUAREBRACKET;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
 #line 20 "java.l"
-{yylval.id = strdup(yytext);return RIGHTSQUAREBRACKET;}
+{yylval.str = strdup(yytext);return RIGHTSQUAREBRACKET;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
 #line 21 "java.l"
-{yylval.id = strdup(yytext);return THREEDOT;}
+{yylval.str = strdup(yytext);return THREEDOT;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
 #line 22 "java.l"
-{yylval.id = strdup(yytext);return SEMICOLON;}
+{yylval.str = strdup(yytext);return SEMICOLON;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
 #line 23 "java.l"
-{yylval.id = strdup(yytext);return COMMA;}
+{yylval.str = strdup(yytext);return COMMA;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
 #line 24 "java.l"
-{yylval.id = strdup(yytext);return DOT;}
+{yylval.str = strdup(yytext);return DOT;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
 #line 25 "java.l"
-{yylval.id = strdup(yytext);return ATTHERATE;}
+{yylval.str = strdup(yytext);return ATTHERATE;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
 #line 26 "java.l"
-{yylval.id = strdup(yytext);return DOUBLECOLON;}
+{yylval.str = strdup(yytext);return DOUBLECOLON;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
 #line 27 "java.l"
-{yylval.id = strdup(yytext);return TRIPLEGREATEREQUAL;}
+{yylval.str = strdup(yytext);return TRIPLEGREATEREQUAL;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
 #line 28 "java.l"
-{yylval.id = strdup(yytext);return TRIPLEGREATER;}
+{yylval.str = strdup(yytext);return TRIPLEGREATER;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
 #line 29 "java.l"
-{yylval.id = strdup(yytext);return DOUBLELESSEQUAL;}
+{yylval.str = strdup(yytext);return DOUBLELESSEQUAL;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
 #line 30 "java.l"
-{yylval.id = strdup(yytext);return DOUBLEGREATEREQUAL;}
+{yylval.str = strdup(yytext);return DOUBLEGREATEREQUAL;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
 #line 31 "java.l"
-{yylval.id = strdup(yytext);return DOUBLELESS;}
+{yylval.str = strdup(yytext);return DOUBLELESS;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
 #line 32 "java.l"
-{yylval.id = strdup(yytext);return DOUBLEGREATER;}
+{yylval.str = strdup(yytext);return DOUBLEGREATER;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
 #line 33 "java.l"
-{yylval.id = strdup(yytext);return ADDEQUAL;}
+{yylval.str = strdup(yytext);return ADDEQUAL;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
 #line 34 "java.l"
-{yylval.id = strdup(yytext);return SUBEQUAL;}
+{yylval.str = strdup(yytext);return SUBEQUAL;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
 #line 35 "java.l"
-{yylval.id = strdup(yytext);return MULEQUAL;}
+{yylval.str = strdup(yytext);return MULEQUAL;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
 #line 36 "java.l"
-{yylval.id = strdup(yytext);return DIVEQUAL;}
+{yylval.str = strdup(yytext);return DIVEQUAL;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
 #line 37 "java.l"
-{yylval.id = strdup(yytext);return ANDEQUAL;}
+{yylval.str = strdup(yytext);return ANDEQUAL;}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
 #line 38 "java.l"
-{yylval.id = strdup(yytext);return OREQUAL;}
+{yylval.str = strdup(yytext);return OREQUAL;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
 #line 39 "java.l"
-{yylval.id = strdup(yytext);return POWEREQUAL;}
+{yylval.str = strdup(yytext);return POWEREQUAL;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
 #line 40 "java.l"
-{yylval.id = strdup(yytext);return MODEQUAL;}
+{yylval.str = strdup(yytext);return MODEQUAL;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
 #line 41 "java.l"
-{yylval.id = strdup(yytext);return ARROW;}
+{yylval.str = strdup(yytext);return ARROW;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
 #line 42 "java.l"
-{yylval.id = strdup(yytext);return EQUALEQUAL;}
+{yylval.str = strdup(yytext);return EQUALEQUAL;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
 #line 43 "java.l"
-{yylval.id = strdup(yytext);return GREATEREQUAL;}
+{yylval.str = strdup(yytext);return GREATEREQUAL;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
 #line 44 "java.l"
-{yylval.id = strdup(yytext);return LESSEQUAL;}
+{yylval.str = strdup(yytext);return LESSEQUAL;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
 #line 45 "java.l"
-{yylval.id = strdup(yytext);return NOTEQUAL;}
+{yylval.str = strdup(yytext);return NOTEQUAL;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
 #line 46 "java.l"
-{yylval.id = strdup(yytext);return AND;}
+{yylval.str = strdup(yytext);return AND;}
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
 #line 47 "java.l"
-{yylval.id = strdup(yytext);return OR;}
+{yylval.str = strdup(yytext);return OR;}
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
 #line 48 "java.l"
-{yylval.id = strdup(yytext);return ADDADD;}
+{yylval.str = strdup(yytext);return ADDADD;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
 #line 49 "java.l"
-{yylval.id = strdup(yytext);return SUBSUB;}
+{yylval.str = strdup(yytext);return SUBSUB;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
 #line 50 "java.l"
-{yylval.id = strdup(yytext);return EQUAL;}
+{yylval.str = strdup(yytext);return EQUAL;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
 #line 51 "java.l"
-{yylval.id = strdup(yytext);return LESS;}
+{yylval.str = strdup(yytext);return LESS;}
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
 #line 52 "java.l"
-{yylval.id = strdup(yytext);return GREATER;}
+{yylval.str = strdup(yytext);return GREATER;}
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
 #line 53 "java.l"
-{yylval.id = strdup(yytext);return NOT;}
+{yylval.str = strdup(yytext);return NOT;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 54 "java.l"
-{yylval.id = strdup(yytext);return TILDE;}
+{yylval.str = strdup(yytext);return TILDE;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
 #line 55 "java.l"
-{yylval.id = strdup(yytext);return QUESTION;}
+{yylval.str = strdup(yytext);return QUESTION;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
 #line 56 "java.l"
-{yylval.id = strdup(yytext);return COLON;}
+{yylval.str = strdup(yytext);return COLON;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
 #line 57 "java.l"
-{yylval.id = strdup(yytext);return ADD;}
+{yylval.str = strdup(yytext);return ADD;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
 #line 58 "java.l"
-{yylval.id = strdup(yytext);return SUB;}
+{yylval.str = strdup(yytext);return SUB;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
 #line 59 "java.l"
-{yylval.id = strdup(yytext);return MUL;}
+{yylval.str = strdup(yytext);return MUL;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
 #line 60 "java.l"
-{yylval.id = strdup(yytext);return DIV;}
+{yylval.str = strdup(yytext);return DIV;}
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
 #line 61 "java.l"
-{yylval.id = strdup(yytext);return ANDBIT;}
+{yylval.str = strdup(yytext);return ANDBIT;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
 #line 62 "java.l"
-{yylval.id = strdup(yytext);return ORBIT;}
+{yylval.str = strdup(yytext);return ORBIT;}
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
 #line 63 "java.l"
-{yylval.id = strdup(yytext);return POWER;}
+{yylval.str = strdup(yytext);return POWER;}
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
 #line 64 "java.l"
-{yylval.id = strdup(yytext);return MOD;}
+{yylval.str = strdup(yytext);return MOD;}
 	YY_BREAK
 case 52:
 /* rule 52 can match eol */
 YY_RULE_SETUP
 #line 66 "java.l"
-{ yylval.id = strdup(yytext); return STRINGLITERAL;}
+{ yylval.str = strdup(yytext); return STRINGLITERAL;}
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
 #line 68 "java.l"
-{ yylval.id = strdup(yytext); return CHARLITERAL;}
+{ yylval.str = strdup(yytext); return CHARLITERAL;}
 	YY_BREAK
 case 54:
 YY_RULE_SETUP
 #line 70 "java.l"
-{ yylval.num = atof(yytext); return HEXLITERAL;}
+{ yylval.str = strdup(yytext); return HEXLITERAL;}
 	YY_BREAK
 case 55:
 YY_RULE_SETUP
 #line 72 "java.l"
-{ yylval.num = atof(yytext); return BINARYLITERAL;}
+{ yylval.str = strdup(yytext); return BINARYLITERAL;}
 	YY_BREAK
 case 56:
 YY_RULE_SETUP
 #line 74 "java.l"
-{ yylval.num = atof(yytext); return FLOATLITERAL;}
+{ yylval.str = strdup(yytext); return FLOATLITERAL;}
 	YY_BREAK
 case 57:
 YY_RULE_SETUP
 #line 76 "java.l"
-{ yylval.num = atof(yytext); return INTLITERAL;}
+{ yylval.str = strdup(yytext); return INTLITERAL;}
 	YY_BREAK
 case 58:
 YY_RULE_SETUP
 #line 78 "java.l"
-{yylval.id = strdup(yytext);return ABSTRACT;}
+{yylval.str = strdup(yytext);return ABSTRACT;}
 	YY_BREAK
 case 59:
 YY_RULE_SETUP
 #line 79 "java.l"
-{yylval.id = strdup(yytext);return CONTINUE;}
+{yylval.str = strdup(yytext);return CONTINUE;}
 	YY_BREAK
 case 60:
 YY_RULE_SETUP
 #line 80 "java.l"
-{yylval.id = strdup(yytext);return FOR;}
+{yylval.loop_var.st = strdup(yytext);return FOR;}
 	YY_BREAK
 case 61:
 YY_RULE_SETUP
 #line 81 "java.l"
-{yylval.id = strdup(yytext);return NEW;}
+{yylval.str = strdup(yytext);return NEW;}
 	YY_BREAK
 case 62:
 YY_RULE_SETUP
 #line 82 "java.l"
-{yylval.id = strdup(yytext);return SWITCH;}
+{yylval.str = strdup(yytext);return SWITCH;}
 	YY_BREAK
 case 63:
 YY_RULE_SETUP
 #line 83 "java.l"
-{yylval.id = strdup(yytext);return ASSERT;}
+{yylval.str = strdup(yytext);return ASSERT;}
 	YY_BREAK
 case 64:
 YY_RULE_SETUP
 #line 84 "java.l"
-{yylval.id = strdup(yytext);return DEFAULT;}
+{yylval.str = strdup(yytext);return DEFAULT;}
 	YY_BREAK
 case 65:
 YY_RULE_SETUP
 #line 85 "java.l"
-{yylval.id = strdup(yytext);return IF;}
+{yylval.str = strdup(yytext);return IF;}
 	YY_BREAK
 case 66:
 YY_RULE_SETUP
 #line 86 "java.l"
-{yylval.id = strdup(yytext);return PACKAGE;}
+{yylval.str = strdup(yytext);return PACKAGE;}
 	YY_BREAK
 case 67:
 YY_RULE_SETUP
 #line 87 "java.l"
-{yylval.id = strdup(yytext);return SYNCHRONIZED;}
+{yylval.str = strdup(yytext);return SYNCHRONIZED;}
 	YY_BREAK
 case 68:
 YY_RULE_SETUP
 #line 88 "java.l"
-{yylval.id = strdup(yytext);return BOOLEAN;}
+{yylval.str = strdup(yytext);return BOOLEAN;}
 	YY_BREAK
 case 69:
 YY_RULE_SETUP
 #line 89 "java.l"
-{yylval.id = strdup(yytext);return STRING;}
+{yylval.str = strdup(yytext);return STRING;}
 	YY_BREAK
 case 70:
 YY_RULE_SETUP
 #line 90 "java.l"
-{yylval.id = strdup(yytext);return DO;}
+{yylval.str = strdup(yytext);return DO;}
 	YY_BREAK
 case 71:
 YY_RULE_SETUP
 #line 91 "java.l"
-{yylval.id = strdup(yytext);return GOTO;}
+{yylval.str = strdup(yytext);return GOTO;}
 	YY_BREAK
 case 72:
 YY_RULE_SETUP
 #line 92 "java.l"
-{yylval.id = strdup(yytext);return PRIVATE;}
+{yylval.str = strdup(yytext);return PRIVATE;}
 	YY_BREAK
 case 73:
 YY_RULE_SETUP
 #line 93 "java.l"
-{yylval.id = strdup(yytext);return THIS;}
+{yylval.str = strdup(yytext);return THIS;}
 	YY_BREAK
 case 74:
 YY_RULE_SETUP
 #line 94 "java.l"
-{yylval.id = strdup(yytext);return BREAK;}
+{yylval.str = strdup(yytext);return BREAK;}
 	YY_BREAK
 case 75:
 YY_RULE_SETUP
 #line 95 "java.l"
-{yylval.id = strdup(yytext);return DOUBLE;}
+{yylval.str = strdup(yytext);return DOUBLE;}
 	YY_BREAK
 case 76:
 YY_RULE_SETUP
 #line 96 "java.l"
-{yylval.id = strdup(yytext);return IMPLEMENTS;}
+{yylval.str = strdup(yytext);return IMPLEMENTS;}
 	YY_BREAK
 case 77:
 YY_RULE_SETUP
 #line 97 "java.l"
-{yylval.id = strdup(yytext);return PROTECTED;}
+{yylval.str = strdup(yytext);return PROTECTED;}
 	YY_BREAK
 case 78:
 YY_RULE_SETUP
 #line 98 "java.l"
-{yylval.id = strdup(yytext);return THROWS;}
+{yylval.str = strdup(yytext);return THROWS;}
 	YY_BREAK
 case 79:
 YY_RULE_SETUP
 #line 99 "java.l"
-{yylval.id = strdup(yytext);return BYTE;}
+{yylval.str = strdup(yytext);return BYTE;}
 	YY_BREAK
 case 80:
 YY_RULE_SETUP
 #line 100 "java.l"
-{yylval.id = strdup(yytext);return ELSE;}
+{yylval.str = strdup(yytext);return ELSE;}
 	YY_BREAK
 case 81:
 YY_RULE_SETUP
 #line 101 "java.l"
-{yylval.id = strdup(yytext);return IMPORT;}
+{yylval.str = strdup(yytext);return IMPORT;}
 	YY_BREAK
 case 82:
 YY_RULE_SETUP
 #line 102 "java.l"
-{yylval.id = strdup(yytext);return PUBLIC;}
+{yylval.str = strdup(yytext);return PUBLIC;}
 	YY_BREAK
 case 83:
 YY_RULE_SETUP
 #line 103 "java.l"
-{yylval.id = strdup(yytext);return THROW;}
+{yylval.str = strdup(yytext);return THROW;}
 	YY_BREAK
 case 84:
 YY_RULE_SETUP
 #line 104 "java.l"
-{yylval.id = strdup(yytext);return CASE;}
+{yylval.str = strdup(yytext);return CASE;}
 	YY_BREAK
 case 85:
 YY_RULE_SETUP
 #line 105 "java.l"
-{yylval.id = strdup(yytext);return ENUM;}
+{yylval.str = strdup(yytext);return ENUM;}
 	YY_BREAK
 case 86:
 YY_RULE_SETUP
 #line 106 "java.l"
-{yylval.id = strdup(yytext);return INSTANCE;}
+{yylval.str = strdup(yytext);return INSTANCE;}
 	YY_BREAK
 case 87:
 YY_RULE_SETUP
 #line 107 "java.l"
-{yylval.id = strdup(yytext);return RETURN;}
+{yylval.str = strdup(yytext);return RETURN;}
 	YY_BREAK
 case 88:
 YY_RULE_SETUP
 #line 108 "java.l"
-{yylval.id = strdup(yytext);return TRANSIENT;}
+{yylval.str = strdup(yytext);return TRANSIENT;}
 	YY_BREAK
 case 89:
 YY_RULE_SETUP
 #line 109 "java.l"
-{yylval.id = strdup(yytext);return CATCH;}
+{yylval.str = strdup(yytext);return CATCH;}
 	YY_BREAK
 case 90:
 YY_RULE_SETUP
 #line 110 "java.l"
-{yylval.id = strdup(yytext);return EXTENDS;}
+{yylval.str = strdup(yytext);return EXTENDS;}
 	YY_BREAK
 case 91:
 YY_RULE_SETUP
 #line 111 "java.l"
-{yylval.id = strdup(yytext);return INT;}
+{yylval.str = strdup(yytext);return INT;}
 	YY_BREAK
 case 92:
 YY_RULE_SETUP
 #line 112 "java.l"
-{yylval.id = strdup(yytext);return SHORT;}
+{yylval.str = strdup(yytext);return SHORT;}
 	YY_BREAK
 case 93:
 YY_RULE_SETUP
 #line 113 "java.l"
-{yylval.id = strdup(yytext);return TRY;}
+{yylval.str = strdup(yytext);return TRY;}
 	YY_BREAK
 case 94:
 YY_RULE_SETUP
 #line 114 "java.l"
-{yylval.id = strdup(yytext);return CHAR;}
+{yylval.str = strdup(yytext);return CHAR;}
 	YY_BREAK
 case 95:
 YY_RULE_SETUP
 #line 115 "java.l"
-{yylval.id = strdup(yytext);return FINAL;}
+{yylval.str = strdup(yytext);return FINAL;}
 	YY_BREAK
 case 96:
 YY_RULE_SETUP
 #line 116 "java.l"
-{yylval.id = strdup(yytext);return INTERFACE;}
+{yylval.str = strdup(yytext);return INTERFACE;}
 	YY_BREAK
 case 97:
 YY_RULE_SETUP
 #line 117 "java.l"
-{yylval.id = strdup(yytext);return STATIC;}
+{yylval.str = strdup(yytext);return STATIC;}
 	YY_BREAK
 case 98:
 YY_RULE_SETUP
 #line 118 "java.l"
-{yylval.id = strdup(yytext);return VOID;}
+{yylval.str = strdup(yytext);return VOID;}
 	YY_BREAK
 case 99:
 YY_RULE_SETUP
 #line 119 "java.l"
-{yylval.id = strdup(yytext);return CLASS;}
+{yylval.str = strdup(yytext);return CLASS;}
 	YY_BREAK
 case 100:
 YY_RULE_SETUP
 #line 120 "java.l"
-{yylval.id = strdup(yytext);return FINALLY;}
+{yylval.str = strdup(yytext);return FINALLY;}
 	YY_BREAK
 case 101:
 YY_RULE_SETUP
 #line 121 "java.l"
-{yylval.id = strdup(yytext);return LONG;}
+{yylval.str = strdup(yytext);return LONG;}
 	YY_BREAK
 case 102:
 YY_RULE_SETUP
 #line 122 "java.l"
-{yylval.id = strdup(yytext);return STRICTFP;}
+{yylval.str = strdup(yytext);return STRICTFP;}
 	YY_BREAK
 case 103:
 YY_RULE_SETUP
 #line 123 "java.l"
-{yylval.id = strdup(yytext);return VOLATILE;}
+{yylval.str = strdup(yytext);return VOLATILE;}
 	YY_BREAK
 case 104:
 YY_RULE_SETUP
 #line 124 "java.l"
-{yylval.id = strdup(yytext);return CONST;}
+{yylval.str = strdup(yytext);return CONST;}
 	YY_BREAK
 case 105:
 YY_RULE_SETUP
 #line 125 "java.l"
-{yylval.id = strdup(yytext);return FLOAT;}
+{yylval.str = strdup(yytext);return FLOAT;}
 	YY_BREAK
 case 106:
 YY_RULE_SETUP
 #line 126 "java.l"
-{yylval.id = strdup(yytext);return NATIVE;}
+{yylval.str = strdup(yytext);return NATIVE;}
 	YY_BREAK
 case 107:
 YY_RULE_SETUP
 #line 127 "java.l"
-{yylval.id = strdup(yytext);return SUPER;}
+{yylval.str = strdup(yytext);return SUPER;}
 	YY_BREAK
 case 108:
 YY_RULE_SETUP
 #line 128 "java.l"
-{yylval.id = strdup(yytext);return WHILE;}
+{yylval.loop_var.st = strdup(yytext);return WHILE;}
 	YY_BREAK
 case 109:
 YY_RULE_SETUP
 #line 129 "java.l"
-{yylval.id = strdup(yytext);return EXPORTS;}
+{yylval.str = strdup(yytext);return EXPORTS;}
 	YY_BREAK
 case 110:
 YY_RULE_SETUP
 #line 130 "java.l"
-{yylval.id = strdup(yytext);return OPENS;}
+{yylval.str = strdup(yytext);return OPENS;}
 	YY_BREAK
 case 111:
 YY_RULE_SETUP
 #line 131 "java.l"
-{yylval.id = strdup(yytext);return REQUIRES;}
+{yylval.str = strdup(yytext);return REQUIRES;}
 	YY_BREAK
 case 112:
 YY_RULE_SETUP
 #line 132 "java.l"
-{yylval.id = strdup(yytext);return USES;}
+{yylval.str = strdup(yytext);return USES;}
 	YY_BREAK
 case 113:
 YY_RULE_SETUP
 #line 133 "java.l"
-{yylval.id = strdup(yytext);return MODULE;}
+{yylval.str = strdup(yytext);return MODULE;}
 	YY_BREAK
 case 114:
 YY_RULE_SETUP
 #line 134 "java.l"
-{yylval.id = strdup(yytext);return PERMITS;}
+{yylval.str = strdup(yytext);return PERMITS;}
 	YY_BREAK
 case 115:
 YY_RULE_SETUP
 #line 135 "java.l"
-{yylval.id = strdup(yytext);return SEALED;}
+{yylval.str = strdup(yytext);return SEALED;}
 	YY_BREAK
 case 116:
 YY_RULE_SETUP
 #line 136 "java.l"
-{yylval.id = strdup(yytext);return VAR;}
+{yylval.str = strdup(yytext);return VAR;}
 	YY_BREAK
 case 117:
 YY_RULE_SETUP
 #line 137 "java.l"
-{yylval.id = strdup(yytext);return NONSEALED;}
+{yylval.str = strdup(yytext);return NONSEALED;}
 	YY_BREAK
 case 118:
 YY_RULE_SETUP
 #line 138 "java.l"
-{yylval.id = strdup(yytext);return PROVIDES;}
+{yylval.str = strdup(yytext);return PROVIDES;}
 	YY_BREAK
 case 119:
 YY_RULE_SETUP
 #line 139 "java.l"
-{yylval.id = strdup(yytext);return TO;}
+{yylval.str = strdup(yytext);return TO;}
 	YY_BREAK
 case 120:
 YY_RULE_SETUP
 #line 140 "java.l"
-{yylval.id = strdup(yytext);return WITH;}
+{yylval.str = strdup(yytext);return WITH;}
 	YY_BREAK
 case 121:
 YY_RULE_SETUP
 #line 141 "java.l"
-{yylval.id = strdup(yytext);return OPEN;}
+{yylval.str = strdup(yytext);return OPEN;}
 	YY_BREAK
 case 122:
 YY_RULE_SETUP
 #line 142 "java.l"
-{yylval.id = strdup(yytext);return RECORD;}
+{yylval.str = strdup(yytext);return RECORD;}
 	YY_BREAK
 case 123:
 YY_RULE_SETUP
 #line 143 "java.l"
-{yylval.id = strdup(yytext);return TRANSITIVE;}
+{yylval.str = strdup(yytext);return TRANSITIVE;}
 	YY_BREAK
 case 124:
 YY_RULE_SETUP
 #line 144 "java.l"
-{yylval.id = strdup(yytext);return YIELD;}
+{yylval.str = strdup(yytext);return YIELD;}
 	YY_BREAK
 case 125:
 YY_RULE_SETUP
 #line 145 "java.l"
-{yylval.id = strdup(yytext);return SUSPEND;}
+{yylval.str = strdup(yytext);return SUSPEND;}
 	YY_BREAK
 case 126:
 YY_RULE_SETUP
 #line 146 "java.l"
-{ yylval.id = strdup(yytext); return BOOLEANLITERAL;}
+{ yylval.str = strdup(yytext); return BOOLEANLITERAL;}
 	YY_BREAK
 case 127:
 YY_RULE_SETUP
 #line 147 "java.l"
-{yylval.id = strdup(yytext);return NULLLITERAL;}
+{yylval.str = strdup(yytext);return NULLLITERAL;}
 	YY_BREAK
 case 128:
 YY_RULE_SETUP
 #line 148 "java.l"
-{ yylval.id = strdup(yytext); return IDENTIFIER;}
+{ yylval.str = strdup(yytext); return IDENTIFIER;}
 	YY_BREAK
 case 129:
 YY_RULE_SETUP
 #line 149 "java.l"
-{ yylval.id = strdup(yytext);return SYSTEMOUTPRINTLN;}
+{ yylval.str = strdup(yytext);return SYSTEMOUTPRINTLN;}
 	YY_BREAK
 case 130:
 YY_RULE_SETUP
@@ -1904,7 +1905,7 @@ static int yy_get_next_buffer (void)
 
 	else
 		{
-			int num_to_read =
+			yy_size_t num_to_read =
 			YY_CURRENT_BUFFER_LVALUE->yy_buf_size - number_to_move - 1;
 
 		while ( num_to_read <= 0 )
@@ -1918,7 +1919,7 @@ static int yy_get_next_buffer (void)
 
 			if ( b->yy_is_our_buffer )
 				{
-				int new_size = b->yy_buf_size * 2;
+				yy_size_t new_size = b->yy_buf_size * 2;
 
 				if ( new_size <= 0 )
 					b->yy_buf_size += b->yy_buf_size / 8;
@@ -1976,7 +1977,7 @@ static int yy_get_next_buffer (void)
 
 	if (((yy_n_chars) + number_to_move) > YY_CURRENT_BUFFER_LVALUE->yy_buf_size) {
 		/* Extend the array by 50%, plus the number we really need. */
-		int new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
+		yy_size_t new_size = (yy_n_chars) + number_to_move + ((yy_n_chars) >> 1);
 		YY_CURRENT_BUFFER_LVALUE->yy_ch_buf = (char *) yyrealloc(
 			(void *) YY_CURRENT_BUFFER_LVALUE->yy_ch_buf, (yy_size_t) new_size  );
 		if ( ! YY_CURRENT_BUFFER_LVALUE->yy_ch_buf )
@@ -2065,7 +2066,7 @@ static int yy_get_next_buffer (void)
 	if ( yy_cp < YY_CURRENT_BUFFER_LVALUE->yy_ch_buf + 2 )
 		{ /* need to shift things up to make room */
 		/* +2 for EOB chars. */
-		int number_to_move = (yy_n_chars) + 2;
+		yy_size_t number_to_move = (yy_n_chars) + 2;
 		char *dest = &YY_CURRENT_BUFFER_LVALUE->yy_ch_buf[
 					YY_CURRENT_BUFFER_LVALUE->yy_buf_size + 2];
 		char *source =
@@ -2116,7 +2117,7 @@ static int yy_get_next_buffer (void)
 
 		else
 			{ /* need more input */
-			int offset = (int) ((yy_c_buf_p) - (yytext_ptr));
+			yy_size_t offset = (yy_c_buf_p) - (yytext_ptr);
 			++(yy_c_buf_p);
 
 			switch ( yy_get_next_buffer(  ) )
@@ -2485,12 +2486,12 @@ YY_BUFFER_STATE yy_scan_string (const char * yystr )
  * 
  * @return the newly allocated buffer state object.
  */
-YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, int  _yybytes_len )
+YY_BUFFER_STATE yy_scan_bytes  (const char * yybytes, yy_size_t  _yybytes_len )
 {
 	YY_BUFFER_STATE b;
 	char *buf;
 	yy_size_t n;
-	int i;
+	yy_size_t i;
     
 	/* Get memory for full buffer, including space for trailing EOB's. */
 	n = (yy_size_t) (_yybytes_len + 2);
@@ -2532,7 +2533,7 @@ static void yynoreturn yy_fatal_error (const char* msg )
 	do \
 		{ \
 		/* Undo effects of setting up yytext. */ \
-        int yyless_macro_arg = (n); \
+        yy_size_t yyless_macro_arg = (n); \
         YY_LESS_LINENO(yyless_macro_arg);\
 		yytext[yyleng] = (yy_hold_char); \
 		(yy_c_buf_p) = yytext + yyless_macro_arg; \
@@ -2572,7 +2573,7 @@ FILE *yyget_out  (void)
 /** Get the length of the current token.
  * 
  */
-int yyget_leng  (void)
+yy_size_t yyget_leng  (void)
 {
         return yyleng;
 }

@@ -17,4 +17,4 @@ run:
 	g++ -o out y.tab.o lex.yy.o help.o
 	./out $< >> output.txt
 clean:
-	/bin/rm -f lex.yy.* y.tab.* out *.o *.dot *.png *.output 
+	/bin/rm -f lex.yy.* y.tab.* out *.o *.dot *.png *.output

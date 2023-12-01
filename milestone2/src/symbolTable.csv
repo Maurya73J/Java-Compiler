@@ -1,0 +1,6 @@
+Main,class,N/A,Main,,1,0
+arr,variable,String,Main,main,3,2,{"7"}
+main,function,String,Main,main,3,1
+first,variable,int,Main,main,5,2
+second,variable,int,Main,main,6,2
+sum,variable,int,Main,main,10,2

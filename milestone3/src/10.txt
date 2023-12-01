@@ -1,0 +1,26 @@
+/bin/rm -f lex.yy.* y.tab.* out *.o *.dot *.png *.output output.txt
+flex -8 java.l
+bison -d -t -y javaR.y
+g++ -O2 y.tab.c -c -Wno-write-strings
+g++ -O2 lex.yy.c -c -Wno-write-strings
+g++ -c help.cpp
+g++ -o out y.tab.o lex.yy.o help.o
+./out 
+Largest:
+main:
+ beginfunc
+n1 = 4.5
+n2 = 3.9
+n3 = 2.5
+if NOT (n1 >= n2) GOTO Label1
+if NOT (n1 >= n3) GOTO Label2
+t0=n1&&n1
+Label2
+if NOT (n2 >= n1) GOTO Label3
+if NOT (n2 >= n3) GOTO Label4
+t1=n2&&n2
+Label4
+next
+next
+endfunc
+End Class

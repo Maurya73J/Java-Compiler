@@ -1,0 +1,19 @@
+/bin/rm -f lex.yy.* y.tab.* out *.o *.dot *.png *.output output.txt
+flex -8 java.l
+bison -d -t -y javaR.y
+g++ -O2 y.tab.c -c -Wno-write-strings
+g++ -O2 lex.yy.c -c -Wno-write-strings
+g++ -c help.cpp
+g++ -o out y.tab.o lex.yy.o help.o
+./out 
+QuotientRemainder:
+main:
+ beginfunc
+dividend = 25
+divisor = 4
+t0=dividend/divisor
+quotient = t0
+t1=dividend%divisor
+remainder = t1
+endfunc
+End Class
